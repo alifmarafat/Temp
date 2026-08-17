@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>StudyFlow</title>
+<title>J</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -129,7 +129,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .form-note{text-align:right;color:#666;font-size:13px;margin-top:7px} 
  
 /* ---------- app ---------- */ 
-.dashboard{display:grid;grid-template-columns:230px minmax(0,1fr) 300px;gap:22px;max-width:1440px;margin:0 auto;min-height:100vh;padding:24px} 
+.dashboard{display:grid;grid-template-columns:230px minmax(0,1fr) 280px;gap:20px;max-width:1440px;margin:0 auto;min-height:100vh;padding:24px} 
 .rail{position:sticky;top:24px;height:calc(100vh - 48px);display:flex;flex-direction:column;padding:14px} 
 .brand-mini{display:flex;align-items:center;gap:11px;padding:12px 8px 22px} 
 .brand-logo{width:42px;height:42px;border-radius:13px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-family:Nunito;font-weight:900;font-size:20px;box-shadow:var(--shadow)} 
@@ -170,10 +170,17 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .activity{margin-top:22px} 
 .activity-row{display:flex;align-items:center;justify-content:space-between;padding:15px 17px;background:#fff;border:1px solid var(--line);border-radius:16px;margin-top:8px} 
 .activity-name{font-weight:800}.activity-time{font-size:11px;color:#7c828b} 
-.right{padding-top:62px} 
-.side-card{padding:18px;margin-bottom:12px} 
-.side-title{display:flex;justify-content:space-between;align-items:center;font-family:Nunito;font-weight:900} 
-.task-add{display:grid;grid-template-columns:1fr 78px 42px;gap:7px;margin-top:14px} 
+.right{padding-top:62px;width:100%;min-width:0} 
+.side-card{padding:16px;margin-bottom:12px;border-radius:22px} 
+.side-title{display:flex;justify-content:space-between;align-items:center;font-family:Nunito;font-weight:900;font-size:15px} 
+.right .side-card .target-big{font-size:26px;margin:6px 0 4px} 
+.right .side-card .hero-sub{font-size:11px} 
+.right .side-card .progress{margin:10px 0 12px} 
+.right .side-card .target-start{height:42px;border-radius:13px;font-size:13px;margin-top:4px} 
+.right .task-add{margin-top:12px} 
+.right .task{padding:9px 0} 
+.right .task-text{font-size:11px!important} 
+.task-add{display:grid;grid-template-columns:minmax(0,1fr) 72px 40px;gap:6px;margin-top:14px} 
 .task-add input,.task-add button,.profile-field input,.profile-field textarea{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 11px} 
 .task-add button{background:#111;color:#fff} 
 .task{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)} 
@@ -1356,60 +1363,110 @@ body:has(.chat-inbox-page){
   pointer-events:auto;
 }
 .global-loader.hidden{display:none!important}
-.global-loader .spinner{
-  transform:scale(.92);
-  transition:transform .45s cubic-bezier(.22,1,.36,1);
-}
-.global-loader.show .spinner{
-  transform:scale(1);
-}
 .spinner {
-  border: 0 solid transparent;
-  border-radius: 50%;
-  width: 54px;
-  height: 54px;
-  position:relative;
-  will-change:transform;
+ border: 0 solid transparent;
+ border-radius: 50%;
+ width: 50px;
+ height: 50px;
+ position:relative;
 }
 .loader {
-  width: inherit;
-  height: inherit;
-  position: absolute;
+ width: inherit;
+ height: inherit;
+ position: absolute;
 }
 .loader::before,
 .loader::after {
-  content: '';
-  border: 3px solid #505065;
-  border-radius: 50%;
-  width: inherit;
-  height: inherit;
-  position: absolute;
-  opacity: 1;
-  box-sizing:border-box;
+ content: '';
+ border: 3px solid #505065;
+ border-radius: 50%;
+ width: inherit;
+ height: inherit;
+ position: absolute;
+ opacity: 1;
 }
 .l1::before,
 .l1::after {
-  animation: clockwiseZ 2.5s cubic-bezier(.45,.05,.55,.95) infinite;
+ animation: clockwiseZ 2.5s infinite;
 }
 .l2::after,
 .l2::before {
-  animation: anticlockwiseZ 2.5s cubic-bezier(.45,.05,.55,.95) infinite;
+ animation: anticlockwiseZ 2.5s infinite;
 }
 @keyframes clockwiseZ {
-  0%, 100% {
-    transform: rotateY(0);
-  }
-  50% {
-    transform: rotateY(180deg) skew(-10deg, -5deg);
-  }
+ 0%, 100% {
+  transform: rotateY(0);
+ }
+ 50% {
+  transform: rotateY(180deg) skew(-10deg, -5deg);
+ }
 }
 @keyframes anticlockwiseZ {
-  0%, 100% {
-    transform: rotateX(0);
-  }
-  50% {
-    transform: rotateX(-180deg) skew(10deg, 5deg);
-  }
+ 0%, 100% {
+  transform: rotateX(0);
+ }
+ 50% {
+  transform: rotateX(-180deg) skew(10deg, 5deg);
+ }
+}
+
+
+/* Instagram-style followers / following */
+.profile-stats-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;
+}
+.profile-stat-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;padding:12px 10px;border-radius:16px;
+  background:rgba(25,30,38,.04);border:1px solid rgba(25,30,38,.06);
+  cursor:pointer;transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.profile-stat-btn:hover{background:#fff;box-shadow:0 8px 20px rgba(40,50,70,.08);transform:translateY(-1px)}
+.profile-stat-btn b{font:900 18px Nunito;line-height:1}
+.profile-stat-btn span{font-size:10px;font-weight:800;color:#858c96;text-transform:uppercase;letter-spacing:.6px}
+.follow-list-modal{
+  position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;
+  background:rgba(18,20,25,.32);backdrop-filter:blur(12px);
+}
+.follow-list-box{
+  width:min(420px,100%);max-height:min(78vh,640px);
+  background:rgba(255,255,255,.98);border:1px solid var(--line);
+  border-radius:28px;box-shadow:0 30px 80px rgba(25,30,40,.28);
+  display:flex;flex-direction:column;overflow:hidden;
+  animation:dangerIn .3s cubic-bezier(.2,1.25,.35,1);
+}
+.follow-list-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:16px 18px;border-bottom:1px solid var(--line);flex:0 0 auto;
+}
+.follow-list-head h2{font:900 18px Nunito;margin:0}
+.follow-list-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px 12px;flex:0 0 auto}
+.follow-list-tabs button{
+  height:40px;border-radius:12px;font-weight:900;font-size:12px;
+  background:#f2f3f5;border:0;
+}
+.follow-list-tabs button.active{background:#111;color:#fff}
+.follow-list-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:8px 12px 16px}
+.follow-list-empty{padding:36px 18px;text-align:center;color:#8a919b;font-size:12px;line-height:1.5}
+.follow-list-row{
+  display:flex;align-items:center;gap:11px;padding:10px 8px;border-radius:14px;cursor:pointer;
+}
+.follow-list-row:hover{background:#f5f7f9}
+.follow-list-row .chat-avatar{width:44px;height:44px;border-radius:14px}
+.follow-list-copy{min-width:0;flex:1}
+.follow-list-copy b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.follow-list-copy small{display:block;font-size:11px;color:#8a919b;margin-top:2px}
+.follow-list-row .chat-follow-btn{height:34px;padding:0 12px;font-size:10px}
+.chat-profile-stats .chat-profile-stat{
+  cursor:pointer;transition:transform .15s ease,background .15s ease;
+  border:0;width:100%;font:inherit;color:inherit;
+}
+.chat-profile-stats .chat-profile-stat:hover{background:#eef1f4;transform:translateY(-1px)}
+@media(max-width:700px){
+  .follow-list-modal{padding:0;align-items:end}
+  .follow-list-box{width:100%;max-height:88vh;border-radius:24px 24px 0 0}
+  .profile-stats-row{gap:8px}
+  .profile-stat-btn{padding:11px 8px}
 }
 
 </style> 
@@ -1847,9 +1904,10 @@ function navigate(page){
   if(activePage==="chats" && page!=="chats")stopChatListeners(); 
   activePage=page; 
   try{sessionStorage.setItem("study_circle_active_page",page)}catch(err){} 
-  renderApp(); 
+  renderApp();if(activePage==="profile")refreshMyFollowCounts(); 
   syncPersistentTimerVisibility(); 
-  if(window.lucide)lucide.createIcons(); 
+  if(window.lucide)lucide.createIcons();
+if(activePage==="profile")refreshMyFollowCounts(); 
   window.scrollTo({top:0,behavior:"smooth"}); 
   if(page==="chats")setTimeout(initChatsPage,0); 
 } 
@@ -1968,7 +2026,17 @@ function profilePage(){
     </section>`; 
 } 
 function sideToday(){ 
-  return `<section class="card side-card"><div class="side-title"><span>Today</span><small class="hero-sub">${state.tasks.filter(t=>t.done).length}/${state.tasks.length} done</small></div><div class="task-add"><input id="sideTask" placeholder="Task"><input id="sideTime" type="time"><button onclick="addSideTask()">＋</button></div><div id="sideTasks">${renderTasks()}</div></section>`; 
+  const done=state.tasks.filter(t=>t.done).length;
+  const total=state.tasks.length;
+  return `<section class="card side-card">
+    <div class="side-title"><span>Today</span><small class="hero-sub">${done}/${total} done</small></div>
+    <div class="task-add">
+      <input id="sideTask" placeholder="Task">
+      <input id="sideTime" type="time">
+      <button onclick="addSideTask()" aria-label="Add task">＋</button>
+    </div>
+    <div id="sideTasks">${renderTasks()}</div>
+  </section>`; 
 } 
 function sideTarget(){ 
   const pct=Math.min(100,Math.round((state.target.done/Math.max(1,state.target.minutes))*100)); 
@@ -2457,7 +2525,16 @@ function profilePage(){
   const noteBg=state.note.bg||"sunset"; 
   const colors=["sunset","sky","mint","lavender","rose","midnight"]; 
   return `<div class="topbar"><div><h1 class="page-title">Profile</h1><div class="page-sub">Your study identity, your way.</div></div></div> 
-  <section class="card profile-card"><div class="profile-identity"><div class="profile-avatar-wrap">${noteActive?`<div class="profile-note-bubble" style="background:${noteBgStyle(noteBg)};color:${noteTextColor(noteBg)}" title="${esc(state.note.text)}">${esc(state.note.text)}</div>`:""}${avatarHTML("profile-avatar")}</div><div><div class="profile-name">${esc(state.user.name||"Your name")}</div><div class="handle">@${esc(state.user.username||"username")}</div><div class="hero-sub" style="margin-top:7px">${esc(state.user.bio||"Add a short bio about yourself.")}</div></div></div></section> 
+  <section class="card profile-card"><div class="profile-identity"><div class="profile-avatar-wrap">${noteActive?`<div class="profile-note-bubble" style="background:${noteBgStyle(noteBg)};color:${noteTextColor(noteBg)}" title="${esc(state.note.text)}">${esc(state.note.text)}</div>`:""}${avatarHTML("profile-avatar")}</div><div><div class="profile-name">${esc(state.user.name||"Your name")}</div><div class="handle">@${esc(state.user.username||"username")}</div><div class="hero-sub" style="margin-top:7px">${esc(state.user.bio||"Add a short bio about yourself.")}</div></div></div>
+  <div class="profile-stats-row">
+    <button type="button" class="profile-stat-btn" onclick="openFollowList('followers')">
+      <b id="myFollowersCount">—</b><span>Followers</span>
+    </button>
+    <button type="button" class="profile-stat-btn" onclick="openFollowList('following')">
+      <b id="myFollowingCount">—</b><span>Following</span>
+    </button>
+  </div>
+  </section> 
   <section class="card profile-card"><div class="section-title">Edit profile</div><div class="edit-grid"><div class="profile-field"><label>NAME</label><input id="editName" value="${esc(state.user.name)}"></div><div class="profile-field"><label>USERNAME • UNIQUE</label><input id="editUsername" value="${esc(state.user.username)}" maxlength="20"></div><div class="profile-field"><label>BIO</label><textarea id="editBio" placeholder="Tell people a little about you...">${esc(state.user.bio)}</textarea></div><div class="profile-field"><label>PROFILE PHOTO</label><div class="photo-picker"><div id="photoPickerPreview" class="photo-picker-preview">${state.user.dp?`<img src="${esc(state.user.dp)}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`:"🙂"}</div><div class="photo-picker-copy"><b>Choose a profile picture</b><span>Upload from your device • JPG, PNG, WebP</span></div><button type="button" onclick="document.getElementById('dpFile').click()">Choose photo</button><input id="dpFile" class="hidden" type="file" accept="image/*" onchange="previewDP(event)"></div></div><button class="save-btn" onclick="saveProfile()">Save profile</button></div></section> 
   <section class="card profile-card"><div class="section-title">24h note</div><div class="hero-sub" style="margin:5px 0 12px">Write a short note. Only the text you write will appear above your profile photo.</div><div class="edit-grid"><div class="profile-field"><label>NOTE</label><input id="noteInput" maxlength="80" value="${esc(state.note.text)}" placeholder="Write your note..."></div><div><div class="note-color-label">NOTE COLOUR</div><div class="note-color-row">${colors.map(bg=>`<button type="button" class="note-color-btn ${noteBg===bg?"active":""}" title="${bg}" aria-label="${bg}" onclick="selectNoteBg('${bg}')" style="background:${noteBgStyle(bg)}"></button>`).join("")}</div></div><button class="upload-btn" onclick="saveNote()">${noteActive?'Update note':'Post for 24 hours'}</button></div></section>
     <section class="card profile-card"><button class="upload-btn" type="button" onclick="logoutUser()" style="background:#fff0f2;color:#ef476f;border:1px solid rgba(239,71,111,.18)">Log out</button></section>`; 
@@ -3559,7 +3636,7 @@ async function openUserProfile(uid){
   document.getElementById("modalHost").innerHTML=`<div class="chat-profile-modal" onclick="if(event.target===this)closeUserProfile()"><section class="chat-profile-box chat-profile-full"> 
     <button type="button" onclick="closeUserProfile()" class="close-round" style="position:absolute;right:18px;top:18px;z-index:5">×</button> 
     <div class="chat-profile-top">${chatAvatarHTML(u,"chat-profile-big-avatar")}<div class="chat-profile-name">${esc(u.name||"Study User")}</div><div class="chat-profile-handle">@${esc(u.username||"username")}</div><div class="chat-status ${u.studyStatus!=="Studying"?"offline":""}"><i data-lucide="${u.studyStatus==="Studying"?"book-open":"circle"}" style="width:12px;height:12px"></i>${u.studyStatus||"Available"}</div></div> 
-    <div class="chat-profile-stats"><div class="chat-profile-stat"><b id="profileFollowersCount">${followersSnap.size}</b><span>Followers</span></div><div class="chat-profile-stat"><b>${followingCount}</b><span>Following</span></div></div> 
+    <div class="chat-profile-stats"><button type="button" class="chat-profile-stat" onclick="openFollowList('followers','${esc(uid)}')"><b id="profileFollowersCount">${followersSnap.size}</b><span>Followers</span></button><button type="button" class="chat-profile-stat" onclick="openFollowList('following','${esc(uid)}')"><b>${followingCount}</b><span>Following</span></button></div> 
     <div class="chat-profile-bio">${esc(u.bio||"No bio yet.")}</div> 
     <div class="chat-profile-study"><div class="chat-profile-study-head"><span class="chat-profile-study-title">STUDY TIME</span><span class="chat-profile-study-total">${fmt(totalStudySeconds)}</span></div><div class="chat-profile-chart"><canvas id="userProfileStudyChart"></canvas></div><div class="chat-profile-top-subject"><span>Most studied subject</span><b>${esc(topSubject)}</b></div></div> 
     ${uid!==currentUid()?`<div class="chat-profile-actions"><button class="chat-profile-message" onclick="closeUserProfile();openChat('${esc(uid)}')">Message</button><button class="chat-profile-close" id="profileFollowBtn" onclick="toggleFollowFromProfile('${esc(uid)}',this)">${following?"Following":"Follow"}</button></div><button class="chat-profile-block" onclick="toggleBlockUser('${esc(uid)}',${blockedMine})">${blockedMine?"Unblock user":"Block user"}</button>`:`<div class="chat-profile-actions"><button class="chat-profile-close" style="grid-column:1/-1" onclick="closeUserProfile()">Close</button></div>`} 
@@ -3621,6 +3698,115 @@ try{
   chatBadgeObserver.observe(document.getElementById("app"),{childList:true,subtree:true}); 
 }catch(e){} 
  
+
+/* Instagram-style followers / following lists */
+async function refreshMyFollowCounts(){
+  const followersEl=document.getElementById("myFollowersCount");
+  const followingEl=document.getElementById("myFollowingCount");
+  if(!followersEl&&!followingEl)return;
+  if(!firebaseReady||!firestore||!currentUid()){
+    if(followersEl)followersEl.textContent="0";
+    if(followingEl)followingEl.textContent="0";
+    return;
+  }
+  try{
+    const me=currentUid();
+    const [followersSnap,followingSnap]=await Promise.all([
+      getDocs(collection(firestore,"publicProfiles",me,"followers")),
+      getDocs(collection(firestore,"publicProfiles",me,"following"))
+    ]);
+    if(followersEl)followersEl.textContent=String(followersSnap.size||0);
+    if(followingEl)followingEl.textContent=String(followingSnap.size||0);
+  }catch(err){
+    console.warn("Follow counts failed",err);
+    if(followersEl)followersEl.textContent="0";
+    if(followingEl)followingEl.textContent="0";
+  }
+}
+
+async function openFollowList(mode="followers",uid){
+  const targetUid=uid||currentUid();
+  if(!targetUid){
+    alert("Log in first to see followers and following.");
+    return;
+  }
+  if(!firebaseReady||!firestore){
+    alert("Firebase is not connected.");
+    return;
+  }
+  let host=document.getElementById("modalHost");
+  if(!host){host=document.createElement("div");host.id="modalHost";document.body.appendChild(host)}
+  const title=mode==="following"?"Following":"Followers";
+  host.innerHTML=`<div class="follow-list-modal" onclick="if(event.target===this)closeFollowList()">
+    <section class="follow-list-box" role="dialog" aria-modal="true">
+      <div class="follow-list-head">
+        <h2 id="followListTitle">${title}</h2>
+        <button class="close-round" onclick="closeFollowList()">×</button>
+      </div>
+      <div class="follow-list-tabs">
+        <button class="${mode==="followers"?"active":""}" onclick="openFollowList('followers','${esc(targetUid)}')">Followers</button>
+        <button class="${mode==="following"?"active":""}" onclick="openFollowList('following','${esc(targetUid)}')">Following</button>
+      </div>
+      <div id="followListBody" class="follow-list-body"><div class="follow-list-empty">Loading…</div></div>
+    </section>
+  </div>`;
+  showLoader();
+  try{
+    const sub=mode==="following"?"following":"followers";
+    const snap=await getDocs(collection(firestore,"publicProfiles",targetUid,sub));
+    const ids=snap.docs.map(d=>d.id).filter(Boolean);
+    if(!ids.length){
+      document.getElementById("followListBody").innerHTML=`<div class="follow-list-empty">${mode==="following"?"Not following anyone yet.":"No followers yet."}</div>`;
+      return;
+    }
+    const profiles=await Promise.all(ids.map(async id=>{
+      try{
+        const s=await getDoc(doc(firestore,"publicProfiles",id));
+        return s.exists?{uid:s.id,...s.data()}:{uid:id,name:"Study User",username:"user",dp:""};
+      }catch(e){
+        return {uid:id,name:"Study User",username:"user",dp:""};
+      }
+    }));
+    const body=document.getElementById("followListBody");
+    if(!body)return;
+    body.innerHTML=profiles.map(u=>{
+      const isMe=u.uid===currentUid();
+      return `<div class="follow-list-row" data-uid="${esc(u.uid)}">
+        <button type="button" style="background:transparent;padding:0" onclick="closeFollowList();openUserProfile('${esc(u.uid)}')">${chatAvatarHTML(u)}</button>
+        <div class="follow-list-copy" onclick="closeFollowList();openUserProfile('${esc(u.uid)}')">
+          <b>${esc(u.name||"Study User")}</b>
+          <small>@${esc(u.username||"username")}</small>
+        </div>
+        ${isMe?"":`<button class="chat-follow-btn" data-follow-uid="${esc(u.uid)}" onclick="toggleFollowFromList('${esc(u.uid)}',this)">Follow</button>`}
+      </div>`;
+    }).join("");
+    // resolve following state for each button
+    for(const u of profiles){
+      if(u.uid===currentUid())continue;
+      const btn=body.querySelector(`[data-follow-uid="${CSS.escape(u.uid)}"]`);
+      if(!btn)continue;
+      const following=await isFollowing(u.uid);
+      btn.textContent=following?"Following":"Follow";
+      btn.classList.toggle("following",following);
+    }
+  }catch(err){
+    console.warn("Follow list failed",err);
+    const body=document.getElementById("followListBody");
+    if(body)body.innerHTML=`<div class="follow-list-empty">Could not load this list. Check Firestore rules.</div>`;
+  }finally{hideLoader()}
+}
+
+function closeFollowList(){
+  const h=document.getElementById("modalHost");
+  if(h)h.innerHTML="";
+}
+
+async function toggleFollowFromList(uid,btn){
+  await toggleFollow(uid,btn);
+  // refresh counts on own profile if visible
+  refreshMyFollowCounts();
+}
+
 render(); 
 </script> 
 </body> 
