@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>StudyFlow</title>
+<title>StudyAAFlow</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -2949,7 +2949,7 @@ function renderOnboarding(){
     const step=state.onboarding; 
     const meta={ 
       name:{title:"Your name",help:"Tell us what we should call you.",placeholder:"Your name",next:"username"}, 
-      username:{title:"Your username",help:"Choose a username you like. You can change it later.",placeholder:"@username",next:"birthday"}, 
+      username:{title:"Your username",help:"Pick a unique username. Only one account can use each username.",placeholder:"@username",next:"birthday"}, 
       birthday:{title:"Your birthday",help:"Add your birthday to complete your profile.",placeholder:"",next:"done"} 
     }[step]; 
     root.innerHTML=` 
@@ -3058,18 +3058,13 @@ async function submitEmailAuth(){
     closeEmailAuth();state.onboarding=existingProfile?"done":"name";save();render();
   }catch(err){
     console.error("Email auth failed",err);const code=err?.code||"";
-    const msg=code==="auth/email-already-in-use"?"This email is already registered. Use Log in instead.":code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found"?"Email or password is incorrect.":code==="auth/weak-password"?"Choose a stronger password.":err?.message||"Email authentication could not be completed.";
+    const msg=code==="auth/email-already-in-use"?"This email is already used by another account. Please log in, or use a different email.":code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found"?"Email or password is incorrect.":code==="auth/weak-password"?"Choose a stronger password.":err?.message||"Email authentication could not be completed.";
     showChatDialog({title:emailAuthMode==="signup"?"Sign up failed":"Login failed",message:msg,icon:"⚠️",danger:true,confirmText:"OK"});
   }finally{hideLoader()}
 }
 
-function nextOnboard(){ 
-  const v=document.getElementById("onboardInput").value.trim(); 
-  if(state.onboarding==="name"){if(!v)return alert("Please enter your name.");state.user.name=v;state.onboarding="username"} 
-  else if(state.onboarding==="username"){if(!v)return alert("Please choose a username.");state.user.username=v.replace(/^@/,"");state.onboarding="birthday"} 
-  else {if(!v)return alert("Please choose your birthday.");state.user.birthday=v;state.onboarding="done"} 
-  save();render(); 
-} 
+/* nextOnboard handled by verified async version */
+ 
 function goBackOnboard(){ 
   if(state.onboarding==="name")state.onboarding="welcome"; 
   else if(state.onboarding==="username")state.onboarding="name"; 
@@ -3614,22 +3609,70 @@ function setFocusFilter(filter){state.filter=filter;save();renderApp()}
 async function claimUsername(username){ 
   const clean=String(username||"").trim().replace(/^@/,"").toLowerCase(); 
   if(!clean)return false; 
+  if(!/^[a-z0-9._-]{3,20}$/.test(clean))return false;
+  const me=currentUid()||state.authUid||state.user.email||"local-user";
   const ownerKey="study_circle_username_registry_v1"; 
-  let registry=JSON.parse(localStorage.getItem(ownerKey)||"{}"); 
-  const me=state.authUid||state.user.email||"local-user"; 
-  if(registry[clean] && registry[clean]!==me)return false; 
+  let registry={};
+  try{registry=JSON.parse(localStorage.getItem(ownerKey)||"{}")}catch(e){registry={}}
+  if(registry[clean] && registry[clean]!==me)return false;
+
+  // Cloud is source of truth: one username → one user
   if(firebaseReady&&firestore){ 
     try{ 
       const ref=doc(firestore,"usernames",clean); 
       await runTransaction(firestore,async tx=>{ 
         const snap=await tx.get(ref); 
-        if(snap.exists && snap.data().uid!==me)throw new Error("USERNAME_TAKEN"); 
-        tx.set(ref,{uid:me,username:clean,updatedAt:serverTimestamp()},{merge:true}); 
-      }); 
-    }catch(e){if(e.message==="USERNAME_TAKEN")return false;console.warn(e)} 
+        if(snap.exists){
+          const owner=snap.data()?.uid||"";
+          if(owner && owner!==me)throw new Error("USERNAME_TAKEN");
+        }
+        tx.set(ref,{
+          uid:me,
+          username:clean,
+          email:(state.user?.email||firebaseUser?.email||"").toLowerCase()||null,
+          updatedAt:serverTimestamp()
+        },{merge:true}); 
+      });
+      // Extra check: publicProfiles should not already use this username for someone else
+      try{
+        const q=query(collection(firestore,"publicProfiles"),where("usernameLower","==",clean),limit(3));
+        const snap=await getDocs(q);
+        for(const d of snap.docs){
+          if(d.id!==me)return false;
+        }
+      }catch(e){console.warn("username profile check",e)}
+    }catch(e){
+      if(String(e.message||e).includes("USERNAME_TAKEN"))return false;
+      console.warn("claimUsername",e);
+      // If online claim failed unexpectedly, still block to avoid duplicates
+      if(firebaseReady)return false;
+    } 
   } 
-  registry[clean]=me;localStorage.setItem(ownerKey,JSON.stringify(registry)); 
+  // free previous local username for this user
+  Object.keys(registry).forEach(k=>{if(registry[k]===me && k!==clean)delete registry[k]});
+  registry[clean]=me;
+  try{localStorage.setItem(ownerKey,JSON.stringify(registry))}catch(e){}
   return true; 
+}
+
+async function isUsernameAvailable(username){
+  const clean=String(username||"").trim().replace(/^@/,"").toLowerCase();
+  if(!clean || !/^[a-z0-9._-]{3,20}$/.test(clean))return false;
+  const me=currentUid()||state.authUid||"";
+  if(firebaseReady&&firestore){
+    try{
+      const snap=await getDoc(doc(firestore,"usernames",clean));
+      if(snap.exists){
+        const owner=snap.data()?.uid||"";
+        return !owner || owner===me;
+      }
+      return true;
+    }catch(e){console.warn(e);return false}
+  }
+  try{
+    const registry=JSON.parse(localStorage.getItem("study_circle_username_registry_v1")||"{}");
+    return !registry[clean] || registry[clean]===me;
+  }catch(e){return true}
 } 
  
 async function startGoogle(){
@@ -3667,10 +3710,11 @@ async function nextOnboard(){
   else if(state.onboarding==="username"){ 
     if(!v)return alert("Please choose a username."); 
     const username=v.replace(/^@/,"").toLowerCase(); 
-    if(!/^[a-z0-9._-]{3,20}$/.test(username))return alert("Username: 3–20 letters, numbers, dot, underscore or hyphen."); 
+    if(!/^[a-z0-9._-]{3,20}$/.test(username))return alert("Username must be 3–20 characters: letters, numbers, dot, underscore or hyphen only."); 
     showLoader();
     try{
-      if(username!==String(state.user.username||"").toLowerCase() && !(await claimUsername(username))){hideLoader();return alert("That username is already taken. Choose another one.");} 
+      const ok=await claimUsername(username);
+      if(!ok){hideLoader();return alert("This username is already taken. Please choose another one.");} 
     }finally{hideLoader()}
     state.user.username=username;state.onboarding="birthday"; 
   }else{if(!v)return alert("Please choose your birthday.");state.user.birthday=v;state.onboarding="done"} 
