@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Aj</title>
+<title>A</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -2351,10 +2351,6 @@ function switchChatTab(tab){
     panel.classList.add("hidden"); 
     exploreBtn?.classList.remove("active"); 
     searchBtn?.classList.add("active"); 
-    const searchResults=document.getElementById("chatSearchResults");
-    if(searchResults)searchResults.innerHTML="";
-    const input=document.getElementById("chatUserSearch");
-    if(input)input.value="";
     loadChatList(); 
   } 
   if(window.lucide)lucide.createIcons(); 
@@ -2442,28 +2438,37 @@ function loadChatList(){
       const rows=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>chatUpdatedMillis(b.updatedAt)-chatUpdatedMillis(a.updatedAt)); 
       chatListItems=rows; 
  
-      // ONLY real conversations belong in Your chats. Following a user does not create a chat row.
-      const chatOtherIds=rows.map(r=>(r.participants||[]).find(x=>x!==me)).filter(Boolean);
-      const allIds=[...new Set(chatOtherIds)];
-
-      const uncached=allIds.filter(uid=>!chatListProfilesCache[uid]);
-      if(uncached.length){
-        const profiles=await Promise.all(uncached.map(async uid=>{
-          try{
-            const s=await getDoc(doc(firestore,"publicProfiles",uid));
-            return s.exists?{uid:s.id,...s.data()}:null;
-          }catch(e){return null}
-        }));
-        profiles.filter(Boolean).forEach(u=>chatListProfilesCache[u.uid]=u);
-      }
-
-      const chatByUid=new Map();
-      rows.forEach(row=>{
-        const other=(row.participants||[]).find(x=>x!==me);
-        if(other)chatByUid.set(other,row);
-      });
-
-      const merged=chatOtherIds.map(uid=>({uid,row:chatByUid.get(uid),user:chatListProfilesCache[uid]||{uid,name:"Study User",username:"unknown",dp:""}}));
+      // Fetch followed users and chat profiles in parallel so the inbox does 
+      // not require Explore before showing people the user has already added. 
+      const chatOtherIds=rows.map(r=>(r.participants||[]).find(x=>x!==me)).filter(Boolean); 
+      const followingSnap=await getDocs(collection(firestore,"publicProfiles",me,"following")); 
+      const followingIds=followingSnap.docs.map(d=>d.id).filter(uid=>uid!==me); 
+      const allIds=[...new Set([...chatOtherIds,...followingIds])]; 
+ 
+      const uncached=allIds.filter(uid=>!chatListProfilesCache[uid]); 
+      if(uncached.length){ 
+        const profiles=await Promise.all(uncached.map(async uid=>{ 
+          try{ 
+            const s=await getDoc(doc(firestore,"publicProfiles",uid)); 
+            return s.exists?{uid:s.id,...s.data()}:null; 
+          }catch(e){return null} 
+        })); 
+        profiles.filter(Boolean).forEach(u=>chatListProfilesCache[u.uid]=u); 
+      } 
+ 
+      const chatByUid=new Map(); 
+      rows.forEach(row=>{ 
+        const other=(row.participants||[]).find(x=>x!==me); 
+        if(other)chatByUid.set(other,row); 
+      }); 
+ 
+      const chatUsers=chatOtherIds.map(uid=>({uid,row:chatByUid.get(uid),user:chatListProfilesCache[uid]||{uid,name:"Study User",username:"unknown",dp:""}})); 
+      const chatUidSet=new Set(chatUsers.map(x=>x.uid)); 
+      const followedOnly=followingIds.filter(uid=>!chatUidSet.has(uid)).map(uid=>({uid,row:null,user:chatListProfilesCache[uid]||{uid,name:"Study User",username:"unknown",dp:""}})); 
+ 
+      // Recent conversations first; followed users without a conversation are 
+      // shown after them, so the inbox feels like Messenger. 
+      const merged=[...chatUsers,...followedOnly]; 
       if(!merged.length){ 
         host.innerHTML=`<div class="chat-list-empty">No chats yet.<br>Follow someone or search a username to start a conversation.</div>`; 
         updateChatUnreadBadges(); 
@@ -2919,39 +2924,46 @@ async function sendChatMessage(){
 function followerRef(targetUid,followerUid=currentUid()){ 
   return doc(firestore,"publicProfiles",targetUid,"followers",followerUid); 
 } 
-async function toggleFollow(targetUid,btn){
-  if(!firebaseReady||!currentUid()||targetUid===currentUid())return false;
-  const ref=followerRef(targetUid);
-  const followingRef=doc(firestore,"publicProfiles",currentUid(),"following",targetUid);
-  try{
-    // The current user's /following record is the canonical state.
-    // Stale follower documents cannot make a new search result look Following.
-    const existing=await getDoc(followingRef);
-    if(existing.exists){
-      await deleteDoc(followingRef);
-      try{await deleteDoc(ref)}catch(e){}
-      await publishMyPublicProfile();
-      if(btn){btn.textContent="Follow";btn.classList.remove("following")}
-      return false;
-    }else{
-      await setDoc(ref,{followerId:currentUid(),followingId:targetUid,createdAt:serverTimestamp()},{merge:true});
-      await setDoc(followingRef,{followingId:targetUid,createdAt:serverTimestamp()},{merge:true});
-      await publishMyPublicProfile();
-      if(btn){btn.textContent="Following";btn.classList.add("following")}
-      return true;
-    }
-  }catch(err){
-    console.error("Follow update failed",err);
-    if(btn){btn.textContent="Follow";btn.classList.remove("following")}
-    alert("Could not update follow status. Please make sure the Firestore rules below are applied.");
-    return false;
-  }
-}
-async function isFollowing(targetUid){
-  if(!firebaseReady||!currentUid()||targetUid===currentUid())return false;
-  try{return (await getDoc(doc(firestore,"publicProfiles",currentUid(),"following",targetUid))).exists}catch{return false}
-}
-
+async function toggleFollow(targetUid,btn){ 
+  if(!firebaseReady||!currentUid()||targetUid===currentUid())return false; 
+  const me=currentUid(); 
+  const followingRef=doc(firestore,"publicProfiles",me,"following",targetUid); 
+  const followerRefForTarget=followerRef(targetUid,me); 
+  try{ 
+    // The current user's following collection is the single source of truth. 
+    // Do not infer Following from an old/stale follower document. 
+    const existing=await getDoc(followingRef); 
+    if(existing.exists){ 
+      await deleteDoc(followingRef); 
+      try{await deleteDoc(followerRefForTarget)}catch(e){} 
+      await publishMyPublicProfile(); 
+      if(btn){btn.textContent="Follow";btn.classList.remove("following")} 
+      if(activePage==="chats")loadChatList(); 
+      return false; 
+    }else{ 
+      await setDoc(followingRef,{followingId:targetUid,ownerId:me,createdAt:serverTimestamp()},{merge:true}); 
+      try{await setDoc(followerRefForTarget,{followerId:me,followingId:targetUid,createdAt:serverTimestamp()},{merge:true})}catch(e){} 
+      await publishMyPublicProfile(); 
+      if(btn){btn.textContent="Following";btn.classList.add("following")} 
+      if(activePage==="chats")loadChatList(); 
+      return true; 
+    } 
+  }catch(err){ 
+    console.error("Follow update failed",err); 
+    if(btn){btn.textContent="Follow";btn.classList.remove("following")} 
+    alert("Could not update follow status. Please make sure the Firestore rules below are applied."); 
+    return false; 
+  } 
+} 
+async function isFollowing(targetUid){ 
+  if(!firebaseReady||!currentUid()||targetUid===currentUid())return false; 
+  try{ 
+    const ref=doc(firestore,"publicProfiles",currentUid(),"following",targetUid); 
+    const snap=await getDoc(ref); 
+    return snap.exists; 
+  }catch{return false} 
+} 
+ 
 let userProfileChart=null; 
 async function openUserProfile(uid){ 
   if(!firebaseReady||!uid)return; 
