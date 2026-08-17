@@ -1342,17 +1342,34 @@ body:has(.chat-inbox-page){
 .global-loader{
   position:fixed;inset:0;z-index:9999;
   display:grid;place-items:center;
-  background:rgba(15,18,24,.28);
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
+  background:rgba(12,16,22,.32);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .45s cubic-bezier(.22,.61,.36,1), visibility .45s cubic-bezier(.22,.61,.36,1);
+}
+.global-loader.show{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
 }
 .global-loader.hidden{display:none!important}
+.global-loader .spinner{
+  transform:scale(.92);
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+.global-loader.show .spinner{
+  transform:scale(1);
+}
 .spinner {
   border: 0 solid transparent;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 54px;
+  height: 54px;
   position:relative;
+  will-change:transform;
 }
 .loader {
   width: inherit;
@@ -1368,14 +1385,15 @@ body:has(.chat-inbox-page){
   height: inherit;
   position: absolute;
   opacity: 1;
+  box-sizing:border-box;
 }
 .l1::before,
 .l1::after {
-  animation: clockwiseZ 2.5s infinite;
+  animation: clockwiseZ 2.5s cubic-bezier(.45,.05,.55,.95) infinite;
 }
 .l2::after,
 .l2::before {
-  animation: anticlockwiseZ 2.5s infinite;
+  animation: anticlockwiseZ 2.5s cubic-bezier(.45,.05,.55,.95) infinite;
 }
 @keyframes clockwiseZ {
   0%, 100% {
@@ -1413,13 +1431,37 @@ body:has(.chat-inbox-page){
  
 const KEY="study_circle_state_v2";
 
+let __loaderShownAt=0;
+let __loaderHideTimer=null;
+let __loaderFadeTimer=null;
+const LOADER_MIN_MS=900;
+const LOADER_FADE_MS=450;
 function showLoader(){
   const el=document.getElementById("globalLoader");
-  if(el)el.classList.remove("hidden");
+  if(!el)return;
+  if(__loaderHideTimer){clearTimeout(__loaderHideTimer);__loaderHideTimer=null}
+  if(__loaderFadeTimer){clearTimeout(__loaderFadeTimer);__loaderFadeTimer=null}
+  el.classList.remove("hidden");
+  // force reflow so opacity + scale transition plays every time
+  void el.offsetWidth;
+  el.classList.add("show");
+  __loaderShownAt=Date.now();
 }
 function hideLoader(){
   const el=document.getElementById("globalLoader");
-  if(el)el.classList.add("hidden");
+  if(!el)return;
+  const elapsed=Date.now()-(__loaderShownAt||0);
+  const wait=Math.max(0,LOADER_MIN_MS-elapsed);
+  if(__loaderHideTimer)clearTimeout(__loaderHideTimer);
+  if(__loaderFadeTimer)clearTimeout(__loaderFadeTimer);
+  __loaderHideTimer=setTimeout(()=>{
+    el.classList.remove("show");
+    __loaderFadeTimer=setTimeout(()=>{
+      if(!el.classList.contains("show"))el.classList.add("hidden");
+      __loaderFadeTimer=null;
+    },LOADER_FADE_MS);
+    __loaderHideTimer=null;
+  },wait);
 }
 
 
