@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Arafat</title>
+<title>A</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -2144,12 +2144,26 @@ function resetDailyTargetIfNeeded(){
 } 
 resetDailyTargetIfNeeded(); 
  
-function filteredSessions(){ 
-  const now=Date.now(); 
-  if(state.filter==="all")return state.sessions||[]; 
-  const days=state.filter==="7d"?7:30; 
-  const cutoff=now-days*86400000; 
-  return (state.sessions||[]).filter(s=>new Date(s.at).getTime()>=cutoff); 
+function filteredSessions(){
+  const now=Date.now();
+  const sessions=state.sessions||[];
+  if(state.filter==="all")return sessions;
+  // 1d / 7d / 30d — rolling window from now
+  const daysMap={"1d":1,"7d":7,"30d":30};
+  const days=daysMap[state.filter]??7;
+  const cutoff=now-days*86400000;
+  return sessions.filter(s=>{
+    const t=new Date(s.at).getTime();
+    return Number.isFinite(t) && t>=cutoff;
+  });
+}
+function filterPeriodLabel(filter){
+  return ({
+    "1d":"Last 1 day",
+    "7d":"Last 7 days",
+    "30d":"Last 30 days",
+    "all":"All time"
+  })[filter]||"All time";
 } 
 function filteredSubjectSeconds(subject){return filteredSessions().filter(x=>x.subject===subject.name).reduce((a,x)=>a+(x.seconds||0),0)} 
 function filteredTotal(){return filteredSessions().reduce((a,x)=>a+(x.seconds||0),0)} 
@@ -2224,10 +2238,10 @@ function homePage(){
   const total=filteredTotal(); 
   const filter=state.filter||"all"; 
   return `<div class="topbar"><div><h1 class="page-title">Timer</h1><div class="page-sub">Make a little progress every day.</div></div><button class="menu-btn" onclick="showHelp()"><i data-lucide="sparkles" class="icon-svg"></i></button></div> 
-  <section class="card hero"><div class="hero-filter-head"><div><div class="hero-label">FOCUS TIME</div><div class="hero-time">${fmt(total)}</div><div class="hero-sub">Study time for the selected period.</div></div><div><div class="hero-label" style="text-align:right">PERIOD</div><div class="filter-row">${[["7d","7 days"],["30d","30 days"],["all","All time"]].map(([id,label])=>`<button class="filter-pill ${filter===id?"active":""}" onclick="setFocusFilter('${id}')">${label}</button>`).join("")}</div></div></div></section> 
+  <section class="card hero"><div class="hero-filter-head"><div><div class="hero-label">FOCUS TIME</div><div class="hero-time">${fmt(total)}</div><div class="hero-sub">Study time for the selected period.</div></div><div><div class="hero-label" style="text-align:right">PERIOD</div><div class="filter-row">${[["1d","1D"],["7d","7D"],["30d","30D"],["all","All time"]].map(([id,label])=>`<button class="filter-pill ${filter===id?"active":""}" onclick="setFocusFilter('${id}')">${label}</button>`).join("")}</div></div></div></section> 
   <div class="subject-head"><div class="section-title">Subjects</div><button class="add-head" onclick="navigate('add')"><i data-lucide="plus" style="width:15px;height:15px;vertical-align:-3px"></i> Add subject</button></div> 
   <section class="subject-list">${state.subjects.map(subjectCard).join("")}</section> 
-  <section class="card chart-card"><div class="chart-head"><div><div class="hero-label">SUBJECT BREAKDOWN</div><div class="chart-total">${fmt(total)}</div></div><span class="hero-sub">${filter==="all"?"All time":filter==="7d"?"Last 7 days":"Last 30 days"}</span></div><div class="donut-layout"><div class="chart-wrap"><canvas id="focusChart"></canvas><div class="donut-center"><div class="donut-center-inner"><b>${fmt(total)}</b><span>Total focus</span></div></div></div><div class="donut-legend">${state.subjects.map(s=>`<div class="donut-legend-row"><i class="donut-dot" style="background:${esc(s.color)}"></i><div><b>${esc(s.name)}</b><small>${fmt(filteredSubjectSeconds(s))}</small></div><strong>${total?Math.round(filteredSubjectSeconds(s)/total*100):0}%</strong></div>`).join("")}</div></div></section> 
+  <section class="card chart-card"><div class="chart-head"><div><div class="hero-label">SUBJECT BREAKDOWN</div><div class="chart-total">${fmt(total)}</div></div><span class="hero-sub">${filterPeriodLabel(filter)}</span></div><div class="donut-layout"><div class="chart-wrap"><canvas id="focusChart"></canvas><div class="donut-center"><div class="donut-center-inner"><b>${fmt(total)}</b><span>Total focus</span></div></div></div><div class="donut-legend">${state.subjects.map(s=>`<div class="donut-legend-row"><i class="donut-dot" style="background:${esc(s.color)}"></i><div><b>${esc(s.name)}</b><small>${fmt(filteredSubjectSeconds(s))}</small></div><strong>${total?Math.round(filteredSubjectSeconds(s)/total*100):0}%</strong></div>`).join("")}</div></div></section> 
   <section class="activity"><div class="subject-head"><div class="section-title">Recent activity</div><span class="hero-sub">Latest sessions</span></div>${state.sessions.length?state.sessions.slice(-5).reverse().map(s=>`<div class="activity-row"><div><div class="activity-name">${esc(s.subject)}</div><div class="activity-time">${new Date(s.at).toLocaleString()}</div></div><b>${fmt(s.seconds)}</b></div>`).join(""):`<div class="activity-row"><div class="activity-time">Your completed sessions will appear here.</div></div>`}</section>`; 
 } 
 function subjectCard(s){ 
