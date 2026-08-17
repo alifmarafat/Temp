@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A</title>
+<title>AA</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -670,32 +670,28 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
    Only affects the Chats/Inbox UI. 
    ============================================================ */ 
  
-/* When Chats is open, the browser/page itself must not scroll. 
-   The inbox list and message area handle their own scrolling. */ 
-body:has(.chat-inbox-page){ 
-  overflow:hidden !important; 
-} 
- 
-.dashboard:has(.chat-inbox-page){ 
-  height:100vh !important; 
-  min-height:100vh !important; 
-  overflow:hidden !important; 
-} 
- 
-.dashboard:has(.chat-inbox-page) .main{ 
-  min-height:0 !important; 
-  height:100vh !important; 
-  padding-bottom:24px !important; 
-  overflow:hidden !important; 
-} 
- 
-.chats-page.chat-inbox-page{ 
-  height:calc(100vh - 48px) !important; 
-  min-height:0 !important; 
-  max-height:none !important; 
-  overflow:hidden !important; 
-  display:flex !important; 
-  flex-direction:column !important; 
+/* Chats uses the SAME outer dashboard frame as Home / Target / Add.
+   Only the inbox shell + message list scroll internally — body size stays consistent. */
+body:has(.chat-inbox-page){
+  /* keep normal page flow so the shell matches other pages */
+  overflow-x:hidden;
+}
+.dashboard:has(.chat-inbox-page){
+  min-height:100vh !important;
+  /* do NOT force a different height than other pages */
+}
+.dashboard:has(.chat-inbox-page) .main{
+  min-width:0 !important;
+  min-height:0 !important;
+}
+.chats-page.chat-inbox-page{
+  display:flex !important;
+  flex-direction:column !important;
+  min-height:0 !important;
+  /* height matches other main content — shell fills remaining space */
+  height:calc(100vh - 48px) !important;
+  max-height:none !important;
+  overflow:hidden !important;
 } 
  
 .chat-inbox-top{ 
@@ -782,21 +778,17 @@ body:has(.chat-inbox-page){
  
 /* Mobile: the chat remains a full-screen panel and only the 
    conversation area scrolls. */ 
-@media(max-width:700px){ 
-  body:has(.chat-inbox-page){ 
-    overflow:hidden !important; 
-  } 
- 
-  .dashboard:has(.chat-inbox-page), 
-  .dashboard:has(.chat-inbox-page) .main{ 
-    height:100dvh !important; 
-    min-height:100dvh !important; 
-    overflow:hidden !important; 
-  } 
- 
-  .chats-page.chat-inbox-page{ 
-    height:calc(100dvh - 20px) !important; 
-    overflow:hidden !important; 
+@media(max-width:700px){
+  body:has(.chat-inbox-page){
+    overflow-x:hidden;
+  }
+  .dashboard:has(.chat-inbox-page),
+  .dashboard:has(.chat-inbox-page) .main{
+    min-height:100dvh !important;
+  }
+  .chats-page.chat-inbox-page{
+    height:calc(100dvh - 88px) !important;
+    overflow:hidden !important;
   } 
  
   .chat-inbox-shell{ 
@@ -1150,7 +1142,19 @@ body:has(.chat-inbox-page){
    the UI architecture. 
 */ 
  
-const KEY="study_circle_state_v2"; 
+const KEY="study_circle_state_v2";
+
+/* ============================================================
+   CHAT REACTIONS — easy to customize
+   ------------------------------------------------------------
+   Change the emoji list below anytime. Every reaction picker
+   and long-press menu reads from this single array.
+   Examples you can paste in:
+     ["❤️","😂","😮","😢","👍","👏"]
+     ["🔥","💯","✨","🙌","💜","😍"]
+     ["✅","❌","🤔","💪","🎯","📚"]
+   ============================================================ */
+const CHAT_REACTION_EMOJIS = ["❤️","😂","😮","😢","👍","👏"]; 
  
 /* ============================================================ 
    GOOGLE AUTH SETUP 
@@ -2243,7 +2247,10 @@ let chatListItems=[];
 let selectedChatUser=null; 
 let selectedChatId=""; 
 let chatListUnsub=null; 
-let chatMessagesUnsub=null; 
+let chatMessagesUnsub=null;
+let chatReactionsUnsub=null;
+/* messageId -> { emoji: [uid, ...] } loaded from chats/{id}/messageReactions */
+let chatReactionStore=new Map(); 
 let chatListProfilesCache={}; 
 let chatBlockedByMe=false; 
 let chatBlockedMe=false; 
@@ -2456,7 +2463,9 @@ function initChatsPage(){
 function stopChatListeners(){ 
   if(chatListUnsub){try{chatListUnsub()}catch(e){} chatListUnsub=null} 
   if(chatMessagesUnsub){try{chatMessagesUnsub()}catch(e){} chatMessagesUnsub=null} 
-  if(chatTypingUnsub){try{chatTypingUnsub()}catch(e){} chatTypingUnsub=null} 
+  if(chatReactionsUnsub){try{chatReactionsUnsub()}catch(e){} chatReactionsUnsub=null} 
+  if(chatTypingUnsub){try{chatTypingUnsub()}catch(e){} chatTypingUnsub=null}
+  chatReactionStore=new Map(); 
   setTypingStatus(false); 
   selectedChatId="";selectedChatUser=null; 
   setMobileChatOpen(false); 
@@ -2654,7 +2663,9 @@ function renderChatWindow(){
 } 
 function closeSelectedChat(){ 
   if(chatMessagesUnsub){try{chatMessagesUnsub()}catch(e){} chatMessagesUnsub=null} 
-  if(chatTypingUnsub){try{chatTypingUnsub()}catch(e){} chatTypingUnsub=null} 
+  if(chatReactionsUnsub){try{chatReactionsUnsub()}catch(e){} chatReactionsUnsub=null} 
+  if(chatTypingUnsub){try{chatTypingUnsub()}catch(e){} chatTypingUnsub=null}
+  chatReactionStore=new Map(); 
   setTypingStatus(false); 
   selectedChatId="";selectedChatUser=null;chatBlockedByMe=false;chatBlockedMe=false;pendingChatReply=null; 
   setMobileChatOpen(false); 
@@ -2731,11 +2742,12 @@ function showReactionPicker(message,anchor){
   const picker=document.createElement("div"); 
   picker.id="chatReactionPicker"; 
   picker.className="chat-reaction-picker"; 
-  const emojis=["❤️","😂","😮","😢","👍","👏"]; 
-  picker.innerHTML=emojis.map(e=>`<button type="button" aria-label="React ${esc(e)}">${e}</button>`).join(""); 
-  picker.querySelectorAll("button").forEach((btn,i)=>{ 
-    btn.addEventListener("click",async ev=>{ 
-      ev.preventDefault();ev.stopPropagation(); 
+  // Uses the shared CHAT_REACTION_EMOJIS list (edit at top of script)
+  const emojis=CHAT_REACTION_EMOJIS.slice();
+  picker.innerHTML=emojis.map(e=>`<button type="button" aria-label="React ${esc(e)}">${e}</button>`).join("");
+  picker.querySelectorAll("button").forEach((btn,i)=>{
+    btn.addEventListener("click",async ev=>{
+      ev.preventDefault();ev.stopPropagation();
       const emoji=emojis[i]; 
       closeReactionPicker(); 
       await reactToChatMessage(message.id,emoji); 
@@ -2771,12 +2783,12 @@ function showChatActionMenu(message,anchor){
   const menu=document.createElement("div"); 
   menu.id="chatLongpressMenu"; 
   menu.className="chat-longpress-menu"; 
-  menu.innerHTML=` 
-    <button onclick="reactToChatMessage('${esc(message.id)}','❤️')">❤️</button> 
-    <button onclick="reactToChatMessage('${esc(message.id)}','👍')">👍</button> 
-    <button onclick="reactToChatMessage('${esc(message.id)}','😂')">😂</button> 
-    <button class="reply" onclick="setChatReplyById('${esc(message.id)}')">↩ Reply</button> 
-    ${message.senderId===currentUid()?`<button class="danger" onclick="deleteChatMessage('${esc(message.id)}')">🗑 Delete</button>`:""} 
+  // First 3 emojis from CHAT_REACTION_EMOJIS for the quick long-press row
+  const quick=(CHAT_REACTION_EMOJIS||["❤️","👍","😂"]).slice(0,3);
+  menu.innerHTML=`
+    ${quick.map(e=>`<button onclick="reactToChatMessage('${esc(message.id)}','${esc(e)}')">${e}</button>`).join("")}
+    <button class="reply" onclick="setChatReplyById('${esc(message.id)}')">↩ Reply</button>
+    ${message.senderId===currentUid()?`<button class="danger" onclick="deleteChatMessage('${esc(message.id)}')">🗑 Delete</button>`:""}
   `; 
   document.body.appendChild(menu); 
   const r=anchor?.getBoundingClientRect?.(); 
@@ -2791,29 +2803,79 @@ function setChatReplyById(id){
   const message=chatMessageCache.get(String(id)); 
   if(message)setChatReply(message); 
 } 
-async function reactToChatMessage(id,emoji){ 
-  closeChatActionMenu(); 
-  closeReactionPicker(); 
-  if(!firestore||!selectedChatId||!currentUid()||!id)return; 
-  try{ 
-    const ref=doc(firestore,"chats",selectedChatId,"messages",id); 
-    const snap=await getDoc(ref); 
-    if(!snap.exists)return; 
-    const m=snap.data()||{}; 
-    const reactions={...(m.reactions||{})}; 
-    const list=Array.isArray(reactions[emoji])?[...reactions[emoji]]:[]; 
-    const uid=currentUid(); 
-    const i=list.indexOf(uid); 
-    if(i>=0)list.splice(i,1);else list.push(uid); 
-    if(list.length)reactions[emoji]=list;else delete reactions[emoji]; 
-    // Merge keeps every other message field untouched. 
-    await setDoc(ref,{reactions},{merge:true}); 
-    const bubble=document.querySelector(`[data-message-id="${CSS.escape(id)}"]`); 
-    if(bubble)showReactionPop(bubble,emoji); 
-  }catch(err){ 
-    console.warn("Reaction update failed",err); 
-    chatWarning("Reaction failed","Your reaction could not be saved right now. Please try again.","😕"); 
-  } 
+/* Apply a reaction in the local cache + DOM immediately (optimistic). */
+function applyLocalReaction(messageId,emoji,uid){
+  const mid=String(messageId);
+  const cached=chatMessageCache.get(mid)||{id:mid,reactions:{}};
+  const base=chatReactionStore.get(mid)||cached.reactions||{};
+  const reactions={...base};
+  const list=Array.isArray(reactions[emoji])?[...reactions[emoji]]:[];
+  const idx=list.indexOf(uid);
+  if(idx>=0)list.splice(idx,1);else list.push(uid);
+  if(list.length)reactions[emoji]=list;else delete reactions[emoji];
+  cached.reactions=reactions;
+  chatMessageCache.set(mid,cached);
+  chatReactionStore.set(mid,reactions);
+  // Refresh chips under the bubble without reloading the whole thread
+  const row=document.querySelector(`[data-message-row="${CSS.escape(mid)}"]`);
+  if(row){
+    let line=row.querySelector(".chat-reaction-line");
+    const reactionHTML=Object.entries(reactions).filter(([_,ids])=>Array.isArray(ids)&&ids.length).map(([em,ids])=>{
+      const reacted=ids.includes(uid);
+      return `<button class="chat-reaction-chip ${reacted?"mine-reaction":""}" title="${reacted?"You reacted":"Reaction"}" onclick="reactToChatMessage('${esc(mid)}','${esc(em)}');event.stopPropagation()">${em} ${ids.length}</button>`;
+    }).join("");
+    if(reactionHTML){
+      if(!line){line=document.createElement("div");line.className="chat-reaction-line";row.querySelector(".chat-bubble-wrap")?.appendChild(line)}
+      line.innerHTML=reactionHTML;
+    }else if(line){line.remove()}
+  }
+  return reactions;
+}
+
+async function reactToChatMessage(id,emoji){
+  closeChatActionMenu();
+  closeReactionPicker();
+  if(!firestore||!selectedChatId||!currentUid()||!id)return;
+  const uid=currentUid();
+  const mid=String(id);
+  const cid=selectedChatId;
+
+  // 1) Optimistic UI — user sees the reaction instantly
+  const reactions=applyLocalReaction(mid,emoji,uid);
+  const bubble=document.querySelector(`[data-message-id="${CSS.escape(mid)}"]`);
+  if(bubble)showReactionPop(bubble,emoji);
+
+  try{
+    // 2) Primary write: dedicated reactions doc under the chat.
+    //    Any chat participant can update this path (unlike message docs
+    //    which are often locked to the original sender by rules).
+    //    Path: chats/{chatId}/messageReactions/{messageId}
+    const reactionRef=doc(firestore,"chats",cid,"messageReactions",mid);
+    await setDoc(reactionRef,{
+      messageId:mid,
+      chatId:cid,
+      reactions,
+      updatedAt:serverTimestamp(),
+      updatedBy:uid
+    },{merge:true});
+
+    // 3) Best-effort mirror onto the message doc itself (optional).
+    //    Ignores permission errors so reactions still work if rules
+    //    only allow the sender to edit their message.
+    try{
+      const msgRef=doc(firestore,"chats",cid,"messages",mid);
+      await setDoc(msgRef,{reactions},{merge:true});
+    }catch(_mirrorErr){ /* safe to ignore */ }
+  }catch(err){
+    console.warn("Reaction update failed",err);
+    // Revert optimistic UI on hard failure
+    applyLocalReaction(mid,emoji,uid);
+    chatWarning(
+      "Reaction failed",
+      "Could not save your reaction. If this keeps happening, allow write on chats/{chatId}/messageReactions/{messageId} for chat participants in Firestore rules.",
+      "😕"
+    );
+  }
 } 
 async function deleteChatMessage(id){ 
   closeChatActionMenu(); 
@@ -2863,6 +2925,7 @@ function bindChatMessagePress(el,message){
 } 
 function subscribeToMessages(forChatId){ 
   if(chatMessagesUnsub){try{chatMessagesUnsub()}catch(e){} chatMessagesUnsub=null} 
+  if(chatReactionsUnsub){try{chatReactionsUnsub()}catch(e){} chatReactionsUnsub=null} 
   const expectedId=forChatId||selectedChatId; 
   const me=currentUid(); 
   const other=selectedChatUser?.uid||""; 
@@ -2871,10 +2934,42 @@ function subscribeToMessages(forChatId){
   const gen=++chatSubGen; 
   knownMsgIds=new Set(); 
   lastMsgCount=0; 
+  chatReactionStore=new Map(); 
  
   const getHost=()=>document.getElementById("chatMessages"); 
   const host=getHost(); 
   if(!host)return; 
+
+  // Live reactions (separate collection so any participant can write)
+  try{
+    chatReactionsUnsub=onSnapshot(collection(firestore,"chats",expectedId,"messageReactions"),rsnap=>{
+      if(gen!==chatSubGen||selectedChatId!==expectedId)return;
+      chatReactionStore=new Map();
+      rsnap.docs.forEach(rd=>{
+        const data=rd.data()||{};
+        const reactions=data.reactions||{};
+        chatReactionStore.set(String(rd.id),reactions);
+        const cached=chatMessageCache.get(String(rd.id));
+        if(cached){cached.reactions=reactions;chatMessageCache.set(String(rd.id),cached)}
+      });
+      // Refresh reaction chips only (keep scroll position)
+      const h=getHost();
+      if(!h)return;
+      chatReactionStore.forEach((reactions,mid)=>{
+        const row=h.querySelector(`[data-message-row="${CSS.escape(mid)}"]`);
+        if(!row)return;
+        let line=row.querySelector(".chat-reaction-line");
+        const reactionHTML=Object.entries(reactions||{}).filter(([_,ids])=>Array.isArray(ids)&&ids.length).map(([emoji,ids])=>{
+          const reacted=ids.includes(currentUid());
+          return `<button class="chat-reaction-chip ${reacted?"mine-reaction":""}" title="${reacted?"You reacted":"Reaction"}" onclick="reactToChatMessage('${esc(mid)}','${esc(emoji)}');event.stopPropagation()">${emoji} ${ids.length}</button>`;
+        }).join("");
+        if(reactionHTML){
+          if(!line){line=document.createElement("div");line.className="chat-reaction-line";row.querySelector(".chat-bubble-wrap")?.appendChild(line)}
+          line.innerHTML=reactionHTML;
+        }else if(line){line.remove()}
+      });
+    },err=>console.warn("Reaction listener",err));
+  }catch(e){console.warn("Reaction subscribe failed",e)}
  
   const q=query(collection(firestore,"chats",expectedId,"messages"),orderBy("createdAt","asc"),limit(200)); 
   chatMessagesUnsub=onSnapshot(q,snap=>{ 
@@ -2912,12 +3007,17 @@ function subscribeToMessages(forChatId){
     const hasIncoming=docs.some(d=>d.data()?.senderId===other); 
     if(hasIncoming)markChatRead(expectedId); 
  
-    chatMessageCache=new Map(docs.map(d=>[String(d.id),{id:d.id,...d.data()}])); 
+    chatMessageCache=new Map(docs.map(d=>{
+      const base={id:d.id,...d.data()};
+      // Prefer live reaction store; fall back to reactions embedded on the message
+      if(chatReactionStore.has(String(d.id))) base.reactions=chatReactionStore.get(String(d.id));
+      return [String(d.id),base];
+    })); 
     h.innerHTML=docs.map(d=>{ 
       const m=d.data(); 
       const mine=m.senderId===me; 
       const reply=m.replyTo; 
-      const reactions=m.reactions||{}; 
+      const reactions=(chatReactionStore.get(String(d.id))||m.reactions||{}); 
       const reactionHTML=Object.entries(reactions).filter(([_,ids])=>Array.isArray(ids)&&ids.length).map(([emoji,ids])=>{ 
         const reacted=ids.includes(currentUid()); 
         return `<button class="chat-reaction-chip ${reacted?"mine-reaction":""}" title="${reacted?"You reacted":"Reaction"}" onclick="reactToChatMessage('${esc(d.id)}','${esc(emoji)}');event.stopPropagation()">${emoji} ${ids.length}</button>`; 
