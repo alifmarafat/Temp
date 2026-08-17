@@ -1789,7 +1789,7 @@ function addPage(){
     <section class="card profile-card"> 
       <div class="section-title">New subject</div> 
       <div class="edit-grid"> 
-        <div class="profile-field"><label>SUBJECT NAME</label><input id="newSubjectName" placeholder="e.g. Chemistry"></div> 
+        <div class="profile-field"><label>SUBJECT NAME</label><input id="newSubjectName" placeholder="Subject name"></div> 
         <div class="profile-field"><label>ICON</label> 
   <input type="hidden" id="newSubjectIcon" value="book-open"> 
   <div class="icon-choice" id="iconChoice"> 
@@ -1856,7 +1856,7 @@ function profilePage(){
     </section>`; 
 } 
 function sideToday(){ 
-  return `<section class="card side-card"><div class="side-title"><span>Today</span><small class="hero-sub">${state.tasks.filter(t=>t.done).length}/${state.tasks.length} done</small></div><div class="task-add"><input id="sideTask" placeholder="Task / subject"><input id="sideTime" type="time"><button onclick="addSideTask()">＋</button></div><div id="sideTasks">${renderTasks()}</div></section>`; 
+  return `<section class="card side-card"><div class="side-title"><span>Today</span><small class="hero-sub">${state.tasks.filter(t=>t.done).length}/${state.tasks.length} done</small></div><div class="task-add"><input id="sideTask" placeholder="Task"><input id="sideTime" type="time"><button onclick="addSideTask()">＋</button></div><div id="sideTasks">${renderTasks()}</div></section>`; 
 } 
 function sideTarget(){ 
   const pct=Math.min(100,Math.round((state.target.done/Math.max(1,state.target.minutes))*100)); 
@@ -2276,7 +2276,7 @@ function drawChart(){
  
 function targetPage(){ 
   resetDailyTargetIfNeeded();const elapsed=targetElapsedSeconds();const pct=Math.min(100,Math.round(elapsed/(state.target.minutes*60)*100));const selected=selectedTargetSubjects();const running=state.target.running; 
-  return `<div class="topbar"><div><h1 class="page-title">Target</h1><div class="page-sub">Choose subjects, start your target, and switch anytime.</div></div></div> 
+  return `<div class="topbar"><div><h1 class="page-title">Target</h1><div class="page-sub">Pick your subject, hit your goal, and adapt on the go.</div></div></div> 
   <section class="card target-card"><div class="hero-label">TODAY'S TARGET</div><div class="target-big">${Math.floor(state.target.minutes/60)}h ${state.target.minutes%60}m</div><div class="hero-sub">${fmt(elapsed)} studied • ${pct}% complete</div><div class="progress" style="margin:15px 0 18px"><i style="width:${pct}%"></i></div> 
   <input id="targetInput" class="target-input" type="number" min="1" max="1440" value="${Math.round(state.target.minutes)}" placeholder="Minutes"><button class="set-target" onclick="setTarget()">Set today's target</button> 
   ${running?targetLiveCard():`<button class="target-start" onclick="startTarget()">Start target</button>`}</section> 
@@ -2635,7 +2635,7 @@ function escapeChatText(v=""){return esc(v)}
 function chatsPage(){ 
   return `<div class="chats-page chat-inbox-page"> 
     <div class="chat-inbox-top"> 
-      <div><h1 class="chat-inbox-title">Chats</h1><div class="chat-inbox-sub">Stay connected with your Study Circle</div></div> 
+      <div><h1 class="chat-inbox-title">Chats</h1><div class="chat-inbox-sub">Stay connected with your study partners</div></div> 
       <div class="chat-inbox-actions"> 
         <button class="chat-inbox-action active" id="tabSearch" onclick="switchChatTab('search')"><i data-lucide="message-circle" style="width:16px;height:16px"></i> Chats</button> 
         <button class="chat-inbox-action" id="tabExplore" onclick="switchChatTab('explore')"><i data-lucide="compass" style="width:16px;height:16px"></i> Explore</button> 
