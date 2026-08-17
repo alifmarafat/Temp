@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AA</title>
+<title>Arafat</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -1125,6 +1125,217 @@ body:has(.chat-inbox-page){
   .chat-inbox-page:not(.chat-mobile-open) .chat-inbox-top{flex:0 0 auto!important}
   .chat-inbox-page.chat-mobile-open .chat-inbox-window{display:flex!important}
 }
+
+
+
+/* Unified reaction + reply sheet (desktop + mobile) */
+.chat-action-sheet{
+  position:fixed;
+  z-index:300;
+  padding:10px;
+  border-radius:22px;
+  background:rgba(255,255,255,.98);
+  border:1px solid rgba(20,25,35,.08);
+  box-shadow:0 22px 60px rgba(20,28,38,.28);
+  backdrop-filter:blur(20px);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-width:min(360px,calc(100vw - 24px));
+}
+.chat-action-sheet .sheet-emojis{
+  display:flex;
+  justify-content:space-between;
+  gap:4px;
+  padding:4px 2px 8px;
+  border-bottom:1px solid rgba(20,25,35,.06);
+}
+.chat-action-sheet .sheet-emojis button{
+  width:40px;height:40px;border:0;background:transparent;
+  border-radius:50%;font-size:24px;cursor:pointer;
+  transition:transform .15s ease;
+}
+.chat-action-sheet .sheet-emojis button:hover{transform:scale(1.18)}
+.chat-action-sheet .sheet-actions{
+  display:flex;gap:8px;
+}
+.chat-action-sheet .sheet-actions button{
+  flex:1;height:42px;border-radius:12px;border:0;
+  font-weight:900;font-size:13px;background:#f3f4f6;cursor:pointer;
+}
+.chat-action-sheet .sheet-actions .reply{color:#2687ff;background:#edf6ff}
+.chat-action-sheet .sheet-actions .danger{color:#ef476f;background:#fff0f2}
+
+/* ============================================================
+   MOBILE CONVERSATION — true Messenger full-screen
+   Hides inbox chrome; header + messages + input fill the phone.
+   ============================================================ */
+@media(max-width:700px){
+  body:has(.chat-mobile-open){
+    overflow:hidden !important;
+    position:fixed !important;
+    width:100% !important;
+    height:100% !important;
+  }
+  body:has(.chat-mobile-open) .mobile-nav,
+  body:has(.chat-mobile-open) .honeycomb,
+  body:has(.chat-mobile-open) .rail,
+  body:has(.chat-mobile-open) .right{
+    display:none !important;
+  }
+  body:has(.chat-mobile-open) .dashboard,
+  body:has(.chat-mobile-open) .main{
+    padding:0 !important;
+    margin:0 !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-page.chat-mobile-open{
+    position:fixed !important;
+    inset:0 !important;
+    z-index:80 !important;
+    height:100dvh !important;
+    max-height:100dvh !important;
+    margin:0 !important;
+    padding:0 !important;
+    gap:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    background:#fff !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-inbox-top,
+  .chat-inbox-page.chat-mobile-open .chat-inbox-sidebar,
+  .chat-inbox-page.chat-mobile-open .chat-inbox-search,
+  .chat-inbox-page.chat-mobile-open .chat-explore-panel,
+  .chat-inbox-page.chat-mobile-open .chat-inbox-section-head,
+  .chat-inbox-page.chat-mobile-open #chatList{
+    display:none !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-inbox-shell{
+    position:relative !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    height:100% !important;
+    max-height:none !important;
+    display:flex !important;
+    flex-direction:column !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:#fff !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-inbox-window{
+    position:relative !important;
+    inset:auto !important;
+    flex:1 1 auto !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    z-index:1 !important;
+    background:#fff !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-window{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    height:100% !important;
+    max-height:none !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-window-head{
+    flex:0 0 auto !important;
+    height:auto !important;
+    padding:10px 12px !important;
+    padding-top:calc(10px + env(safe-area-inset-top, 0px)) !important;
+    background:#fff !important;
+    border-bottom:1px solid rgba(0,0,0,.08) !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-messages{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+    padding:12px 14px !important;
+    background:#f0f2f5 !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-typing,
+  .chat-inbox-page.chat-mobile-open .chat-reply-preview{
+    flex:0 0 auto !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-compose{
+    flex:0 0 auto !important;
+    display:flex !important;
+    gap:8px !important;
+    align-items:flex-end !important;
+    padding:8px 10px !important;
+    padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+    background:#fff !important;
+    border-top:1px solid rgba(0,0,0,.08) !important;
+    margin:0 !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-compose textarea{
+    height:42px !important;
+    min-height:42px !important;
+    max-height:110px !important;
+    border-radius:22px !important;
+    padding:10px 14px !important;
+    font-size:14px !important;
+    background:#f0f2f5 !important;
+    border:0 !important;
+  }
+  .chat-inbox-page.chat-mobile-open .chat-send{
+    width:42px !important;
+    height:42px !important;
+    border-radius:50% !important;
+    flex:0 0 42px !important;
+  }
+  /* Combined reaction + action menu */
+  .chat-action-sheet{
+    position:fixed;
+    z-index:300;
+    left:12px;
+    right:12px;
+    max-width:360px;
+    margin:0 auto;
+    padding:10px;
+    border-radius:22px;
+    background:rgba(255,255,255,.98);
+    border:1px solid rgba(20,25,35,.08);
+    box-shadow:0 22px 60px rgba(20,28,38,.28);
+    backdrop-filter:blur(20px);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .chat-action-sheet .sheet-emojis{
+    display:flex;
+    justify-content:space-between;
+    gap:4px;
+    padding:4px 2px 8px;
+    border-bottom:1px solid rgba(20,25,35,.06);
+  }
+  .chat-action-sheet .sheet-emojis button{
+    width:40px;height:40px;border:0;background:transparent;
+    border-radius:50%;font-size:24px;cursor:pointer;
+  }
+  .chat-action-sheet .sheet-actions{
+    display:flex;gap:8px;
+  }
+  .chat-action-sheet .sheet-actions button{
+    flex:1;height:42px;border-radius:12px;border:0;
+    font-weight:900;font-size:13px;background:#f3f4f6;
+  }
+  .chat-action-sheet .sheet-actions .reply{color:#2687ff;background:#edf6ff}
+  .chat-action-sheet .sheet-actions .danger{color:#ef476f;background:#fff0f2}
+}
+.chat-reaction-picker{z-index:300 !important}
+.chat-longpress-menu{z-index:301 !important}
 
 </style> 
 </head> 
@@ -2726,10 +2937,10 @@ function setChatReply(message){
   if(box)box.classList.add("show"); 
   document.getElementById("chatMessageInput")?.focus(); 
 } 
-function closeChatActionMenu(){ 
-  const old=document.getElementById("chatLongpressMenu"); 
-  if(old)old.remove(); 
-  activeChatActionId=""; 
+function closeChatActionMenu(){
+  document.getElementById("chatLongpressMenu")?.remove();
+  document.getElementById("chatActionSheet")?.remove();
+  activeChatActionId="";
 } 
  
 function closeReactionPicker(){ 
@@ -2777,26 +2988,48 @@ function showReactionPop(el,emoji){
   wrap.appendChild(pop); 
   setTimeout(()=>pop.remove(),750); 
 } 
-function showChatActionMenu(message,anchor){ 
-  closeChatActionMenu(); 
-  activeChatActionId=message.id; 
-  const menu=document.createElement("div"); 
-  menu.id="chatLongpressMenu"; 
-  menu.className="chat-longpress-menu"; 
-  // First 3 emojis from CHAT_REACTION_EMOJIS for the quick long-press row
-  const quick=(CHAT_REACTION_EMOJIS||["❤️","👍","😂"]).slice(0,3);
-  menu.innerHTML=`
-    ${quick.map(e=>`<button onclick="reactToChatMessage('${esc(message.id)}','${esc(e)}')">${e}</button>`).join("")}
-    <button class="reply" onclick="setChatReplyById('${esc(message.id)}')">↩ Reply</button>
-    ${message.senderId===currentUid()?`<button class="danger" onclick="deleteChatMessage('${esc(message.id)}')">🗑 Delete</button>`:""}
-  `; 
-  document.body.appendChild(menu); 
-  const r=anchor?.getBoundingClientRect?.(); 
-  const top=Math.max(8,Math.min(window.innerHeight-60,(r?.top||window.innerHeight/2)-52)); 
-  const left=Math.max(8,Math.min(window.innerWidth-330,(r?.left||window.innerWidth/2))); 
-  menu.style.top=top+"px";menu.style.left=left+"px"; 
-  setTimeout(()=>document.addEventListener("click",closeChatActionMenu,{once:true}),0); 
-} 
+function closeChatActionSheet(){
+  document.getElementById("chatActionSheet")?.remove();
+}
+function showChatActionMenu(message,anchor){
+  // Unified sheet: reactions on top, Reply/Delete below — no overlap
+  closeChatActionMenu();
+  closeReactionPicker();
+  closeChatActionSheet();
+  activeChatActionId=message.id;
+  const sheet=document.createElement("div");
+  sheet.id="chatActionSheet";
+  sheet.className="chat-action-sheet";
+  const emojis=(CHAT_REACTION_EMOJIS||["❤️","😂","😮","😢","👍","👏"]).slice();
+  sheet.innerHTML=`
+    <div class="sheet-emojis">
+      ${emojis.map(e=>`<button type="button" aria-label="React ${esc(e)}" onclick="reactToChatMessage('${esc(message.id)}','${esc(e)}')">${e}</button>`).join("")}
+    </div>
+    <div class="sheet-actions">
+      <button type="button" class="reply" onclick="setChatReplyById('${esc(message.id)}');closeChatActionSheet()">↩ Reply</button>
+      ${message.senderId===currentUid()?`<button type="button" class="danger" onclick="deleteChatMessage('${esc(message.id)}');closeChatActionSheet()">🗑 Delete</button>`:""}
+    </div>`;
+  document.body.appendChild(sheet);
+  const r=anchor?.getBoundingClientRect?.();
+  const h=sheet.offsetHeight||120;
+  const top=Math.max(12,Math.min(window.innerHeight-h-16,(r?.top||window.innerHeight/2)-h-8));
+  sheet.style.top=top+"px";
+  // center horizontally on mobile
+  if(window.innerWidth<=700){
+    sheet.style.left="12px";
+    sheet.style.right="12px";
+    sheet.style.width="auto";
+  }else{
+    const left=Math.max(12,Math.min(window.innerWidth-380,(r?.left||window.innerWidth/2)-180));
+    sheet.style.left=left+"px";
+    sheet.style.width="360px";
+  }
+  setTimeout(()=>document.addEventListener("click",e=>{
+    if(!sheet.contains(e.target))closeChatActionSheet();
+  },{once:true}),0);
+}
+/* Desktop legacy thin menu still available via closeChatActionMenu id cleanup */
+function showChatActionMenuLegacy(){} 
 function setChatReplyById(id){ 
   closeChatActionMenu(); 
   closeReactionPicker(); 
@@ -2835,46 +3068,42 @@ function applyLocalReaction(messageId,emoji,uid){
 async function reactToChatMessage(id,emoji){
   closeChatActionMenu();
   closeReactionPicker();
+  closeChatActionSheet();
   if(!firestore||!selectedChatId||!currentUid()||!id)return;
   const uid=currentUid();
   const mid=String(id);
   const cid=selectedChatId;
 
-  // 1) Optimistic UI — user sees the reaction instantly
+  // Optimistic UI first
   const reactions=applyLocalReaction(mid,emoji,uid);
   const bubble=document.querySelector(`[data-message-id="${CSS.escape(mid)}"]`);
   if(bubble)showReactionPop(bubble,emoji);
 
   try{
-    // 2) Primary write: dedicated reactions doc under the chat.
-    //    Any chat participant can update this path (unlike message docs
-    //    which are often locked to the original sender by rules).
-    //    Path: chats/{chatId}/messageReactions/{messageId}
-    const reactionRef=doc(firestore,"chats",cid,"messageReactions",mid);
-    await setDoc(reactionRef,{
-      messageId:mid,
-      chatId:cid,
-      reactions,
-      updatedAt:serverTimestamp(),
-      updatedBy:uid
-    },{merge:true});
-
-    // 3) Best-effort mirror onto the message doc itself (optional).
-    //    Ignores permission errors so reactions still work if rules
-    //    only allow the sender to edit their message.
+    // Write onto the PARENT chat document using dotted field paths.
+    // Participants can already update chats/{chatId} (lastMessage, typing…),
+    // so this path works without new Firestore rules.
+    // Shape: chats/{chatId}.rx.{messageId} = { "❤️": ["uid1"], ... }
+    const chatRef=doc(firestore,"chats",cid);
+    const payload={};
+    payload["rx."+mid]=reactions;
+    payload["rxUpdatedAt"]=serverTimestamp();
+    await updateDoc(chatRef,payload);
+  }catch(err1){
+    // Fallback: full merge on chat doc (still the parent chat)
     try{
-      const msgRef=doc(firestore,"chats",cid,"messages",mid);
-      await setDoc(msgRef,{reactions},{merge:true});
-    }catch(_mirrorErr){ /* safe to ignore */ }
-  }catch(err){
-    console.warn("Reaction update failed",err);
-    // Revert optimistic UI on hard failure
-    applyLocalReaction(mid,emoji,uid);
-    chatWarning(
-      "Reaction failed",
-      "Could not save your reaction. If this keeps happening, allow write on chats/{chatId}/messageReactions/{messageId} for chat participants in Firestore rules.",
-      "😕"
-    );
+      const chatRef=doc(firestore,"chats",cid);
+      const snap=await getDoc(chatRef);
+      const prev=(snap.exists && snap.data() && snap.data().rx)||{};
+      await setDoc(chatRef,{
+        rx:{...prev,[mid]:reactions},
+        rxUpdatedAt:serverTimestamp()
+      },{merge:true});
+    }catch(err2){
+      console.warn("Reaction update failed",err1,err2);
+      applyLocalReaction(mid,emoji,uid); // revert toggle
+      chatWarning("Reaction failed","Could not save your reaction. Please try again.","😕");
+    }
   }
 } 
 async function deleteChatMessage(id){ 
@@ -2905,23 +3134,30 @@ async function deleteChatMessage(id){
     } 
   }); 
 } 
-function bindChatMessagePress(el,message){ 
-  el.__message=message; 
-  let timer=null; 
-  let moved=false; 
-  el.addEventListener("touchstart",e=>{ 
-    moved=false; 
-    const t=e.touches?.[0];if(!t)return; 
-    const x=t.clientX,y=t.clientY; 
-    timer=setTimeout(()=>{if(!moved)showReactionPicker(message,el)},520); 
-    el.__pressStart={x,y}; 
-  },{passive:true}); 
-  el.addEventListener("touchmove",e=>{ 
-    const t=e.touches?.[0];if(!t||!el.__pressStart)return; 
-    if(Math.abs(t.clientX-el.__pressStart.x)>10||Math.abs(t.clientY-el.__pressStart.y)>10){moved=true;clearTimeout(timer)} 
-  },{passive:true}); 
-  ["touchend","touchcancel"].forEach(ev=>el.addEventListener(ev,()=>clearTimeout(timer),{passive:true})); 
-  el.addEventListener("contextmenu",e=>{e.preventDefault();showChatActionMenu(message,el)}); 
+function bindChatMessagePress(el,message){
+  el.__message=message;
+  let timer=null;
+  let moved=false;
+  // Mobile long-press → one combined sheet (reactions + reply)
+  el.addEventListener("touchstart",e=>{
+    moved=false;
+    const t=e.touches?.[0];if(!t)return;
+    el.__pressStart={x:t.clientX,y:t.clientY};
+    timer=setTimeout(()=>{if(!moved)showChatActionMenu(message,el)},480);
+  },{passive:true});
+  el.addEventListener("touchmove",e=>{
+    const t=e.touches?.[0];if(!t||!el.__pressStart)return;
+    if(Math.abs(t.clientX-el.__pressStart.x)>10||Math.abs(t.clientY-el.__pressStart.y)>10){
+      moved=true;clearTimeout(timer);
+    }
+  },{passive:true});
+  ["touchend","touchcancel"].forEach(ev=>el.addEventListener(ev,()=>clearTimeout(timer),{passive:true}));
+  // Desktop right-click only (skip on touch to avoid double menus)
+  el.addEventListener("contextmenu",e=>{
+    e.preventDefault();
+    if(window.matchMedia("(pointer: coarse)").matches)return;
+    showChatActionMenu(message,el);
+  });
 } 
 function subscribeToMessages(forChatId){ 
   if(chatMessagesUnsub){try{chatMessagesUnsub()}catch(e){} chatMessagesUnsub=null} 
@@ -2940,19 +3176,19 @@ function subscribeToMessages(forChatId){
   const host=getHost(); 
   if(!host)return; 
 
-  // Live reactions (separate collection so any participant can write)
+  // Live reactions live on the parent chat doc: chats/{id}.rx.{messageId}
+  // (same document participants already update for lastMessage / typing)
   try{
-    chatReactionsUnsub=onSnapshot(collection(firestore,"chats",expectedId,"messageReactions"),rsnap=>{
+    chatReactionsUnsub=onSnapshot(doc(firestore,"chats",expectedId),csnap=>{
       if(gen!==chatSubGen||selectedChatId!==expectedId)return;
+      const rx=(csnap.exists && csnap.data() && csnap.data().rx)||{};
       chatReactionStore=new Map();
-      rsnap.docs.forEach(rd=>{
-        const data=rd.data()||{};
-        const reactions=data.reactions||{};
-        chatReactionStore.set(String(rd.id),reactions);
-        const cached=chatMessageCache.get(String(rd.id));
-        if(cached){cached.reactions=reactions;chatMessageCache.set(String(rd.id),cached)}
+      Object.keys(rx).forEach(mid=>{
+        const reactions=rx[mid]||{};
+        chatReactionStore.set(String(mid),reactions);
+        const cached=chatMessageCache.get(String(mid));
+        if(cached){cached.reactions=reactions;chatMessageCache.set(String(mid),cached)}
       });
-      // Refresh reaction chips only (keep scroll position)
       const h=getHost();
       if(!h)return;
       chatReactionStore.forEach((reactions,mid)=>{
