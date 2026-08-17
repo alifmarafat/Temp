@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A</title>
+<title>HH</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -2124,7 +2124,7 @@ function stopTarget(){
 function showHelp(){alert("Study Circle: choose a subject, set a focus time, study, and watch your target grow.")} 
  
 /* ===== V3 REQUESTED LOGIC OVERRIDES ===== */ 
-state.filter=state.filter||"all"; 
+state.filter=state.filter||"1d"; 
 state.user=state.user||{name:"",username:"",birthday:"",dp:"",bio:""}; 
 state.user.email=state.user.email||""; 
 state.target={minutes:480,doneSeconds:0,done:0,date:"",running:false,startedAt:0,activeSubjectId:"",selectedSubjectIds:[],subjectStartedAt:0,...(state.target||{})}; 
@@ -2144,14 +2144,32 @@ function resetDailyTargetIfNeeded(){
 } 
 resetDailyTargetIfNeeded(); 
  
+/* Local midnight (browser timezone) — 1D resets here every night. */
+function startOfLocalDay(date=new Date()){
+  const d=new Date(date);
+  d.setHours(0,0,0,0);
+  return d.getTime();
+}
 function filteredSessions(){
-  const now=Date.now();
   const sessions=state.sessions||[];
-  if(state.filter==="all")return sessions;
-  // 1d / 7d / 30d — rolling window from now
-  const daysMap={"1d":1,"7d":7,"30d":30};
-  const days=daysMap[state.filter]??7;
-  const cutoff=now-days*86400000;
+  const filter=state.filter||"1d";
+  // All time = every session since the user started using the app
+  if(filter==="all")return sessions;
+
+  const dayStart=startOfLocalDay();
+  let cutoff;
+  if(filter==="1d"){
+    // Today only — after 12:00 AM local, yesterday's sessions drop out
+    cutoff=dayStart;
+  }else if(filter==="7d"){
+    // Today + previous 6 calendar days
+    cutoff=dayStart-6*86400000;
+  }else if(filter==="30d"){
+    // Today + previous 29 calendar days
+    cutoff=dayStart-29*86400000;
+  }else{
+    cutoff=dayStart;
+  }
   return sessions.filter(s=>{
     const t=new Date(s.at).getTime();
     return Number.isFinite(t) && t>=cutoff;
@@ -2159,11 +2177,11 @@ function filteredSessions(){
 }
 function filterPeriodLabel(filter){
   return ({
-    "1d":"Last 1 day",
+    "1d":"Today",
     "7d":"Last 7 days",
     "30d":"Last 30 days",
     "all":"All time"
-  })[filter]||"All time";
+  })[filter]||"Today";
 } 
 function filteredSubjectSeconds(subject){return filteredSessions().filter(x=>x.subject===subject.name).reduce((a,x)=>a+(x.seconds||0),0)} 
 function filteredTotal(){return filteredSessions().reduce((a,x)=>a+(x.seconds||0),0)} 
@@ -2236,7 +2254,7 @@ async function nextOnboard(){
 function homePage(){ 
   resetDailyTargetIfNeeded(); 
   const total=filteredTotal(); 
-  const filter=state.filter||"all"; 
+  const filter=state.filter||"1d"; 
   return `<div class="topbar"><div><h1 class="page-title">Timer</h1><div class="page-sub">Make a little progress every day.</div></div><button class="menu-btn" onclick="showHelp()"><i data-lucide="sparkles" class="icon-svg"></i></button></div> 
   <section class="card hero"><div class="hero-filter-head"><div><div class="hero-label">FOCUS TIME</div><div class="hero-time">${fmt(total)}</div><div class="hero-sub">Study time for the selected period.</div></div><div><div class="hero-label" style="text-align:right">PERIOD</div><div class="filter-row">${[["1d","1D"],["7d","7D"],["30d","30D"],["all","All time"]].map(([id,label])=>`<button class="filter-pill ${filter===id?"active":""}" onclick="setFocusFilter('${id}')">${label}</button>`).join("")}</div></div></div></section> 
   <div class="subject-head"><div class="section-title">Subjects</div><button class="add-head" onclick="navigate('add')"><i data-lucide="plus" style="width:15px;height:15px;vertical-align:-3px"></i> Add subject</button></div> 
