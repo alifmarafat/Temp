@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>J</title>
+<title>FFF</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -411,7 +411,54 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .chat-user-handle{font-size:10px;color:#8a919b;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} 
 .chat-avatar{width:42px;height:42px;border-radius:13px;object-fit:cover;background:#ffe4a7;display:grid;place-items:center;font-size:21px;flex:0 0 auto;overflow:hidden} 
 .chat-avatar img{width:100%;height:100%;object-fit:cover} 
-.chat-follow-btn{height:36px;padding:0 12px;border-radius:11px;background:#111;color:#fff;font-size:10px;font-weight:900;flex:0 0 auto} 
+.chat-follow-btn{height:36px;padding:0 12px;border-radius:11px;background:#111;color:#fff;font-size:10px;font-weight:900;flex:0 0 auto}
+
+.chat-user-actions{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  gap:6px !important;
+  flex:0 0 auto !important;
+  flex-shrink:0 !important;
+  margin-left:auto;
+}
+.chat-user-actions .chat-message-small,
+.chat-user-actions .chat-follow-btn{
+  flex:0 0 auto !important;
+  white-space:nowrap !important;
+  height:34px !important;
+  padding:0 12px !important;
+  border-radius:10px !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+  border:0 !important;
+  line-height:1 !important;
+}
+.chat-message-small{
+  background:#f1f3f5 !important;
+  color:#111 !important;
+}
+.chat-follow-btn{
+  background:#111 !important;
+  color:#fff !important;
+}
+.chat-follow-btn.following{
+  background:#eef8ff !important;
+  color:#111 !important;
+  border:1px solid #cbeefb !important;
+}
+.chat-user-row{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  min-width:0;
+}
+.chat-user-row .chat-user-info{
+  min-width:0;
+  flex:1 1 auto;
+  overflow:hidden;
+}
+ 
 .chat-follow-btn.following{background:#eef8ff;color:#111;border:1px solid #cbeefb} 
 .chats-layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:12px;height:620px;min-height:620px;max-height:620px} 
 .chat-list-card,.chat-window-card{padding:0;overflow:hidden;min-width:0;height:100%;display:flex;flex-direction:column} 
@@ -431,13 +478,216 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .chat-empty{margin:auto;text-align:center;color:#8a919b;font-size:12px;line-height:1.55;max-width:260px}.chat-empty strong{display:block;font-family:Nunito;color:#555d68;font-size:15px;margin-bottom:4px} 
 .chat-bubble-row{display:flex}.chat-bubble-row.mine{justify-content:flex-end}.chat-bubble{max-width:min(72%,420px);padding:10px 12px;border-radius:16px 16px 16px 5px;background:#fff;border:1px solid var(--line);font-size:12px;line-height:1.45;box-shadow:0 5px 14px rgba(40,50,70,.06);white-space:pre-wrap;word-break:break-word}.chat-bubble-row.mine .chat-bubble{background:#111;color:#fff;border-color:#111;border-radius:16px 16px 5px 16px}.chat-bubble-time{font-size:8px;opacity:.58;margin-top:4px;text-align:right} 
 .chat-compose{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:#fff;flex:0 0 auto}.chat-compose textarea{flex:1;min-width:0;resize:none;height:44px;border:1px solid var(--line);border-radius:13px;padding:11px 12px;outline:0;font-size:12px;background:#fafbfc}.chat-send{width:46px;height:44px;border-radius:13px;background:#111;color:#fff;display:grid;place-items:center}.chat-send svg{width:18px}.chat-send:disabled{opacity:.45;cursor:not-allowed} 
-.chat-profile-modal{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:18px;background:rgba(18,20,25,.30);backdrop-filter:blur(13px)} 
-.chat-profile-box{width:min(390px,100%);background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:28px;box-shadow:0 30px 80px rgba(25,30,40,.25);padding:22px;animation:dangerIn .3s cubic-bezier(.2,1.25,.35,1)} 
-.chat-profile-full{width:min(440px,100%);max-height:92vh;overflow:auto;padding:28px 22px 22px;border-radius:32px} 
-.chat-profile-modal{align-items:stretch;padding:12px} 
-@media(max-width:700px){.chat-profile-modal{padding:0;align-items:end}.chat-profile-full{width:100%;max-height:94vh;border-radius:28px 28px 0 0;padding-bottom:calc(20px + env(safe-area-inset-bottom))}} 
-.chat-profile-top{text-align:center}.chat-profile-big-avatar{width:92px;height:92px;border-radius:27px;object-fit:cover;background:#ffe4a7;display:grid;place-items:center;margin:0 auto 12px;font-size:42px;overflow:hidden}.chat-profile-big-avatar img{width:100%;height:100%;object-fit:cover}.chat-profile-name{font:900 22px Nunito}.chat-profile-handle{font-size:11px;color:#808792;margin-top:3px}.chat-status{display:inline-flex;align-items:center;gap:5px;margin-top:9px;padding:6px 9px;border-radius:999px;background:#f1fbf4;color:#3b8f4a;font-size:10px;font-weight:900}.chat-status.offline{background:#f3f4f6;color:#7d848e}.chat-profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:17px 0}.chat-profile-stat{padding:11px;border-radius:15px;background:#f6f7f9;text-align:center}.chat-profile-stat b{display:block;font:900 18px Nunito}.chat-profile-stat span{font-size:9px;color:#858c96;text-transform:uppercase;letter-spacing:.8px;font-weight:900}.chat-profile-bio{font-size:12px;color:#606873;line-height:1.5;text-align:center;min-height:18px}.chat-profile-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:17px}.chat-profile-actions button{height:45px;border-radius:14px;font-weight:900}.chat-profile-message{background:#111;color:#fff}.chat-profile-close{background:#f0f1f3}.chat-profile-block{width:100%;height:43px;border-radius:13px;background:#fff0f2;color:#ef476f;font-weight:900;margin-top:8px} 
-.chat-profile-study{margin-top:15px;padding:14px;border-radius:18px;background:#f7f9fb;border:1px solid #edf0f3}.chat-profile-study-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.chat-profile-study-title{font:900 12px Nunito}.chat-profile-study-total{font:900 15px Nunito}.chat-profile-chart{height:170px;position:relative}.chat-profile-top-subject{margin-top:8px;padding:10px 12px;border-radius:13px;background:#fff;display:flex;justify-content:space-between;gap:10px;font-size:11px}.chat-profile-top-subject b{font-weight:900}.chat-profile-actions .chat-profile-message{background:#111;color:#fff}.chat-profile-actions .chat-profile-close{background:#f0f1f3}.chat-user-actions{display:flex;gap:6px;align-items:center}.chat-user-actions .chat-follow-btn,.chat-message-small{height:34px;padding:0 10px;border-radius:10px;font-size:9px;font-weight:900}.chat-message-small{border:0;background:#111;color:#fff} 
+
+/* ===== USER VISIT PROFILE — mobile hubohu + PC adaptation ===== */
+.chat-profile-modal{
+  position:fixed;inset:0;z-index:110;
+  display:flex;flex-direction:column;
+  background:#f3f7fb;
+  padding:0;
+  overflow:hidden;
+}
+.visit-profile-shell{
+  flex:1;min-height:0;overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:12px 14px calc(18px + env(safe-area-inset-bottom,0px));
+  max-width:560px;width:100%;margin:0 auto;
+}
+.visit-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 4px 12px;
+  padding-top:calc(8px + env(safe-area-inset-top,0px));
+  max-width:560px;width:100%;margin:0 auto;
+  flex:0 0 auto;
+}
+.visit-top-btn{
+  width:42px;height:42px;border-radius:50%;
+  background:#fff;border:1px solid rgba(30,35,45,.08);
+  box-shadow:0 6px 16px rgba(40,50,70,.06);
+  display:grid;place-items:center;
+}
+.visit-top-btn svg{width:18px;height:18px}
+.visit-card{
+  background:#fff;border-radius:24px;
+  border:1px solid rgba(30,35,45,.06);
+  box-shadow:0 10px 28px rgba(40,55,75,.06);
+  padding:18px;margin-bottom:12px;
+}
+.visit-head{
+  display:flex;align-items:flex-start;gap:14px;
+}
+.visit-avatar{
+  width:78px;height:78px;border-radius:50%;
+  object-fit:cover;background:#ffe4a7;
+  display:grid;place-items:center;font-size:36px;
+  overflow:hidden;flex:0 0 auto;
+  border:3px solid #fff;
+  box-shadow:0 0 0 2px rgba(143,54,201,.18),0 8px 20px rgba(40,50,70,.10);
+}
+.visit-avatar img{width:100%;height:100%;object-fit:cover}
+.visit-head-copy{min-width:0;flex:1;padding-top:2px}
+.visit-name{font:900 22px Nunito;margin:0;line-height:1.15}
+.visit-handle{font-size:13px;color:#8a919b;margin-top:3px;font-weight:700}
+.visit-bio{font-size:13px;color:#6b7280;line-height:1.45;margin-top:8px}
+.visit-stats{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;margin:18px 0 16px;
+}
+.visit-stat{
+  flex:1;text-align:center;background:transparent;border:0;
+  cursor:pointer;padding:6px 8px;color:inherit;
+}
+.visit-stat b{display:block;font:900 20px Nunito;line-height:1}
+.visit-stat span{display:block;font-size:12px;color:#9aa1aa;margin-top:4px;font-weight:700}
+.visit-stat-divider{
+  width:1px;height:28px;background:rgba(30,35,45,.10);flex:0 0 auto;
+}
+.visit-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.visit-actions button{
+  height:48px;border-radius:16px;font-weight:900;font-size:14px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.visit-btn-message{
+  background:#f3f4f6;color:#111;border:0;
+}
+.visit-btn-follow{
+  background:#111;color:#fff;border:0;
+}
+.visit-btn-follow.following{
+  background:#111;color:#fff;
+}
+.visit-btn-block{
+  grid-column:1/-1;height:42px;border-radius:14px;
+  background:#fff0f2;color:#ef476f;font-weight:900;border:0;margin-top:2px;
+}
+.visit-section-label{
+  font-size:11px;font-weight:900;letter-spacing:1.2px;
+  color:#9aa1aa;text-transform:uppercase;margin:0 0 6px;
+}
+.visit-overview-top{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  margin-bottom:14px;
+}
+.visit-overview-time{
+  font:900 28px Nunito;line-height:1;letter-spacing:-.5px;
+}
+.visit-overview-sub{font-size:12px;color:#9aa1aa;margin-top:4px;font-weight:700}
+.visit-period-pill{
+  height:34px;padding:0 12px;border-radius:999px;
+  background:#f3f4f6;border:0;font-size:11px;font-weight:800;color:#6b7280;
+}
+.visit-chart-row{
+  display:grid;grid-template-columns:minmax(140px,.95fr) minmax(0,1.1fr);
+  gap:14px;align-items:center;
+}
+.visit-chart-wrap{
+  position:relative;height:170px;
+}
+.visit-chart-center{
+  position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;text-align:center;
+}
+.visit-chart-center b{display:block;font:900 16px Nunito}
+.visit-chart-center span{display:block;font-size:8px;letter-spacing:1px;color:#9aa1aa;font-weight:900;margin-top:2px}
+.visit-legend{display:grid;gap:10px}
+.visit-legend-row{
+  display:grid;grid-template-columns:10px 1fr auto auto;gap:8px;align-items:center;
+  font-size:12px;
+}
+.visit-legend-dot{width:9px;height:9px;border-radius:50%}
+.visit-legend-row b{font-weight:800;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.visit-legend-row small{color:#9aa1aa;font-weight:700}
+.visit-legend-row strong{font-weight:900;min-width:36px;text-align:right}
+.visit-meta-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-top:16px;padding:12px 14px;border-radius:16px;
+  background:#f7f9fb;border:1px solid #eef1f4;
+  font-size:12px;font-weight:700;color:#6b7280;
+}
+.visit-meta-row b{color:#111;font-weight:900}
+.visit-meta-item{display:flex;align-items:center;gap:7px}
+.visit-meta-item svg{width:15px;height:15px;opacity:.7}
+.visit-meta-divider{width:1px;height:18px;background:rgba(30,35,45,.10)}
+.visit-subject-row{
+  display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;
+  padding:12px 0;border-bottom:1px solid rgba(30,35,45,.06);
+}
+.visit-subject-row:last-child{border-bottom:0;padding-bottom:0}
+.visit-subject-row:first-child{padding-top:4px}
+.visit-subject-icon{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;
+}
+.visit-subject-icon svg{width:20px;height:20px}
+.visit-subject-name{font:900 14px Nunito}
+.visit-subject-time{font-size:11px;color:#9aa1aa;margin-top:2px;font-weight:700}
+.visit-subject-bar-wrap{width:100%;height:7px;border-radius:999px;background:#eef0f3;overflow:hidden;margin-top:8px}
+.visit-subject-bar{height:100%;border-radius:inherit}
+.visit-subject-pct{font:900 13px Nunito;min-width:40px;text-align:right}
+.visit-self-note{
+  text-align:center;font-size:12px;color:#8a919b;padding:8px 0 0;font-weight:700;
+}
+
+/* Desktop — full screen, same clean language as mobile */
+@media(min-width:701px){
+  .chat-profile-modal{
+    background:
+      radial-gradient(circle at 12% 0%,rgba(255,255,255,.95),transparent 32%),
+      radial-gradient(circle at 100% 20%,rgba(184,238,255,.28),transparent 34%),
+      #f3f7fb;
+    align-items:stretch;justify-content:flex-start;
+    padding:0;
+  }
+  .visit-profile-frame{
+    width:100%;
+    height:100%;
+    max-height:none;
+    background:transparent;
+    border-radius:0;
+    box-shadow:none;
+    border:0;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+  }
+  .visit-topbar{
+    padding:16px 28px 10px;
+    max-width:920px;
+    width:100%;
+    margin:0 auto;
+  }
+  .visit-profile-shell{
+    max-width:920px;
+    width:100%;
+    margin:0 auto;
+    padding:8px 28px 32px;
+  }
+  .visit-card{padding:22px 24px;border-radius:24px;margin-bottom:14px}
+  .visit-avatar{width:92px;height:92px}
+  .visit-name{font-size:26px}
+  .visit-handle{font-size:14px}
+  .visit-bio{font-size:14px;max-width:520px}
+  .visit-stat b{font-size:22px}
+  .visit-actions{max-width:420px}
+  .visit-chart-row{
+    grid-template-columns:minmax(220px,.85fr) minmax(0,1.15fr);
+    gap:28px;
+  }
+  .visit-chart-wrap{height:220px}
+  .visit-overview-time{font-size:34px}
+  .visit-legend{gap:12px}
+  .visit-subject-row{grid-template-columns:48px 1fr auto;padding:14px 0}
+  .visit-subject-icon{width:48px;height:48px;border-radius:15px}
+}
+
+@media(max-width:700px){
+  .chat-profile-modal{background:#f3f7fb}
+  .visit-profile-frame{
+    flex:1;min-height:0;display:flex;flex-direction:column;
+    width:100%;max-height:none;background:#f3f7fb;
+  }
+  .visit-profile-shell{max-width:none}
+}
+ 
 .chat-blocked-banner{padding:10px 13px;background:#fff0f2;color:#c73554;font-size:11px;font-weight:800;border-bottom:1px solid #ffd1d9;text-align:center} 
 .chat-back-mobile{display:none} 
 @media(max-width:1050px){.chats-layout{grid-template-columns:250px minmax(0,1fr)}} 
@@ -586,7 +836,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .chat-inbox-actions{display:flex;gap:8px} 
 .chat-inbox-action{height:42px;padding:0 15px;border-radius:14px;background:#fff;border:1px solid var(--line);font-weight:900;font-size:11px;display:flex;align-items:center;gap:7px;box-shadow:0 5px 14px rgba(40,50,70,.06)} 
 .chat-inbox-action.active{background:#111;color:#fff;border-color:#111} 
-.chat-inbox-shell{display:grid;grid-template-columns:320px minmax(0,1fr);height:calc(100vh - 125px);min-height:620px;max-height:820px;border:1px solid rgba(35,40,50,.10);border-radius:26px;overflow:hidden;background:rgba(255,255,255,.88);box-shadow:var(--shadow);backdrop-filter:blur(18px)} 
+.chat-inbox-shell{display:grid;grid-template-columns:320px minmax(0,1fr);height:100%;min-height:0;max-height:none;border:1px solid rgba(35,40,50,.10);border-radius:26px;overflow:hidden;background:rgba(255,255,255,.88);box-shadow:var(--shadow);backdrop-filter:blur(18px)} 
 .chat-inbox-sidebar{display:flex;flex-direction:column;min-width:0;border-right:1px solid var(--line);background:rgba(255,255,255,.86)} 
 .chat-inbox-search{padding:14px;border-bottom:1px solid var(--line)} 
 .chat-inbox-search .chats-search-wrap{height:44px;border-radius:14px;background:#f5f7f9;border:0} 
@@ -1425,7 +1675,7 @@ body:has(.chat-inbox-page){
 .profile-stat-btn b{font:900 18px Nunito;line-height:1}
 .profile-stat-btn span{font-size:10px;font-weight:800;color:#858c96;text-transform:uppercase;letter-spacing:.6px}
 .follow-list-modal{
-  position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;
+  position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px;
   background:rgba(18,20,25,.32);backdrop-filter:blur(12px);
 }
 .follow-list-box{
@@ -1457,16 +1707,292 @@ body:has(.chat-inbox-page){
 .follow-list-copy b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .follow-list-copy small{display:block;font-size:11px;color:#8a919b;margin-top:2px}
 .follow-list-row .chat-follow-btn{height:34px;padding:0 12px;font-size:10px}
-.chat-profile-stats .chat-profile-stat{
-  cursor:pointer;transition:transform .15s ease,background .15s ease;
-  border:0;width:100%;font:inherit;color:inherit;
-}
-.chat-profile-stats .chat-profile-stat:hover{background:#eef1f4;transform:translateY(-1px)}
 @media(max-width:700px){
   .follow-list-modal{padding:0;align-items:end}
   .follow-list-box{width:100%;max-height:88vh;border-radius:24px 24px 0 0}
   .profile-stats-row{gap:8px}
   .profile-stat-btn{padding:11px 8px}
+}
+
+
+/* PC Chats: no page-level scroll */
+@media(min-width:701px){
+  body:has(.chat-inbox-page){
+    overflow:hidden !important;
+    height:100vh !important;
+  }
+  .dashboard:has(.chat-inbox-page){
+    height:100vh !important;
+    min-height:100vh !important;
+    max-height:100vh !important;
+    overflow:hidden !important;
+    padding-bottom:24px !important;
+  }
+  .dashboard:has(.chat-inbox-page) .main{
+    overflow:hidden !important;
+    display:flex !important;
+    flex-direction:column !important;
+    min-height:0 !important;
+    height:100% !important;
+  }
+  .chats-page.chat-inbox-page{
+    height:100% !important;
+    max-height:100% !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-shell{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    flex:1 1 auto !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-list,
+  .chat-inbox-window .chat-messages,
+  .chat-explore-panel #chatExploreResults,
+  #chatExploreResults{
+    overflow-y:auto !important;
+  }
+  .dashboard:has(.chat-inbox-page) .right{
+    overflow:auto;
+    max-height:calc(100vh - 48px);
+  }
+}
+
+
+/* ===== CHAT FULL HEIGHT + NO EXTRA GAP / OUTER SCROLL ===== */
+@media(min-width:701px){
+  html:has(.chat-inbox-page),
+  body:has(.chat-inbox-page){
+    height:100% !important;
+    overflow:hidden !important;
+  }
+  body:has(.chat-inbox-page){
+    height:100vh !important;
+    max-height:100vh !important;
+  }
+  .dashboard:has(.chat-inbox-page){
+    height:100vh !important;
+    min-height:100vh !important;
+    max-height:100vh !important;
+    overflow:hidden !important;
+    padding:24px !important;
+    box-sizing:border-box !important;
+    align-items:stretch !important;
+  }
+  .dashboard:has(.chat-inbox-page) .rail{
+    height:calc(100vh - 48px) !important;
+    max-height:calc(100vh - 48px) !important;
+  }
+  .dashboard:has(.chat-inbox-page) .main{
+    display:flex !important;
+    flex-direction:column !important;
+    height:calc(100vh - 48px) !important;
+    max-height:calc(100vh - 48px) !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    padding:4px 0 0 !important;
+  }
+  .dashboard:has(.chat-inbox-page) .right{
+    height:calc(100vh - 48px) !important;
+    max-height:calc(100vh - 48px) !important;
+    overflow:auto !important;
+    padding-top:62px !important;
+  }
+  .chats-page.chat-inbox-page{
+    flex:1 1 auto !important;
+    height:100% !important;
+    max-height:100% !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+    gap:12px !important;
+  }
+  .chat-inbox-top{flex:0 0 auto !important}
+  .chat-inbox-shell{
+    flex:1 1 auto !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-sidebar,
+  .chat-inbox-window{
+    min-height:0 !important;
+    height:100% !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-window .chat-window{
+    height:100% !important;
+    min-height:0 !important;
+  }
+  .chat-inbox-list,
+  .chat-inbox-window .chat-messages{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    scrollbar-width:thin;
+  }
+}
+
+@media(max-width:700px){
+  html:has(.chat-inbox-page),
+  body:has(.chat-inbox-page){
+    overflow:hidden !important;
+    height:100% !important;
+    max-height:100dvh !important;
+  }
+  body:has(.chat-inbox-page){
+    height:100dvh !important;
+  }
+  .dashboard:has(.chat-inbox-page){
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    overflow:hidden !important;
+    padding:0 14px 0 !important;
+  }
+  .dashboard:has(.chat-inbox-page) .main{
+    height:100% !important;
+    max-height:100% !important;
+    overflow:hidden !important;
+    display:flex !important;
+    flex-direction:column !important;
+    padding:14px 0 0 !important;
+    min-height:0 !important;
+  }
+  .chats-page.chat-inbox-page{
+    flex:1 1 auto !important;
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    padding-bottom:88px !important; /* space above mobile nav */
+  }
+  .chat-inbox-shell{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+  .chat-inbox-list,
+  #chatExploreResults,
+  .chat-inbox-window .chat-messages{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+  .chat-inbox-list::-webkit-scrollbar,
+  #chatExploreResults::-webkit-scrollbar,
+  .chat-inbox-window .chat-messages::-webkit-scrollbar{
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+  }
+  /* hide page scrollbar on phone chats */
+  body:has(.chat-inbox-page)::-webkit-scrollbar,
+  html:has(.chat-inbox-page)::-webkit-scrollbar{
+    width:0 !important;display:none !important;
+  }
+}
+
+
+/* ===== STUDYING NOW — glass strip ===== */
+.studying-now-card{
+  margin:18px 0 6px;
+  padding:14px 14px 12px;
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.42));
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 12px 30px rgba(40,55,80,.08), inset 0 1px 0 rgba(255,255,255,.65);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.studying-now-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:12px;
+}
+.studying-now-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:900;letter-spacing:1.1px;color:#6b7280;
+  text-transform:uppercase;
+}
+.studying-now-dot{
+  width:8px;height:8px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 0 4px rgba(34,197,94,.18);
+  animation:studyingPulse 1.6s ease infinite;
+}
+@keyframes studyingPulse{
+  0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.16)}
+  50%{box-shadow:0 0 0 6px rgba(34,197,94,.08)}
+}
+.studying-now-view{
+  border:0;background:transparent;color:#8b5cf6;font-weight:900;font-size:12px;cursor:pointer;
+}
+.studying-now-row{
+  display:flex;align-items:stretch;gap:12px;
+  overflow-x:auto;padding-bottom:4px;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.studying-now-row::-webkit-scrollbar{display:none}
+.studying-now-item{
+  flex:0 0 auto;width:78px;text-align:center;cursor:pointer;
+  background:transparent;border:0;padding:0;color:inherit;
+}
+.studying-now-avatar-wrap{
+  position:relative;width:58px;height:58px;margin:0 auto 7px;
+}
+.studying-now-avatar{
+  width:58px;height:58px;border-radius:50%;object-fit:cover;
+  background:#ffe4a7;display:grid;place-items:center;font-size:26px;
+  overflow:hidden;border:2.5px solid #fff;
+  box-shadow:0 6px 16px rgba(40,50,70,.12);
+}
+.studying-now-avatar img{width:100%;height:100%;object-fit:cover}
+.studying-now-live{
+  position:absolute;right:1px;bottom:1px;width:12px;height:12px;
+  border-radius:50%;background:#22c55e;border:2px solid #fff;
+}
+.studying-now-name{
+  font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.studying-now-subject{
+  margin-top:3px;display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:800;color:#6b7280;
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.studying-now-subject i{width:11px;height:11px;flex:0 0 auto}
+.studying-now-empty{
+  font-size:12px;color:#9aa1aa;font-weight:700;padding:6px 2px 2px;
+}
+.studying-live-modal{
+  position:fixed;inset:0;z-index:210;display:grid;place-items:center;padding:18px;
+  background:rgba(15,18,24,.34);backdrop-filter:blur(10px);
+}
+.studying-live-box{
+  width:min(380px,100%);background:rgba(255,255,255,.96);
+  border:1px solid rgba(30,35,45,.08);border-radius:26px;
+  box-shadow:0 28px 80px rgba(20,28,40,.25);padding:22px;text-align:center;
+  animation:dangerIn .28s cubic-bezier(.2,1.2,.35,1);
+}
+.studying-live-box .studying-now-avatar{width:72px;height:72px;margin:0 auto 12px;font-size:32px}
+.studying-live-box h3{font:900 20px Nunito;margin:0}
+.studying-live-box .handle{font-size:12px;color:#8a919b;margin-top:3px}
+.studying-live-meta{
+  margin-top:14px;padding:12px;border-radius:16px;background:#f6f8fb;
+  display:grid;gap:8px;text-align:left;
+}
+.studying-live-meta div{display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:800}
+.studying-live-meta span{color:#8a919b}
+.studying-live-meta b{color:#111}
+.studying-live-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.studying-live-actions button{height:44px;border-radius:14px;font-weight:900}
+.studying-live-actions .primary{background:#111;color:#fff}
+.studying-live-actions .ghost{background:#f1f3f5}
+@media(max-width:700px){
+  .studying-now-card{margin:16px 0 4px;padding:13px 12px 11px;border-radius:20px}
+  .studying-now-item{width:72px}
+  .studying-now-avatar-wrap,.studying-now-avatar{width:54px;height:54px}
 }
 
 </style> 
@@ -1852,10 +2378,8 @@ function goBackOnboard(){
 /* ---------- app ---------- */ 
 function getInitialActivePage(){ 
   try{ 
-    const nav=performance.getEntriesByType("navigation")[0]; 
-    const isReload=nav && nav.type==="reload"; 
-    if(isReload)return sessionStorage.getItem("study_circle_active_page")||"home"; 
-    sessionStorage.removeItem("study_circle_active_page"); 
+    const saved=sessionStorage.getItem("study_circle_active_page");
+    if(saved && ["home","add","target","chats","profile"].includes(saved)) return saved;
   }catch(err){} 
   return "home"; 
 } 
@@ -1898,10 +2422,18 @@ function renderApp(){
     <div id="modalHost"></div>`; 
   drawChart(); 
   if(window.lucide) lucide.createIcons(); 
-  setTimeout(()=>{ensureChatUnreadListener();updateChatUnreadBadges();syncPersistentTimerVisibility()},0); 
+  setTimeout(()=>{
+    ensureChatUnreadListener();
+    updateChatUnreadBadges();
+    syncPersistentTimerVisibility();
+    if(activePage==="chats")initChatsPage();
+    if(activePage==="profile")refreshMyFollowCounts();
+    if(activePage==="home")initStudyingNow();
+  },0); 
 } 
 function navigate(page){ 
-  if(activePage==="chats" && page!=="chats")stopChatListeners(); 
+  if(activePage==="chats" && page!=="chats")stopChatListeners();
+  if(activePage==="home" && page!=="home")stopStudyingNowListener();
   activePage=page; 
   try{sessionStorage.setItem("study_circle_active_page",page)}catch(err){} 
   renderApp();if(activePage==="profile")refreshMyFollowCounts(); 
@@ -2233,7 +2765,8 @@ function closeTimer(){
   clearInterval(timer);timer=null; 
   timerState={subject:null,remaining:0,total:0,running:false,startedAt:0}; 
   timerMinimized=false; 
-  const host=timerHost();if(host)host.innerHTML=""; 
+  const host=timerHost();if(host)host.innerHTML="";
+  if(firebaseReady&&firebaseUser)syncPublicProfile();
 } 
 function showComplete(seconds,subject){ 
   const host=document.getElementById("modalHost"); 
@@ -2443,7 +2976,14 @@ function homePage(){
   return `<div class="topbar"><div><h1 class="page-title">Timer</h1><div class="page-sub">Make a little progress every day.</div></div><button class="menu-btn" onclick="showHelp()"><i data-lucide="sparkles" class="icon-svg"></i></button></div> 
   <section class="card hero"><div class="hero-filter-head"><div><div class="hero-label">FOCUS TIME</div><div class="hero-time">${fmt(total)}</div><div class="hero-sub">Study time for the selected period.</div></div><div><div class="hero-label" style="text-align:right">PERIOD</div><div class="filter-row">${[["1d","1D"],["7d","7D"],["30d","30D"],["all","All time"]].map(([id,label])=>`<button class="filter-pill ${filter===id?"active":""}" onclick="setFocusFilter('${id}')">${label}</button>`).join("")}</div></div></div></section> 
   <div class="subject-head"><div class="section-title">Subjects</div><button class="add-head" onclick="navigate('add')"><i data-lucide="plus" style="width:15px;height:15px;vertical-align:-3px"></i> Add subject</button></div> 
-  <section class="subject-list">${state.subjects.map(subjectCard).join("")}</section> 
+  <section class="subject-list">${state.subjects.map(subjectCard).join("")}</section>
+  <section class="studying-now-card" id="studyingNowCard">
+    <div class="studying-now-head">
+      <div class="studying-now-title"><span class="studying-now-dot"></span> Studying now</div>
+      <button type="button" class="studying-now-view" onclick="openStudyingNowAll()">View all</button>
+    </div>
+    <div class="studying-now-row" id="studyingNowRow"><div class="studying-now-empty">Loading who is studying…</div></div>
+  </section>
   <section class="card chart-card"><div class="chart-head"><div><div class="hero-label">SUBJECT BREAKDOWN</div><div class="chart-total">${fmt(total)}</div></div><span class="hero-sub">${filterPeriodLabel(filter)}</span></div><div class="donut-layout"><div class="chart-wrap"><canvas id="focusChart"></canvas><div class="donut-center"><div class="donut-center-inner"><b>${fmt(total)}</b><span>Total focus</span></div></div></div><div class="donut-legend">${state.subjects.map(s=>`<div class="donut-legend-row"><i class="donut-dot" style="background:${esc(s.color)}"></i><div><b>${esc(s.name)}</b><small>${fmt(filteredSubjectSeconds(s))}</small></div><strong>${total?Math.round(filteredSubjectSeconds(s)/total*100):0}%</strong></div>`).join("")}</div></div></section> 
   <section class="activity"><div class="subject-head"><div class="section-title">Recent activity</div><span class="hero-sub">Latest sessions</span></div>${state.sessions.length?state.sessions.slice(-5).reverse().map(s=>`<div class="activity-row"><div><div class="activity-name">${esc(s.subject)}</div><div class="activity-time">${new Date(s.at).toLocaleString()}</div></div><b>${fmt(s.seconds)}</b></div>`).join(""):`<div class="activity-row"><div class="activity-time">Your completed sessions will appear here.</div></div>`}</section>`; 
 } 
@@ -2540,10 +3080,20 @@ function profilePage(){
     <section class="card profile-card"><button class="upload-btn" type="button" onclick="logoutUser()" style="background:#fff0f2;color:#ef476f;border:1px solid rgba(239,71,111,.18)">Log out</button></section>`; 
 } 
 async function logoutUser(){
-  showLoader();
-  try{if(firebaseReady&&auth)await auth.signOut()}catch(err){console.warn("Logout failed",err)}
-  finally{hideLoader()}
-  firebaseUser=null;state.authUid="";state.onboarding="welcome";save();render();
+  showChatDialog({
+    title:"Log out?",
+    message:"You will be signed out of StudyFlow on this device. Your study data stays saved to your account.",
+    icon:"🚪",
+    danger:true,
+    confirmText:"Log out",
+    cancelText:"Cancel",
+    onConfirm:async()=>{
+      showLoader();
+      try{if(firebaseReady&&auth)await auth.signOut()}catch(err){console.warn("Logout failed",err)}
+      finally{hideLoader()}
+      firebaseUser=null;state.authUid="";state.onboarding="welcome";save();render();
+    }
+  });
 }
 async function saveProfile(){ 
   const name=document.getElementById("editName").value.trim()||state.user.name;const username=(document.getElementById("editUsername").value.trim().replace(/^@/,"")||state.user.username).toLowerCase(); 
@@ -2608,7 +3158,25 @@ async function publishMyPublicProfile(){
       usernameLower:username, 
       dp:u.dp||firebaseUser.photoURL||"", 
       bio:u.bio||"", 
-      studyStatus:(timerState?.running||state.target?.running)?"Studying":"Available", 
+      studyStatus:(timerState?.running||state.target?.running)?"Studying":"Available",
+      activeSubject: (timerState?.running && timerState?.subject?.name)
+        ? timerState.subject.name
+        : (state.target?.running
+            ? (state.subjects.find(s=>s.id===state.target.activeSubjectId)?.name || "Focus")
+            : ""),
+      activeSubjectColor: (timerState?.running && timerState?.subject?.color)
+        ? timerState.subject.color
+        : (state.target?.running
+            ? (state.subjects.find(s=>s.id===state.target.activeSubjectId)?.color || "#8f36c9")
+            : ""),
+      activeSubjectIcon: (timerState?.running && timerState?.subject?.icon)
+        ? (timerState.subject.icon || "book-open")
+        : (state.target?.running
+            ? (state.subjects.find(s=>s.id===state.target.activeSubjectId)?.icon || "book-open")
+            : ""),
+      studyStartedAt: (timerState?.running && timerState?.startedAt)
+        ? timerState.startedAt
+        : (state.target?.running && state.target?.startedAt ? state.target.startedAt : 0),
       totalSeconds, 
       subjectBreakdown, 
       topSubject, 
@@ -3528,7 +4096,6 @@ async function sendChatMessage(){
   const btn=document.getElementById("chatSendBtn"); 
   if(btn)btn.disabled=true; 
   input.value=""; 
-  showLoader();
   try{ 
     const [mine,theirs]=await Promise.all([ 
       getDoc(doc(firestore,"blocks",`${currentUid()}_${otherUid}`)), 
@@ -3565,7 +4132,6 @@ async function sendChatMessage(){
     alert("Message could not be sent. Please update Firestore rules (see latest rules).\n\nError: "+(err.message||err)); 
     input.value=text; 
   }finally{
-    hideLoader();
     if(btn)btn.disabled=false;
   } 
 } 
@@ -3629,27 +4195,174 @@ async function openUserProfile(uid){
     uid!==currentUid()?isFollowing(uid):false 
   ]); 
   const followingCount=followingSnap.size||Math.max(0,Number(u.followingCount)||0); 
+  const followersCount=followersSnap.size||0;
   const blockedMine=uid!==currentUid()?(await getDoc(doc(firestore,"blocks",`${currentUid()}_${uid}`))).exists:false; 
   const totalStudySeconds=Math.max(0,Number(u.totalSeconds)||0); 
   const breakdown=Array.isArray(u.subjectBreakdown)?u.subjectBreakdown:[]; 
   const topSubject=u.topSubject||breakdown[0]?.name||"No subject yet"; 
-  document.getElementById("modalHost").innerHTML=`<div class="chat-profile-modal" onclick="if(event.target===this)closeUserProfile()"><section class="chat-profile-box chat-profile-full"> 
-    <button type="button" onclick="closeUserProfile()" class="close-round" style="position:absolute;right:18px;top:18px;z-index:5">×</button> 
-    <div class="chat-profile-top">${chatAvatarHTML(u,"chat-profile-big-avatar")}<div class="chat-profile-name">${esc(u.name||"Study User")}</div><div class="chat-profile-handle">@${esc(u.username||"username")}</div><div class="chat-status ${u.studyStatus!=="Studying"?"offline":""}"><i data-lucide="${u.studyStatus==="Studying"?"book-open":"circle"}" style="width:12px;height:12px"></i>${u.studyStatus||"Available"}</div></div> 
-    <div class="chat-profile-stats"><button type="button" class="chat-profile-stat" onclick="openFollowList('followers','${esc(uid)}')"><b id="profileFollowersCount">${followersSnap.size}</b><span>Followers</span></button><button type="button" class="chat-profile-stat" onclick="openFollowList('following','${esc(uid)}')"><b>${followingCount}</b><span>Following</span></button></div> 
-    <div class="chat-profile-bio">${esc(u.bio||"No bio yet.")}</div> 
-    <div class="chat-profile-study"><div class="chat-profile-study-head"><span class="chat-profile-study-title">STUDY TIME</span><span class="chat-profile-study-total">${fmt(totalStudySeconds)}</span></div><div class="chat-profile-chart"><canvas id="userProfileStudyChart"></canvas></div><div class="chat-profile-top-subject"><span>Most studied subject</span><b>${esc(topSubject)}</b></div></div> 
-    ${uid!==currentUid()?`<div class="chat-profile-actions"><button class="chat-profile-message" onclick="closeUserProfile();openChat('${esc(uid)}')">Message</button><button class="chat-profile-close" id="profileFollowBtn" onclick="toggleFollowFromProfile('${esc(uid)}',this)">${following?"Following":"Follow"}</button></div><button class="chat-profile-block" onclick="toggleBlockUser('${esc(uid)}',${blockedMine})">${blockedMine?"Unblock user":"Block user"}</button>`:`<div class="chat-profile-actions"><button class="chat-profile-close" style="grid-column:1/-1" onclick="closeUserProfile()">Close</button></div>`} 
-  </section></div>`; 
+  const colors=["#ef2670","#8f36c9","#54b95b","#42c8ef","#e2c51a","#ff9f43","#6c7cff","#9aa3ad"];
+  const iconFor=name=>{
+    const n=String(name||"").toLowerCase();
+    if(n.includes("bangla")||n.includes("book"))return "book-open";
+    if(n.includes("english")||n.includes("grad"))return "graduation-cap";
+    if(n.includes("math")||n.includes("calc"))return "calculator";
+    if(n.includes("chem"))return "flask-conical";
+    if(n.includes("phys"))return "atom";
+    if(n.includes("bio"))return "leaf";
+    return "book-open";
+  };
+  const subjectCount=breakdown.length||0;
+  let activeSince="—";
+  try{
+    const ts=u.updatedAt||u.createdAt;
+    const d=ts?.toDate?ts.toDate():(ts?new Date(ts):null);
+    if(d&&!isNaN(d)) activeSince=d.toLocaleString(undefined,{month:"short",year:"numeric"});
+  }catch(e){}
+  const isMe=uid===currentUid();
+  const followLabel=following?(following?"Unfollow":"Follow"):"Follow";
+  const followText=following?"Unfollow":"Follow";
+
+  const legendHTML=breakdown.length?breakdown.map((x,i)=>{
+    const pct=totalStudySeconds?Math.round((x.seconds||0)/totalStudySeconds*100):0;
+    return `<div class="visit-legend-row">
+      <i class="visit-legend-dot" style="background:${colors[i%colors.length]}"></i>
+      <b>${esc(x.name)}</b>
+      <small>${fmt(x.seconds||0)}</small>
+      <strong>${pct}%</strong>
+    </div>`;
+  }).join(""):`<div class="visit-legend-row"><b style="grid-column:1/-1;color:#9aa1aa;font-weight:700">No study data yet</b></div>`;
+
+  const subjectsHTML=breakdown.length?breakdown.map((x,i)=>{
+    const pct=totalStudySeconds?Math.round((x.seconds||0)/totalStudySeconds*100):0;
+    const c=colors[i%colors.length];
+    return `<div class="visit-subject-row">
+      <div class="visit-subject-icon" style="background:${c}"><i data-lucide="${iconFor(x.name)}"></i></div>
+      <div>
+        <div class="visit-subject-name">${esc(x.name)}</div>
+        <div class="visit-subject-time">${fmt(x.seconds||0)} studied</div>
+        <div class="visit-subject-bar-wrap"><div class="visit-subject-bar" style="width:${pct}%;background:${c}"></div></div>
+      </div>
+      <div class="visit-subject-pct" style="color:${c}">${pct}%</div>
+    </div>`;
+  }).join(""):`<div class="visit-self-note">No subjects recorded yet.</div>`;
+
+  const actionsHTML=isMe
+    ? `<div class="visit-self-note">This is your public profile view</div>`
+    : `<div class="visit-actions">
+        <button class="visit-btn-message" onclick="closeUserProfile();openChat('${esc(uid)}')"><i data-lucide="message-circle" style="width:16px;height:16px"></i> Message</button>
+        <button class="visit-btn-follow ${following?"following":""}" id="profileFollowBtn" onclick="toggleFollowFromProfile('${esc(uid)}',this)">${followText}</button>
+      </div>`;
+
+  document.getElementById("modalHost").innerHTML=`
+  <div class="chat-profile-modal" onclick="if(event.target===this)closeUserProfile()">
+    <div class="visit-profile-frame" onclick="event.stopPropagation()">
+      <div class="visit-topbar">
+        <button class="visit-top-btn" onclick="closeUserProfile()" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+        <button class="visit-top-btn" onclick="toggleVisitMenu('${esc(uid)}',${blockedMine})" aria-label="More"><i data-lucide="ellipsis"></i></button>
+      </div>
+      <div class="visit-profile-shell">
+        <section class="visit-card">
+          <div class="visit-head">
+            <div class="visit-avatar">${u.dp?`<img src="${esc(u.dp)}" alt="">`:`🙂`}</div>
+            <div class="visit-head-copy">
+              <h1 class="visit-name">${esc(u.name||"Study User")}</h1>
+              <div class="visit-handle">@${esc(u.username||"username")}</div>
+              <div class="visit-bio">${esc(u.bio||"Add a short bio about yourself.")}</div>
+            </div>
+          </div>
+          <div class="visit-stats">
+            <button type="button" class="visit-stat" onclick="openFollowList('followers','${esc(uid)}')">
+              <b id="profileFollowersCount">${followersCount}</b><span>Followers</span>
+            </button>
+            <div class="visit-stat-divider"></div>
+            <button type="button" class="visit-stat" onclick="openFollowList('following','${esc(uid)}')">
+              <b>${followingCount}</b><span>Following</span>
+            </button>
+          </div>
+          ${actionsHTML}
+        </section>
+
+        <section class="visit-card">
+          <div class="visit-overview-top">
+            <div>
+              <div class="visit-section-label">Study overview</div>
+              <div class="visit-overview-time">${fmt(totalStudySeconds)}</div>
+              <div class="visit-overview-sub">Total study time</div>
+            </div>
+            <button type="button" class="visit-period-pill">All Time</button>
+          </div>
+          <div class="visit-chart-row">
+            <div class="visit-chart-wrap">
+              <canvas id="userProfileStudyChart"></canvas>
+              <div class="visit-chart-center"><div><b>${fmt(totalStudySeconds)}</b><span>TOTAL FOCUS</span></div></div>
+            </div>
+            <div class="visit-legend">${legendHTML}</div>
+          </div>
+          <div class="visit-meta-row">
+            <div class="visit-meta-item"><i data-lucide="clock-3"></i> Total Subjects <b>${subjectCount}</b></div>
+            <div class="visit-meta-divider"></div>
+            <div class="visit-meta-item"><i data-lucide="calendar"></i> Active Since <b>${esc(activeSince)}</b></div>
+          </div>
+        </section>
+
+        <section class="visit-card">
+          <div class="visit-section-label">Subjects breakdown</div>
+          ${subjectsHTML}
+        </section>
+      </div>
+    </div>
+  </div>`;
+
   const chartEl=document.getElementById("userProfileStudyChart"); 
   if(userProfileChart){try{userProfileChart.destroy()}catch(e){}} 
   if(chartEl&&breakdown.length){ 
-    userProfileChart=new Chart(chartEl,{type:"doughnut",data:{labels:breakdown.map(x=>x.name),datasets:[{data:breakdown.map(x=>x.seconds),backgroundColor:breakdown.map((_,i)=>["#8f36c9","#ef2670","#e2c51a","#42c8ef","#54b95b","#ff9f43","#6c7cff","#9aa3ad"][i%8]),borderColor:"#fff",borderWidth:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:"68%",plugins:{legend:{position:"bottom",labels:{boxWidth:9,font:{size:9,weight:"700"},padding:8}},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.raw)}`}}}}}); 
+    userProfileChart=new Chart(chartEl,{
+      type:"doughnut",
+      data:{
+        labels:breakdown.map(x=>x.name),
+        datasets:[{
+          data:breakdown.map(x=>x.seconds),
+          backgroundColor:breakdown.map((_,i)=>colors[i%colors.length]),
+          borderColor:"#fff",
+          borderWidth:4,
+          hoverOffset:4
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        cutout:"72%",
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.raw)}`}}
+        }
+      }
+    }); 
   } 
   if(window.lucide)lucide.createIcons(); 
   }finally{hideLoader()}
-} 
-function closeUserProfile(){if(userProfileChart){try{userProfileChart.destroy()}catch(e){}userProfileChart=null}const h=document.getElementById("modalHost");if(h)h.innerHTML=""} 
+}
+
+function toggleVisitMenu(uid,isBlocked){
+  if(!uid)return;
+  if(uid===currentUid()){
+    showChatDialog({title:"Your profile",message:"This is your public profile.",icon:"👤",confirmText:"OK"});
+    return;
+  }
+  showChatDialog({
+    title:isBlocked?"Unblock this user?":"Block this user?",
+    message:isBlocked
+      ?"They will be able to message you again if you unblock them."
+      :"Blocked users cannot message you. You can unblock them later from their profile menu.",
+    icon:isBlocked?"🔓":"🚫",
+    confirmText:isBlocked?"Unblock":"Block user",
+    cancelText:"Cancel",
+    danger:!isBlocked,
+    onConfirm:async()=>{await toggleBlockUser(uid,!!isBlocked)}
+  });
+}
+
+function closeUserProfile(){if(userProfileChart){try{userProfileChart.destroy()}catch(e){}userProfileChart=null}closeFollowList();const h=document.getElementById("modalHost");if(h)h.innerHTML=""} 
 async function toggleFollowFromProfile(uid,btn){await toggleFollow(uid,btn);await openUserProfile(uid)} 
 async function toggleBlockSelected(){if(selectedChatUser)await toggleBlockUser(selectedChatUser.uid,chatBlockedByMe)} 
 async function toggleBlockUser(uid,isBlocked){ 
@@ -3734,11 +4447,16 @@ async function openFollowList(mode="followers",uid){
     alert("Firebase is not connected.");
     return;
   }
-  let host=document.getElementById("modalHost");
-  if(!host){host=document.createElement("div");host.id="modalHost";document.body.appendChild(host)}
+  // Separate host so profile / current page under it is NOT destroyed
+  let host=document.getElementById("followListHost");
+  if(!host){
+    host=document.createElement("div");
+    host.id="followListHost";
+    document.body.appendChild(host);
+  }
   const title=mode==="following"?"Following":"Followers";
   host.innerHTML=`<div class="follow-list-modal" onclick="if(event.target===this)closeFollowList()">
-    <section class="follow-list-box" role="dialog" aria-modal="true">
+    <section class="follow-list-box" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
       <div class="follow-list-head">
         <h2 id="followListTitle">${title}</h2>
         <button class="close-round" onclick="closeFollowList()">×</button>
@@ -3756,7 +4474,8 @@ async function openFollowList(mode="followers",uid){
     const snap=await getDocs(collection(firestore,"publicProfiles",targetUid,sub));
     const ids=snap.docs.map(d=>d.id).filter(Boolean);
     if(!ids.length){
-      document.getElementById("followListBody").innerHTML=`<div class="follow-list-empty">${mode==="following"?"Not following anyone yet.":"No followers yet."}</div>`;
+      const empty=document.getElementById("followListBody");
+      if(empty)empty.innerHTML=`<div class="follow-list-empty">${mode==="following"?"Not following anyone yet.":"No followers yet."}</div>`;
       return;
     }
     const profiles=await Promise.all(ids.map(async id=>{
@@ -3777,10 +4496,9 @@ async function openFollowList(mode="followers",uid){
           <b>${esc(u.name||"Study User")}</b>
           <small>@${esc(u.username||"username")}</small>
         </div>
-        ${isMe?"":`<button class="chat-follow-btn" data-follow-uid="${esc(u.uid)}" onclick="toggleFollowFromList('${esc(u.uid)}',this)">Follow</button>`}
+        ${isMe?"":`<button class="chat-follow-btn" data-follow-uid="${esc(u.uid)}" onclick="event.stopPropagation();toggleFollowFromList('${esc(u.uid)}',this)">Follow</button>`}
       </div>`;
     }).join("");
-    // resolve following state for each button
     for(const u of profiles){
       if(u.uid===currentUid())continue;
       const btn=body.querySelector(`[data-follow-uid="${CSS.escape(u.uid)}"]`);
@@ -3797,7 +4515,8 @@ async function openFollowList(mode="followers",uid){
 }
 
 function closeFollowList(){
-  const h=document.getElementById("modalHost");
+  // Only close the list overlay — keep profile / current page intact
+  const h=document.getElementById("followListHost");
   if(h)h.innerHTML="";
 }
 
@@ -3805,6 +4524,143 @@ async function toggleFollowFromList(uid,btn){
   await toggleFollow(uid,btn);
   // refresh counts on own profile if visible
   refreshMyFollowCounts();
+}
+
+
+/* ===== STUDYING NOW live strip ===== */
+let studyingNowUnsub=null;
+let studyingNowCache=[];
+
+function stopStudyingNowListener(){
+  if(studyingNowUnsub){try{studyingNowUnsub()}catch(e){}studyingNowUnsub=null}
+}
+
+function initStudyingNow(){
+  const row=document.getElementById("studyingNowRow");
+  if(!row)return;
+  if(!firebaseReady||!firestore){
+    row.innerHTML=`<div class="studying-now-empty">Sign in to see who is studying.</div>`;
+    return;
+  }
+  stopStudyingNowListener();
+  // Prefer query; fallback to client filter if rules/index block it
+  try{
+    const q=query(collection(firestore,"publicProfiles"),where("studyStatus","==","Studying"),limit(24));
+    studyingNowUnsub=onSnapshot(q,snap=>{
+      const users=snap.docs.map(d=>({uid:d.id,...d.data()}))
+        .filter(u=>u.studyStatus==="Studying" && u.uid!==currentUid());
+      studyingNowCache=users;
+      renderStudyingNow(users);
+    },async err=>{
+      console.warn("Studying now query failed, fallback",err);
+      try{
+        const snap=await getDocs(query(collection(firestore,"publicProfiles"),orderBy("usernameLower"),limit(80)));
+        const users=snap.docs.map(d=>({uid:d.id,...d.data()}))
+          .filter(u=>u.studyStatus==="Studying" && u.uid!==currentUid());
+        studyingNowCache=users;
+        renderStudyingNow(users);
+      }catch(e){
+        row.innerHTML=`<div class="studying-now-empty">Could not load studying students.</div>`;
+      }
+    });
+  }catch(e){
+    row.innerHTML=`<div class="studying-now-empty">Could not load studying students.</div>`;
+  }
+}
+
+function renderStudyingNow(users){
+  const row=document.getElementById("studyingNowRow");
+  if(!row)return;
+  if(!users.length){
+    row.innerHTML=`<div class="studying-now-empty">No one is studying right now. Be the first.</div>`;
+    return;
+  }
+  row.innerHTML=users.slice(0,12).map(u=>{
+    const subject=u.activeSubject||u.topSubject||"Focus";
+    const avatar=u.dp?`<img src="${esc(u.dp)}" alt="">`:`🙂`;
+    return `<button type="button" class="studying-now-item" onclick="openStudyingLiveCard('${esc(u.uid)}')">
+      <div class="studying-now-avatar-wrap">
+        <div class="studying-now-avatar">${avatar}</div>
+        <span class="studying-now-live"></span>
+      </div>
+      <div class="studying-now-name">${esc(u.name||"Student")}</div>
+      <div class="studying-now-subject"><i data-lucide="${esc(u.activeSubjectIcon||"book-open")}"></i>${esc(subject)}</div>
+    </button>`;
+  }).join("");
+  if(window.lucide)lucide.createIcons();
+}
+
+function studyingElapsedSeconds(u){
+  const started=Number(u.studyStartedAt||0);
+  if(!started)return 0;
+  return Math.max(0,Math.floor((Date.now()-started)/1000));
+}
+
+function openStudyingLiveCard(uid){
+  const u=studyingNowCache.find(x=>x.uid===uid);
+  if(!u){openUserProfile(uid);return}
+  const subject=u.activeSubject||u.topSubject||"Focus";
+  const elapsed=studyingElapsedSeconds(u);
+  let host=document.getElementById("modalHost");
+  if(!host){host=document.createElement("div");host.id="modalHost";document.body.appendChild(host)}
+  host.innerHTML=`<div class="studying-live-modal" onclick="if(event.target===this)closeStudyingLiveCard()">
+    <section class="studying-live-box">
+      <div class="studying-now-avatar">${u.dp?`<img src="${esc(u.dp)}" alt="">`:`🙂`}</div>
+      <h3>${esc(u.name||"Student")}</h3>
+      <div class="handle">@${esc(u.username||"username")}</div>
+      <div class="studying-live-meta">
+        <div><span>Subject</span><b>${esc(subject)}</b></div>
+        <div><span>Studying for</span><b id="studyingLiveElapsed">${fmt(elapsed)}</b></div>
+        <div><span>Status</span><b style="color:#16a34a">● Live now</b></div>
+      </div>
+      <div class="studying-live-actions">
+        <button class="ghost" onclick="closeStudyingLiveCard()">Close</button>
+        <button class="primary" onclick="closeStudyingLiveCard();openUserProfile('${esc(uid)}')">View profile</button>
+      </div>
+    </section>
+  </div>`;
+  // live tick while open
+  clearInterval(window.__studyingLiveTick);
+  window.__studyingLiveTick=setInterval(()=>{
+    const el=document.getElementById("studyingLiveElapsed");
+    if(!el){clearInterval(window.__studyingLiveTick);return}
+    el.textContent=fmt(studyingElapsedSeconds(u));
+  },1000);
+}
+
+function closeStudyingLiveCard(){
+  clearInterval(window.__studyingLiveTick);
+  const h=document.getElementById("modalHost");
+  if(h)h.innerHTML="";
+}
+
+function openStudyingNowAll(){
+  if(!studyingNowCache.length){
+    alert("No one is studying right now.");
+    return;
+  }
+  // reopen strip content as a simple list modal
+  let host=document.getElementById("modalHost");
+  if(!host){host=document.createElement("div");host.id="modalHost";document.body.appendChild(host)}
+  host.innerHTML=`<div class="studying-live-modal" onclick="if(event.target===this)closeStudyingLiveCard()">
+    <section class="studying-live-box" style="text-align:left;max-height:80vh;overflow:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0;font:900 18px Nunito">Studying now</h3>
+        <button class="close-round" onclick="closeStudyingLiveCard()">×</button>
+      </div>
+      ${studyingNowCache.map(u=>`
+        <button type="button" onclick="closeStudyingLiveCard();openStudyingLiveCard('${esc(u.uid)}')"
+          style="width:100%;display:flex;align-items:center;gap:12px;padding:10px 6px;border:0;background:transparent;border-bottom:1px solid rgba(0,0,0,.05);text-align:left;cursor:pointer">
+          <div class="studying-now-avatar" style="width:44px;height:44px;margin:0;font-size:20px">${u.dp?`<img src="${esc(u.dp)}" alt="">`:`🙂`}</div>
+          <div style="min-width:0;flex:1">
+            <div style="font-weight:900;font-size:13px">${esc(u.name||"Student")}</div>
+            <div style="font-size:11px;color:#8a919b;font-weight:700">${esc(u.activeSubject||"Focus")} • ${fmt(studyingElapsedSeconds(u))}</div>
+          </div>
+          <span class="studying-now-live" style="position:static;width:10px;height:10px"></span>
+        </button>
+      `).join("")}
+    </section>
+  </div>`;
 }
 
 render(); 
