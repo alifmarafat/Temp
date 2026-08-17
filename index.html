@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>FFF</title>
+<title>StudyFlow</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -188,7 +188,29 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .check{width:20px;height:20px;border-radius:6px;border:1.5px solid #a7adb6;background:#fff;cursor:pointer} 
 .task.done .check{background:#45b95c;border-color:#45b95c;color:#fff}.task.done .task-text{text-decoration:line-through;color:#9ca1a8} 
 .target-big{font-family:Nunito;font-size:30px;font-weight:900;margin:8px 0} 
-.progress{height:10px;background:#e9ebef;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#58c9ed,#9d36c5);border-radius:inherit} 
+.progress{
+  height:10px;background:rgba(255,255,255,.38);border-radius:999px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.45);
+  box-shadow:inset 0 1px 2px rgba(40,50,70,.04);
+  position:relative;
+}
+.progress > i{
+  display:block;height:100%;width:0;border-radius:inherit;
+  background:linear-gradient(90deg,#7dd3f0 0%,#8eb6ff 50%,#c084fc 100%);
+  box-shadow:none;
+  position:relative;overflow:hidden;
+  transition:width .4s ease-out;
+}
+.progress > i::before,
+.progress > i::after{
+  display:none !important;
+  content:none !important;
+  animation:none !important;
+}
+.progress.live > i{
+  transition:width .35s linear;
+}
+ 
  
 /* ---------- pages ---------- */ 
 .profile-page,.target-page{display:grid;gap:14px} 
@@ -225,7 +247,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .confetti{position:fixed;width:10px;height:18px;top:-30px;z-index:90;border-radius:5px;animation:fall 2.7s linear forwards} 
  
 /* ---------- bottom nav ---------- */ 
-.mobile-nav{display:none} 
+.mobile-nav{display:none!important} 
 .desktop-add{display:block} 
 @keyframes pop{from{transform:scale(.78);opacity:0}to{transform:scale(1);opacity:1}} 
 @keyframes bounce{0%{transform:translateY(18px) scale(.7)}65%{transform:translateY(-8px) scale(1.08)}100%{transform:none}} 
@@ -256,8 +278,8 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
   .bottom-item{height:56px;border-radius:18px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#9ca1aa;font-size:10px;font-weight:800} 
   .bottom-item i{font-size:21px;font-style:normal;line-height:1} 
   .bottom-item.active{color:#111;background:rgba(80,196,235,.13)} 
-  .bottom-item.add{color:#fff;background:#111;box-shadow:0 6px 14px rgba(0,0,0,.16)} 
-  .bottom-item.add small{color:#fff} 
+  .bottom-item.add{color:#111;background:rgba(255,255,255,.42);box-shadow:none} 
+  .bottom-item.add small{color:#111} 
   .right{display:none} 
   .timer-box{padding:18px;border-radius:28px}.clock{width:235px;height:235px}.clock strong{font-size:35px} 
   .profile-top{align-items:flex-start}.profile-avatar{width:78px;height:78px} 
@@ -375,7 +397,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
  .hero-filter-head{display:block}.hero-filter-head .filter-row{justify-content:flex-start;margin-top:10px}.filter-pill{height:31px} 
  .donut-layout{grid-template-columns:1fr;gap:8px}.chart-wrap{height:235px}.donut-legend{max-height:none;grid-template-columns:1fr 1fr}.donut-legend-row{padding:8px} 
  .profile-note-bubble{left:58px;top:-13px;min-width:125px;max-width:170px}.profile-avatar-wrap .profile-avatar{width:78px;height:78px;border-radius:23px} 
- .mobile-nav{height:72px;bottom:calc(7px + env(safe-area-inset-bottom));padding:7px;border-radius:25px}.bottom-item.add{width:53px;height:53px;border-radius:18px;justify-self:center;align-self:center;box-shadow:0 12px 25px rgba(17,17,20,.25)} 
+ .mobile-nav{height:72px;bottom:calc(7px + env(safe-area-inset-bottom));padding:7px;border-radius:25px}.bottom-item.add{border-radius:22px;justify-self:stretch;align-self:center;box-shadow:none} 
  .target-choice-box{padding:18px}.target-live-actions{grid-template-columns:1fr 1fr}.donut-center b{font-size:24px} 
 } 
  
@@ -1995,6 +2017,687 @@ body:has(.chat-inbox-page){
   .studying-now-avatar-wrap,.studying-now-avatar{width:54px;height:54px}
 }
 
+
+
+/* ============================================================
+   APPLE-STYLE GLOBAL GLASS UI
+   Soft frosted materials, unified bottom bar, no heavy 3D
+   ============================================================ */
+:root{
+  --surface:rgba(255,255,255,.52) !important;
+  --surface-solid:rgba(255,255,255,.66) !important;
+  --nav:rgba(255,255,255,.55) !important;
+  --line:rgba(255,255,255,.42) !important;
+  --shadow:0 8px 24px rgba(30,40,60,.06) !important;
+  --glass:rgba(255,255,255,.48);
+  --glass-strong:rgba(255,255,255,.62);
+  --glass-border:rgba(255,255,255,.55);
+  --glass-blur:blur(22px) saturate(1.35);
+}
+
+html,body{
+  background:
+    radial-gradient(circle at 10% 0%,rgba(255,255,255,.95),transparent 30%),
+    radial-gradient(circle at 90% 12%,rgba(186,230,253,.50),transparent 34%),
+    radial-gradient(circle at 20% 90%,rgba(233,213,255,.38),transparent 36%),
+    radial-gradient(circle at 78% 78%,rgba(254,243,199,.30),transparent 32%),
+    linear-gradient(165deg,#f2f7ff 0%,#f5f1ff 48%,#eef9ff 100%) !important;
+}
+
+.honeycomb{opacity:.14 !important}
+
+/* Shared glass material */
+.card,
+.subject-card,
+.side-card,
+.profile-card,
+.target-card,
+.hero,
+.chart-card,
+.onboard-card,
+.form-screen,
+.rail-user,
+.menu-btn,
+.add-head,
+.filter-pill:not(.active),
+.chat-inbox-shell,
+.chat-inbox-action:not(.active),
+.chat-user-row,
+.activity-row,
+.big-input,
+.target-input,
+.email-auth-box,
+.google-account-box,
+.timer-box,
+.persistent-timer-box,
+.complete-box,
+.danger-box,
+.target-choice-box,
+.follow-list-box,
+.visit-card,
+.studying-now-card,
+.chat-inbox-item,
+.chats-search-wrap,
+.photo-picker,
+.visit-top-btn,
+.chat-compose textarea,
+.chat-head-btn,
+.chat-bubble,
+.visit-btn-message,
+.visit-period-pill,
+.profile-stat-btn,
+.email-auth-field input,
+.chat-dialog,
+.studying-live-box,
+.persistent-timer-mini,
+.timer-minimized{
+  background:var(--glass) !important;
+  border:1px solid var(--glass-border) !important;
+  box-shadow:0 8px 24px rgba(30,40,60,.06), inset 0 1px 0 rgba(255,255,255,.65) !important;
+  backdrop-filter:var(--glass-blur) !important;
+  -webkit-backdrop-filter:var(--glass-blur) !important;
+}
+
+/* Soft interactive glass buttons (no 3D) */
+.primary-btn,
+.secondary-btn,
+.email-auth-btn,
+.email-auth-secondary,
+.email-auth-submit,
+.save-btn,
+.upload-btn,
+.set-target,
+.target-start,
+.timer-action,
+.filter-pill,
+.chat-inbox-action,
+.chat-follow-btn,
+.chat-message-small,
+.visit-btn-follow,
+.visit-btn-message,
+.visit-btn-block,
+.danger-cancel,
+.danger-confirm,
+.chat-dialog-btn,
+.google-next,
+.google-cancel,
+.chat-send,
+.complete-actions button,
+.target-choice-actions button,
+.chat-profile-message,
+.chat-profile-close,
+.chat-profile-block{
+  box-shadow:none !important;
+  transform:none !important;
+  backdrop-filter:blur(16px) saturate(1.2) !important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.2) !important;
+  border:1px solid rgba(255,255,255,.45) !important;
+  transition:background .18s ease, opacity .18s ease, border-color .18s ease !important;
+}
+button:active{
+  transform:scale(.98) !important;
+  opacity:.92 !important;
+}
+
+/* Filled soft dark actions */
+.filter-pill.active,
+.chat-inbox-action.active,
+.visit-btn-follow,
+.chat-follow-btn,
+.chat-send,
+.save-btn,
+.target-start,
+.email-auth-submit,
+.timer-action.primary,
+.chat-dialog-btn.primary,
+.chat-profile-message,
+.target-choice-actions .start,
+.google-next{
+  background:rgba(20,22,28,.82) !important;
+  color:#fff !important;
+  border-color:rgba(255,255,255,.18) !important;
+}
+
+.primary-btn{
+  background:rgba(255,230,56,.70) !important;
+  color:#111 !important;
+  border-color:rgba(255,255,255,.5) !important;
+  box-shadow:none !important;
+}
+
+.secondary-btn,
+.email-auth-secondary,
+.visit-btn-message,
+.chat-message-small,
+.danger-cancel,
+.chat-dialog-btn,
+.google-cancel,
+.chat-profile-close,
+.upload-btn,
+.timer-action,
+.complete-actions button,
+.target-choice-actions .cancel{
+  background:rgba(255,255,255,.55) !important;
+  color:#111 !important;
+}
+
+/* Warning / danger — soft glass red, not harsh solid */
+.danger-confirm,
+.chat-dialog-btn.danger,
+.visit-btn-block,
+.chat-profile-block,
+.danger-stop,
+.upload-btn[style*="#fff0f2"],
+button[style*="#fff0f2"]{
+  background:rgba(255,240,242,.72) !important;
+  color:#e11d48 !important;
+  border:1px solid rgba(255,180,190,.45) !important;
+  box-shadow:none !important;
+  backdrop-filter:blur(16px) !important;
+  -webkit-backdrop-filter:blur(16px) !important;
+}
+.danger-box{
+  border-color:rgba(255,180,190,.35) !important;
+}
+.danger-icon{
+  background:rgba(255,240,242,.75) !important;
+}
+
+.chat-follow-btn.following{
+  background:rgba(238,248,255,.70) !important;
+  color:#111 !important;
+  border:1px solid rgba(203,238,251,.75) !important;
+}
+
+.chat-bubble-row.mine .chat-bubble{
+  background:rgba(20,22,28,.86) !important;
+  color:#fff !important;
+  border-color:rgba(255,255,255,.12) !important;
+  box-shadow:none !important;
+}
+
+/* Subject color blocks stay solid for readability */
+.subject-color,
+.visit-subject-icon,
+.target-select-icon{
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  border:0 !important;
+  box-shadow:0 6px 14px rgba(40,50,70,.10) !important;
+}
+
+/* Rail / side */
+.rail,.right{background:transparent !important}
+.rail-link{
+  background:transparent !important;
+  border:1px solid transparent !important;
+  box-shadow:none !important;
+}
+.rail-link.active{
+  background:rgba(255,255,255,.60) !important;
+  border:1px solid rgba(255,255,255,.5) !important;
+  box-shadow:0 6px 16px rgba(30,40,60,.05) !important;
+  backdrop-filter:blur(16px) !important;
+  -webkit-backdrop-filter:blur(16px) !important;
+}
+
+/* ===== Apple-style unified bottom glass bar (PHONE ONLY) ===== */
+.mobile-nav{
+  display:none !important; /* never on desktop */
+}
+@media(max-width:700px){
+  .mobile-nav{
+    display:grid !important;
+    position:fixed !important;
+    left:12px !important;
+    right:12px !important;
+    bottom:calc(10px + env(safe-area-inset-bottom)) !important;
+    height:64px !important;
+    padding:6px !important;
+    border-radius:28px !important;
+    grid-template-columns:repeat(5,1fr) !important;
+    align-items:center !important;
+    gap:2px !important;
+    z-index:30 !important;
+    background:rgba(255,255,255,.58) !important;
+    border:1px solid rgba(255,255,255,.55) !important;
+    box-shadow:0 12px 32px rgba(30,40,60,.10), inset 0 1px 0 rgba(255,255,255,.7) !important;
+    backdrop-filter:blur(24px) saturate(1.4) !important;
+    -webkit-backdrop-filter:blur(24px) saturate(1.4) !important;
+  }
+  .mobile-nav .bottom-item{
+    height:52px !important;
+    border-radius:22px !important;
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+    color:#8b929c !important;
+    gap:2px !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  .mobile-nav .bottom-item i{font-size:20px !important}
+  .mobile-nav .bottom-item small{font-size:9px !important;font-weight:800 !important}
+  .mobile-nav .bottom-item.active{
+    background:rgba(120,190,235,.16) !important;
+    color:#111 !important;
+    box-shadow:none !important;
+  }
+  /* Add — normal glass style, not solid black */
+  .mobile-nav .bottom-item.add{
+    width:auto !important;
+    height:52px !important;
+    border-radius:22px !important;
+    justify-self:stretch !important;
+    align-self:center !important;
+    background:rgba(255,255,255,.42) !important;
+    color:#111 !important;
+    box-shadow:none !important;
+    border:1px solid rgba(255,255,255,.5) !important;
+    backdrop-filter:blur(12px) !important;
+    -webkit-backdrop-filter:blur(12px) !important;
+  }
+  .mobile-nav .bottom-item.add small{color:#111 !important}
+  .mobile-nav .bottom-item.add i{color:#111 !important}
+  .mobile-nav .bottom-item.add.active{
+    background:rgba(120,190,235,.18) !important;
+    color:#111 !important;
+  }
+}
+
+/* Chat panels */
+.chat-inbox-shell,
+.chat-inbox-sidebar,
+.chat-inbox-window{
+  background:rgba(255,255,255,.40) !important;
+  backdrop-filter:blur(22px) saturate(1.25) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(1.25) !important;
+  box-shadow:0 10px 28px rgba(30,40,60,.06) !important;
+}
+.chat-compose{
+  background:rgba(255,255,255,.55) !important;
+  backdrop-filter:blur(18px) !important;
+  -webkit-backdrop-filter:blur(18px) !important;
+  border-top:1px solid rgba(255,255,255,.4) !important;
+  box-shadow:none !important;
+}
+
+/* Soft modal scrims */
+.chat-profile-modal,
+.follow-list-modal,
+.studying-live-modal,
+.email-auth-modal,
+.google-account-modal,
+.danger-modal,
+.timer-modal,
+.complete-modal,
+.persistent-timer-modal,
+.chat-dialog-backdrop{
+  background:rgba(20,24,32,.26) !important;
+  backdrop-filter:blur(16px) !important;
+  -webkit-backdrop-filter:blur(16px) !important;
+}
+
+input,textarea,select{
+  background:rgba(255,255,255,.55) !important;
+  border-color:rgba(255,255,255,.48) !important;
+  box-shadow:none !important;
+}
+
+.progress{background:rgba(255,255,255,.40) !important}
+.studying-now-card{
+  background:linear-gradient(135deg,rgba(255,255,255,.56),rgba(255,255,255,.28)) !important;
+}
+
+@media(max-width:700px){
+  .mobile-nav{
+    height:66px !important;
+    border-radius:30px !important;
+  }
+}
+
+
+/* Target page cards — no overlap */
+.target-card{
+  position:relative !important;
+  z-index:1 !important;
+  margin-bottom:14px !important;
+  overflow:visible !important;
+}
+.target-card + .target-card{
+  margin-top:4px !important;
+}
+.target-start,
+.set-target{
+  position:relative !important;
+  z-index:1 !important;
+  margin-top:12px !important;
+  display:block !important;
+}
+.target-live{
+  position:relative !important;
+  z-index:1 !important;
+  margin-top:12px !important;
+}
+.main{
+  position:relative;
+  z-index:1;
+}
+
+
+/* ===== Ultra-thin glass scrollbar ===== */
+*{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(120,140,170,.28) transparent;
+}
+*::-webkit-scrollbar{
+  width:4px;
+  height:4px;
+}
+*::-webkit-scrollbar-track{
+  background:transparent;
+}
+*::-webkit-scrollbar-thumb{
+  background:rgba(120,140,170,.28);
+  border-radius:99px;
+  border:1px solid transparent;
+  background-clip:padding-box;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background:rgba(100,120,150,.42);
+}
+*::-webkit-scrollbar-corner{
+  background:transparent;
+}
+html,body{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(120,140,170,.28) transparent;
+}
+
+
+/* Chat section: no visible scrollbar, no layout shift */
+.chat-inbox-page,
+.chat-inbox-page *,
+.chat-inbox-shell,
+.chat-inbox-sidebar,
+.chat-inbox-list,
+.chat-inbox-window,
+.chat-inbox-window .chat-messages,
+.chat-explore-panel,
+#chatExploreResults,
+#chatList,
+.chats-page{
+  scrollbar-width:none !important;
+  -ms-overflow-style:none !important;
+}
+.chat-inbox-page::-webkit-scrollbar,
+.chat-inbox-page *::-webkit-scrollbar,
+.chat-inbox-shell::-webkit-scrollbar,
+.chat-inbox-sidebar::-webkit-scrollbar,
+.chat-inbox-list::-webkit-scrollbar,
+.chat-inbox-window::-webkit-scrollbar,
+.chat-inbox-window .chat-messages::-webkit-scrollbar,
+.chat-explore-panel::-webkit-scrollbar,
+#chatExploreResults::-webkit-scrollbar,
+#chatList::-webkit-scrollbar,
+.chats-page::-webkit-scrollbar{
+  width:0 !important;
+  height:0 !important;
+  display:none !important;
+  background:transparent !important;
+}
+/* keep internal scroll without shifting content */
+.chat-inbox-list,
+.chat-inbox-window .chat-messages,
+#chatExploreResults,
+#chatList{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  scrollbar-gutter:auto !important;
+}
+
+
+/* Target wish / motivation modal */
+.wish-modal{
+  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:18px;
+  background:rgba(18,22,30,.40);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  pointer-events:auto;
+}
+.wish-box{
+  width:min(400px,100%);
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:28px;
+  box-shadow:0 28px 70px rgba(30,40,60,.18), inset 0 1px 0 rgba(255,255,255,.7);
+  backdrop-filter:blur(22px) saturate(1.3);
+  -webkit-backdrop-filter:blur(22px) saturate(1.3);
+  padding:28px 24px 22px;text-align:center;
+  animation:wishPop .55s cubic-bezier(.2,1.2,.35,1);
+  position:relative;overflow:hidden;
+}
+@keyframes wishPop{
+  0%{transform:scale(.86) translateY(18px);opacity:0}
+  100%{transform:scale(1) translateY(0);opacity:1}
+}
+.wish-art{
+  width:88px;height:88px;margin:0 auto 14px;
+  border-radius:28px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,rgba(255,255,255,.75),rgba(255,255,255,.35));
+  border:1px solid rgba(255,255,255,.65);
+  box-shadow:0 12px 28px rgba(40,55,80,.10), inset 0 1px 0 rgba(255,255,255,.8);
+  animation:wishFloat 2.6s ease-in-out infinite;
+}
+.wish-art i, .wish-art svg{
+  width:40px;height:40px;
+  stroke-width:2.1;
+}
+.wish-art.tone-great{background:linear-gradient(145deg,rgba(34,197,94,.18),rgba(255,255,255,.55));color:#16a34a}
+.wish-art.tone-almost{background:linear-gradient(145deg,rgba(245,158,11,.16),rgba(255,255,255,.55));color:#d97706}
+.wish-art.tone-close{background:linear-gradient(145deg,rgba(245,158,11,.16),rgba(255,255,255,.55));color:#d97706}
+.wish-art.tone-solid{background:linear-gradient(145deg,rgba(245,158,11,.16),rgba(255,255,255,.55));color:#d97706}
+.wish-art.tone-start{background:linear-gradient(145deg,rgba(239,68,68,.12),rgba(255,255,255,.55));color:#dc2626}
+.wish-art.tone-keep{background:linear-gradient(145deg,rgba(239,68,68,.12),rgba(255,255,255,.55));color:#dc2626}
+@keyframes wishFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+.wish-pct{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:64px;height:32px;padding:0 12px;border-radius:999px;
+  font:900 13px Nunito;margin-bottom:12px;
+  background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.5);
+}
+.wish-pct.great{background:rgba(34,197,94,.14);color:#15803d}
+.wish-pct.good{background:rgba(59,130,246,.14);color:#1d4ed8}
+.wish-pct.try{background:rgba(245,158,11,.16);color:#b45309}
+.wish-pct.low{background:rgba(239,68,68,.12);color:#b91c1c}
+.wish-title{font:900 24px Nunito;margin:0 0 8px;letter-spacing:-.3px}
+.wish-msg{font-size:13px;line-height:1.55;color:#5b6470;margin:0 0 8px;font-weight:700}
+.wish-meta{font-size:12px;color:#8a919b;font-weight:800;margin-bottom:18px}
+.wish-actions{display:grid;gap:8px}
+.wish-actions button{
+  height:46px;border-radius:14px;font-weight:900;border:1px solid rgba(255,255,255,.45);
+  background:rgba(20,22,28,.86);color:#fff;
+}
+.wish-actions button.ghost{
+  background:rgba(255,255,255,.55);color:#111;
+}
+.wish-spark{
+  position:absolute;width:8px;height:8px;border-radius:50%;pointer-events:none;
+  animation:wishSpark 1.8s ease-out forwards;
+}
+@keyframes wishSpark{
+  0%{transform:translate(0,0) scale(1);opacity:1}
+  100%{transform:translate(var(--sx),var(--sy)) scale(0);opacity:0}
+}
+
+
+/* Unified auth box on welcome */
+.auth-box-unified{
+  background:rgba(255,255,255,.55);
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:24px;
+  padding:18px 16px 16px;
+  box-shadow:0 12px 30px rgba(40,55,80,.08), inset 0 1px 0 rgba(255,255,255,.65);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  gap:12px !important;
+}
+.auth-box-title{
+  font:900 13px Nunito;
+  text-align:center;
+  color:#5b6470;
+  letter-spacing:.2px;
+  margin-bottom:2px;
+}
+.auth-box-unified .email-auth-btn{
+  background:rgba(20,22,28,.88) !important;
+  color:#fff !important;
+  border-radius:16px !important;
+  height:52px !important;
+  box-shadow:none !important;
+}
+.auth-box-unified .email-auth-secondary{
+  background:rgba(255,255,255,.65) !important;
+  border:1px solid rgba(255,255,255,.5) !important;
+  border-radius:16px !important;
+  height:48px !important;
+}
+.auth-box-unified .google-btn{
+  background:rgba(255,255,255,.75) !important;
+  border:1px solid rgba(0,0,0,.08) !important;
+  border-radius:16px !important;
+  height:52px !important;
+  box-shadow:none !important;
+  color:#111 !important;
+}
+.auth-box-unified .auth-divider{
+  display:flex;align-items:center;gap:12px;
+  color:#9aa1aa;font-size:11px;font-weight:800;
+  margin:2px 0;
+}
+.auth-box-unified .auth-divider::before,
+.auth-box-unified .auth-divider::after{
+  content:"";flex:1;height:1px;background:rgba(30,40,50,.10);
+}
+.auth-box-unified .auth-divider span{flex:0 0 auto}
+.auth-box-unified .auth-badge{
+  text-align:center;font-size:11px;color:#8a919b;font-weight:700;
+  margin-top:2px;
+}
+
+
+.auth-box-unified{
+  display:grid !important;
+  gap:10px !important;
+  padding:16px !important;
+}
+.auth-box-unified .email-auth-btn,
+.auth-box-unified .google-btn{
+  height:54px !important;
+  border-radius:18px !important;
+  font-size:16px !important;
+  font-weight:900 !important;
+}
+.auth-box-unified .email-auth-secondary{
+  height:50px !important;
+  border-radius:18px !important;
+  font-size:15px !important;
+  font-weight:900 !important;
+  background:rgba(255,255,255,.72) !important;
+  border:1px solid rgba(30,40,50,.08) !important;
+}
+.auth-box-unified .google-btn{
+  margin-top:2px;
+  background:#fff !important;
+  color:#111 !important;
+  border:1px solid rgba(0,0,0,.10) !important;
+}
+.onboard-card{
+  min-height:auto !important;
+  padding-bottom:28px !important;
+}
+
+
+/* Welcome page — no scroll, fits viewport */
+.onboarding{
+  min-height:100vh !important;
+  min-height:100dvh !important;
+  padding:16px !important;
+  align-items:center;
+  overflow:hidden !important;
+}
+.onboard-card{
+  width:min(440px,100%) !important;
+  min-height:0 !important;
+  max-height:calc(100dvh - 32px) !important;
+  padding:22px 22px 18px !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+  gap:0;
+}
+.onboard-card .brand-art{
+  width:140px !important;
+  height:110px !important;
+  margin:0 auto 14px !important;
+}
+.onboard-card .brand-note{
+  width:112px !important;
+  height:82px !important;
+  font-size:20px !important;
+}
+.onboard-card .hedgehog{
+  font-size:48px !important;
+  right:28px !important;
+  bottom:10px !important;
+}
+.onboard-card .onboard-title{
+  font-size:20px !important;
+  margin:0 0 10px !important;
+  line-height:1.25 !important;
+}
+.onboard-card .onboard-copy{
+  font-size:13px !important;
+  line-height:1.45 !important;
+  margin:0 auto 16px !important;
+  max-width:360px !important;
+  color:#5c6570 !important;
+}
+.onboard-card .auth-box-unified{
+  padding:12px !important;
+  gap:8px !important;
+  border-radius:20px !important;
+}
+.onboard-card .auth-box-unified .email-auth-btn,
+.onboard-card .auth-box-unified .google-btn{
+  height:48px !important;
+  border-radius:15px !important;
+  font-size:15px !important;
+}
+.onboard-card .auth-box-unified .email-auth-secondary{
+  height:46px !important;
+  border-radius:15px !important;
+  font-size:14px !important;
+}
+.onboard-card .auth-divider{
+  margin:0 !important;
+  font-size:10px !important;
+}
+@media(max-height:720px){
+  .onboard-card .brand-art{margin-bottom:10px !important;height:96px !important}
+  .onboard-card .brand-note{width:100px !important;height:72px !important;font-size:18px !important}
+  .onboard-card .hedgehog{font-size:42px !important}
+  .onboard-card .onboard-title{font-size:18px !important;margin-bottom:8px !important}
+  .onboard-card .onboard-copy{font-size:12px !important;margin-bottom:12px !important}
+  .onboard-card{padding:16px 16px 14px !important}
+}
+@media(max-height:620px){
+  .onboard-card .brand-art{display:none !important}
+  .onboard-card .onboard-copy{display:none !important}
+  .onboard-card .onboard-title{font-size:17px !important;margin-bottom:12px !important}
+}
+
 </style> 
 </head> 
 <body> 
@@ -2232,14 +2935,13 @@ function renderOnboarding(){
           </div> 
           <h1 class="onboard-title">StudyFlow is a focus app to enjoy studying.</h1> 
           <p class="onboard-copy">If you are having a hard time finding the motivation to study, or if you feel anxious about studying alone, this is the app for you.</p> 
-          <div class="onboard-actions auth-methods"> 
-            <button class="primary-btn google-btn" onclick="startGoogle()"> 
-              <span class="google-mark">G</span><span>Continue with Google</span> 
-            </button> 
-            <div class="auth-divider"><span>OR</span></div> 
-            <button class="email-auth-btn" onclick="openEmailAuth('login')">Log in with Email</button> 
-            <button class="email-auth-secondary" onclick="openEmailAuth('signup')">Create an account</button> 
-            <div class="auth-badge"><span class="google-mark">G</span> Your study data stays saved to your account</div> 
+          <div class="onboard-actions auth-methods auth-box-unified">
+            <button class="email-auth-btn" onclick="openEmailAuth('login')">Login</button>
+            <button class="email-auth-secondary" onclick="openEmailAuth('signup')">Sign up</button>
+            <div class="auth-divider"><span>OR</span></div>
+            <button class="primary-btn google-btn" onclick="startGoogle()">
+              <span class="google-mark">G</span><span>Continue with Google</span>
+            </button>
           </div> 
         </section> 
       </main>`; 
@@ -2395,8 +3097,8 @@ function renderApp(){
         <nav class="rail-links"> 
           <button class="rail-link ${activePage==="home"?"active":""}" onclick="navigate('home')"><span class="ico"><i data-lucide="house" class="icon-svg"></i></span>Home</button> 
           <button class="rail-link ${activePage==="add"?"active":""}" onclick="navigate('add')"><span class="ico"><i data-lucide="plus" class="icon-svg"></i></span>Add</button> 
-          <button class="rail-link ${activePage==="target"?"active":""}" onclick="navigate('target')"><span class="ico"><i data-lucide="target" class="icon-svg"></i></span>Target</button> 
           <button class="rail-link ${activePage==="chats"?"active":""}" onclick="navigate('chats')"><span class="ico"><i data-lucide="messages-square" class="icon-svg"></i></span><span class="chat-nav-wrap">Chats<span class="chat-unread-badge" data-chat-unread-badge></span></span></button> 
+          <button class="rail-link ${activePage==="target"?"active":""}" onclick="navigate('target')"><span class="ico"><i data-lucide="target" class="icon-svg"></i></span>Target</button> 
           <button class="rail-link ${activePage==="profile"?"active":""}" onclick="navigate('profile')"><span class="ico"><i data-lucide="user-round" class="icon-svg"></i></span>Profile</button> 
         </nav> 
         <div class="rail-user">${avatarHTML("avatar")}<div><div class="user-name">${esc(state.user.name||"Study User")}</div><div class="user-sub">@${esc(state.user.username||"student")}</div></div></div> 
@@ -2414,8 +3116,8 @@ function renderApp(){
       <nav class="mobile-nav"> 
         <button class="bottom-item ${activePage==="home"?"active":""}" onclick="navigate('home')"><i data-lucide="house"></i><small>Home</small></button> 
         <button class="bottom-item add ${activePage==="add"?"active":""}" onclick="navigate('add')"><i data-lucide="plus"></i><small>Add</small></button> 
-        <button class="bottom-item ${activePage==="target"?"active":""}" onclick="navigate('target')"><i data-lucide="target"></i><small>Target</small></button> 
         <button class="bottom-item ${activePage==="chats"?"active":""}" onclick="navigate('chats')"><i data-lucide="messages-square"></i><small class="chat-nav-wrap">Chats<span class="chat-unread-badge" data-chat-unread-badge></span></small></button> 
+        <button class="bottom-item ${activePage==="target"?"active":""}" onclick="navigate('target')"><i data-lucide="target"></i><small>Target</small></button> 
         <button class="bottom-item ${activePage==="profile"?"active":""}" onclick="navigate('profile')"><i data-lucide="user-round"></i><small>Profile</small></button> 
       </nav> 
     </main> 
@@ -2744,9 +3446,20 @@ function updateTimerUI(){
   updateTimerMiniUI(); 
 } 
 function finishTimer(){ 
-  const elapsed=timerState.total-timerState.remaining; 
-  if(elapsed<1){closeTimer();return} 
-  saveSession(elapsed);closeTimer();renderApp(); 
+  const goal=Math.max(1, timerState.total||0);
+  const elapsed=Math.max(0, (timerState.total||0)-(timerState.remaining||0));
+  const subjectName=timerState.subject?.name||"Focus";
+  if(elapsed<1){closeTimer();return}
+  saveSession(elapsed);
+  closeTimer();
+  renderApp();
+  // Always show motivational wish after Done
+  const studied=Math.max(1,elapsed);
+  let pct=Math.round((studied/Math.max(1,goal))*100);
+  if(pct<1)pct=1; if(pct>100)pct=100;
+  setTimeout(()=>{
+    showTargetResultModal({completed:pct>=99, studied, goal:Math.max(1,goal), pct});
+  }, 30);
 } 
 function saveSession(seconds){ 
   const s=state.subjects.find(x=>x.id===timerState.subject.id);if(!s)return; 
@@ -2756,10 +3469,15 @@ function saveSession(seconds){
   save(); 
 } 
 function completeTimer(){ 
-  const elapsed=timerState.total; 
-  saveSession(elapsed); 
-  closeTimer(); 
-  showComplete(elapsed,timerState.subject.name); 
+  const elapsed=timerState.total||0;
+  const goal=Math.max(1,elapsed);
+  const subjectName=timerState.subject?.name||"Focus";
+  saveSession(elapsed);
+  closeTimer();
+  renderApp();
+  setTimeout(()=>{
+    showTargetResultModal({completed:true, studied:Math.max(1,elapsed), goal, pct:100});
+  }, 30);
 } 
 function closeTimer(){ 
   clearInterval(timer);timer=null; 
@@ -2775,7 +3493,7 @@ function showComplete(seconds,subject){
     const c=document.createElement("i");c.className="confetti";c.style.left=Math.random()*100+"%";c.style.background=["#a52fc4","#72c9ef","#ffe638","#54b95b","#ef2670"][i%5];c.style.setProperty("--x",(Math.random()*260-130)+"px");c.style.animationDelay=(Math.random()*.6)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),3300); 
   } 
 } 
-function closeComplete(){document.getElementById("modalHost").innerHTML=""} 
+function closeComplete(){const m=document.getElementById("modalHost");if(m)m.innerHTML="";closeWishModal()} 
  
 /* ---------- profile ---------- */ 
 function previewDP(e){ 
@@ -2822,16 +3540,8 @@ function startTarget(){
   save();renderApp(); 
   if(firebaseReady&&firebaseUser)syncPublicProfile(); 
 } 
-function stopTarget(){ 
-  if(state.target.running && state.target.startedAt){ 
-    const mins=Math.max(0,Math.floor((Date.now()-state.target.startedAt)/60000)); 
-    state.target.done=Math.min(state.target.minutes,(state.target.done||0)+mins); 
-  } 
-  state.target.running=false; 
-  state.target.startedAt=0; 
-  save();renderApp(); 
-  if(firebaseReady&&firebaseUser)syncPublicProfile(); 
-} 
+/* old stopTarget removed — see end of script */
+ 
  
 /* ---------- reminders / misc ---------- */ 
 function showHelp(){alert("Study Circle: choose a subject, set a focus time, study, and watch your target grow.")} 
@@ -3002,7 +3712,7 @@ function drawChart(){
 function targetPage(){ 
   resetDailyTargetIfNeeded();const elapsed=targetElapsedSeconds();const pct=Math.min(100,Math.round(elapsed/(state.target.minutes*60)*100));const selected=selectedTargetSubjects();const running=state.target.running; 
   return `<div class="topbar"><div><h1 class="page-title">Target</h1><div class="page-sub">Pick your subject, hit your goal, and adapt on the go.</div></div></div> 
-  <section class="card target-card"><div class="hero-label">TODAY'S TARGET</div><div class="target-big">${Math.floor(state.target.minutes/60)}h ${state.target.minutes%60}m</div><div class="hero-sub">${fmt(elapsed)} studied • ${pct}% complete</div><div class="progress" style="margin:15px 0 18px"><i style="width:${pct}%"></i></div> 
+  <section class="card target-card"><div class="hero-label">TODAY'S TARGET</div><div class="target-big">${Math.floor(state.target.minutes/60)}h ${state.target.minutes%60}m</div><div class="hero-sub" id="targetMainStatus">${fmt(elapsed)} studied • ${pct}% complete</div><div class="progress ${running?"live":""}" style="margin:15px 0 18px"><i id="targetMainProgress" style="width:${pct}%"></i></div> 
   <input id="targetInput" class="target-input" type="number" min="1" max="1440" value="${Math.round(state.target.minutes)}" placeholder="Minutes"><button class="set-target" onclick="setTarget()">Set today's target</button> 
   ${running?targetLiveCard():`<button class="target-start" onclick="startTarget()">Start target</button>`}</section> 
   <section class="card target-card"><div class="section-title">Tasks</div><div class="task-add"><input id="taskText" placeholder="What will you finish?"><input id="taskTime" type="time"><button onclick="addTask()"><i data-lucide="plus"></i></button></div><div id="taskList">${renderTasks()}</div></section>`; 
@@ -3013,7 +3723,7 @@ function targetLiveCard(){
 } 
 function sideTarget(){ 
   resetDailyTargetIfNeeded();const pct=Math.min(100,Math.round(targetElapsedSeconds()/(state.target.minutes*60)*100));const running=state.target.running;const active=state.subjects.find(s=>s.id===state.target.activeSubjectId); 
-  return `<section class="card side-card"><div class="side-title"><span>Target</span><small class="hero-sub">${pct}%</small></div><div class="target-big">${Math.floor(state.target.minutes/60)}h ${state.target.minutes%60}m</div><div class="hero-sub">${fmt(targetElapsedSeconds())} studied today</div><div class="progress"><i style="width:${pct}%"></i></div>${running?`<div class="target-live" style="margin-top:11px"><div class="target-live-time" id="sideTargetClock">${fmtClock(targetElapsedSeconds())}</div><div class="target-live-sub">${active?esc(active.name):"Subject"}</div><div class="target-live-actions"><button onclick="switchTargetSubject()">Switch</button><button class="danger-stop" onclick="stopTarget()">Stop</button></div></div>`:`<button class="target-start" onclick="startTarget()">Start target</button>`}</section>`; 
+  return `<section class="card side-card"><div class="side-title"><span>Target</span><small class="hero-sub" id="sideTargetPct">${pct}%</small></div><div class="target-big">${Math.floor(state.target.minutes/60)}h ${state.target.minutes%60}m</div><div class="hero-sub" id="sideTargetStatus">${fmt(targetElapsedSeconds())} studied today</div><div class="progress ${running?"live":""}"><i id="sideTargetProgress" style="width:${pct}%"></i></div>${running?`<div class="target-live" style="margin-top:11px"><div class="target-live-time" id="sideTargetClock">${fmtClock(targetElapsedSeconds())}</div><div class="target-live-sub">${active?esc(active.name):"Subject"}</div><div class="target-live-actions"><button onclick="switchTargetSubject()">Switch</button><button class="danger-stop" onclick="stopTarget()">Stop</button></div></div>`:`<button class="target-start" onclick="startTarget()">Start target</button>`}</section>`; 
 } 
  
 function openTargetChooser(){ 
@@ -3040,12 +3750,124 @@ function openTargetChooserForSwitch(){
 } 
 function chooseSwitchSubject(id){state.target.activeSubjectId=id;state.target.startedAt=Date.now();state.target.subjectStartedAt=Date.now();save();closeDanger();renderApp();startTargetTicker()} 
 function resumeCurrentTarget(){state.target.startedAt=Date.now();state.target.subjectStartedAt=Date.now();save();closeDanger();renderApp();startTargetTicker()} 
-function stopTarget(){ 
-  if(state.target.running)recordTargetSegment();state.target.running=false;state.target.startedAt=0;state.target.subjectStartedAt=0;save();renderApp(); 
-} 
-function startTargetTicker(){clearInterval(window.targetTicker);window.targetTicker=setInterval(()=>{if(!state.target.running){clearInterval(window.targetTicker);return}const t=targetElapsedSeconds();["targetLiveClock","sideTargetClock"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtClock(t)});if(t>=state.target.minutes*60){recordTargetSegment();state.target.running=false;clearInterval(window.targetTicker);save();showTargetComplete();renderApp()}},1000)} 
-function showTargetComplete(){const h=document.getElementById("modalHost");if(!h)return;h.innerHTML=`<div class="complete-modal"><section class="complete-box"><div class="complete-art">🎉</div><div class="complete-time">Target complete</div><h2 class="complete-title">You did it!</h2><p class="hero-sub">You reached ${Math.floor(state.target.minutes/60)}h ${state.target.minutes%60}m of study today.</p><div class="complete-actions"><button onclick="closeComplete()">Continue</button></div></section></div>`;for(let i=0;i<34;i++){const c=document.createElement("i");c.className="confetti";c.style.left=Math.random()*100+"%";c.style.background=["#8f36c9","#42c8ef","#ffe638","#54b95b","#ef2670"][i%5];c.style.setProperty("--x",(Math.random()*260-130)+"px");c.style.animationDelay=(Math.random()*.6)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),3300)}} 
+/* stopTarget redefined below for reliability */
  
+function startTargetTicker(){
+  clearInterval(window.targetTicker);
+  const goal=Math.max(1,state.target.minutes*60);
+  window.targetTicker=setInterval(()=>{
+    if(!state.target.running){clearInterval(window.targetTicker);return}
+    const t=targetElapsedSeconds();
+    const pct=Math.min(100,Math.round(t/goal*100));
+    ["targetLiveClock","sideTargetClock"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtClock(t)});
+    const mainBar=document.getElementById("targetMainProgress");
+    const sideBar=document.getElementById("sideTargetProgress");
+    if(mainBar)mainBar.style.width=pct+"%";
+    if(sideBar)sideBar.style.width=pct+"%";
+    const mainStatus=document.getElementById("targetMainStatus");
+    if(mainStatus)mainStatus.textContent=fmt(t)+" studied • "+pct+"% complete";
+    const sideStatus=document.getElementById("sideTargetStatus");
+    if(sideStatus)sideStatus.textContent=fmt(t)+" studied today";
+    const sidePct=document.getElementById("sideTargetPct");
+    if(sidePct)sidePct.textContent=pct+"%";
+    if(t>=goal){
+      recordTargetSegment();
+      state.target.running=false;
+      clearInterval(window.targetTicker);
+      // Full complete → progress line resets to 0 for next run
+      state.target.doneSeconds=0;
+      state.target.done=0;
+      save();
+      renderApp();
+      showTargetComplete();
+    }
+  },250);
+} 
+function showTargetComplete(){
+  const goal=Math.max(1,Number(state.target.minutes||1)*60);
+  showTargetResultModal({completed:true, studied:goal, goal, pct:100});
+}
+
+function targetMotivationCopy(pct, completed){
+  if(completed || pct>=99){
+    return {icon:"check-circle-2", tone:"great", title:"Target complete", msg:"You finished today's target. Great focus — keep this consistency going."};
+  }
+  if(pct>=90){
+    return {icon:"alert-circle", tone:"almost", title:"Almost finished", msg:"You were very close to the full target. A little more next time will complete it."};
+  }
+  if(pct>=80){
+    return {icon:"alert-circle", tone:"close", title:"Nearly there", msg:"You completed most of the target. Try one more short session to finish strong."};
+  }
+  if(pct>=50){
+    return {icon:"alert-triangle", tone:"solid", title:"Halfway done", msg:"You stopped at about half. Consistency matters — come back and finish the rest."};
+  }
+  if(pct>=25){
+    return {icon:"alert-triangle", tone:"start", title:"Session too short", msg:"You only completed a small part of the target. Stay longer next time to build real progress."};
+  }
+  return {icon:"alert-triangle", tone:"keep", title:"Early stop", msg:"You stopped too early. Starting is good, but longer focus sessions will help you reach your goal."};
+}
+
+function showTargetResultModal({completed, studied, goal, pct}){
+  // Dedicated host on body — never wiped by renderApp
+  let h=document.getElementById("wishHost");
+  if(!h){
+    h=document.createElement("div");
+    h.id="wishHost";
+    document.body.appendChild(h);
+  }
+  const copy=targetMotivationCopy(pct, completed);
+  const pctClass = completed||pct>=99 ? "great" : pct>=80 ? "good" : pct>=40 ? "try" : "low";
+  const goalTxt = fmt(goal);
+  const doneTxt = fmt(studied);
+  h.innerHTML=`<div class="wish-modal" onclick="if(event.target===this)closeWishModal()">
+    <section class="wish-box" onclick="event.stopPropagation()">
+      <div class="wish-art tone-${copy.tone||"keep"}"><i data-lucide="${copy.icon||"heart"}"></i></div>
+      <div class="wish-pct ${pctClass}">${pct}%</div>
+      <h2 class="wish-title">${copy.title}</h2>
+      <p class="wish-msg">${copy.msg}</p>
+      <div class="wish-meta">${doneTxt} studied of ${goalTxt} target</div>
+      <div class="wish-actions">
+        <button type="button" onclick="closeWishModal()">Continue</button>
+        ${!completed && pct<100 ? `<button type="button" class="ghost" onclick="closeWishModal();startTarget()">Try again</button>` : `<button type="button" class="ghost" onclick="closeWishModal();navigate('home')">Back to Home</button>`}
+      </div>
+    </section>
+  </div>`;
+  if(window.lucide)try{lucide.createIcons()}catch(e){}
+  const colors=["#8f36c9","#42c8ef","#ffe638","#54b95b","#ef2670","#60a5fa"];
+  const count = completed || pct>=99 ? 18 : 0;
+  const box=h.querySelector(".wish-box");
+  for(let i=0;i<count;i++){
+    const s=document.createElement("i");
+    s.className="wish-spark";
+    s.style.left=(20+Math.random()*60)+"%";
+    s.style.top=(30+Math.random()*40)+"%";
+    s.style.background=colors[i%colors.length];
+    s.style.setProperty("--sx",(Math.random()*180-90)+"px");
+    s.style.setProperty("--sy",(Math.random()*-140-20)+"px");
+    s.style.animationDelay=(Math.random()*.4)+"s";
+    if(box)box.appendChild(s);
+    setTimeout(()=>{try{s.remove()}catch(e){}},2000);
+  }
+  if(completed || pct>=99){
+    for(let i=0;i<12;i++){
+      const c=document.createElement("i");
+      c.className="confetti";
+      c.style.left=Math.random()*100+"%";
+      c.style.background=colors[i%colors.length];
+      c.style.setProperty("--x",(Math.random()*260-130)+"px");
+      c.style.animationDelay=(Math.random()*.5)+"s";
+      document.body.appendChild(c);
+      setTimeout(()=>{try{c.remove()}catch(e){}},3200);
+    }
+  }
+}
+function closeWishModal(){
+  const h=document.getElementById("wishHost");
+  if(h)h.innerHTML="";
+  const m=document.getElementById("modalHost");
+  if(m)m.innerHTML="";
+}
+
 function noteBgStyle(bg){ 
   const map={ 
     sunset:'linear-gradient(135deg,#fff0c9,#ffd9b8)', 
@@ -4662,6 +5484,55 @@ function openStudyingNowAll(){
     </section>
   </div>`;
 }
+
+
+/* ===== FORCE reliable target stop / wish (overrides any earlier defs) ===== */
+function stopTarget(){
+  try{
+    const goal=Math.max(1, Number(state.target.minutes||1)*60);
+    const before=typeof targetElapsedSeconds==="function" ? targetElapsedSeconds() : 0;
+    if(state.target.running && typeof recordTargetSegment==="function"){
+      try{recordTargetSegment()}catch(e){console.warn(e)}
+    }
+    state.target.running=false;
+    state.target.startedAt=0;
+    state.target.subjectStartedAt=0;
+    try{clearInterval(window.targetTicker)}catch(e){}
+    if(typeof save==="function")save();
+    const studied=Math.max(1, Math.min(goal, Math.max(before, state.target.doneSeconds||0)));
+    let pct=Math.round((studied/goal)*100);
+    if(pct<1)pct=1;
+    if(pct>100)pct=100;
+    if(typeof renderApp==="function")renderApp();
+    if(firebaseReady&&firebaseUser&&typeof syncPublicProfile==="function"){
+      try{syncPublicProfile()}catch(e){}
+    }
+    setTimeout(()=>{
+      try{
+        showTargetResultModal({completed:pct>=99, studied, goal, pct});
+      }catch(e){
+        console.error(e);
+        alert((pct>=99?"Target complete! ":"Session saved. ")+fmt(studied)+" of "+fmt(goal));
+      }
+    }, 40);
+  }catch(err){
+    console.error("stopTarget failed",err);
+    alert("Stopped. (Wish UI error: "+(err.message||err)+")");
+  }
+}
+window.stopTarget=stopTarget;
+
+function showTargetComplete(){
+  const goal=Math.max(1, Number(state.target.minutes||1)*60);
+  state.target.doneSeconds=0;
+  state.target.done=0;
+  state.target.running=false;
+  try{if(typeof save==="function")save()}catch(e){}
+  try{if(typeof renderApp==="function")renderApp()}catch(e){}
+  setTimeout(()=>showTargetResultModal({completed:true, studied:goal, goal, pct:100}), 40);
+}
+window.showTargetComplete=showTargetComplete;
+
 
 render(); 
 </script> 
