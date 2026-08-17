@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A</title>
+<title>Fix</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -1124,8 +1124,24 @@ function getFirestore(){return firebase.firestore()}
 function GoogleAuthProvider(){return new firebase.auth.GoogleAuthProvider()} 
 function signInWithPopup(a,p){return a.signInWithPopup(p)} 
 function onAuthStateChanged(a,cb){return a.onAuthStateChanged(cb)} 
-function collection(parent,name){return parent.collection(name)} 
-function doc(parent,name,id){return id===undefined?parent.doc(name):parent.collection(name).doc(id)} 
+function collection(parent,...path){
+  if(!path.length)throw new Error("collection() requires a path");
+  let ref=parent.collection(path[0]);
+  for(let i=1;i<path.length;i+=2){
+    ref=ref.doc(path[i]);
+    if(i+1<path.length)ref=ref.collection(path[i+1]);
+  }
+  return ref;
+}
+function doc(parent,...path){
+  if(path.length<2)throw new Error("doc() requires at least collection and id");
+  let ref=parent.collection(path[0]).doc(path[1]);
+  for(let i=2;i<path.length;i+=2){
+    if(i+1>=path.length)throw new Error("doc() path must end on a document id");
+    ref=ref.collection(path[i]).doc(path[i+1]);
+  }
+  return ref;
+} 
 function getDoc(ref){return ref.get()} 
 function setDoc(ref,data,options){return ref.set(data,options)} 
 function updateDoc(ref,data){return ref.update(data)} 
