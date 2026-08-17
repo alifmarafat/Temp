@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>HH</title>
+<title>StudyFlow</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -1537,7 +1537,7 @@ function renderOnboarding(){
             <div class="brand-note">Study<br>Circle</div> 
             <div class="hedgehog">🦔</div> 
           </div> 
-          <h1 class="onboard-title">Study Circle is a focus app to enjoy studying.</h1> 
+          <h1 class="onboard-title">StudyFlow is a focus app to enjoy studying.</h1> 
           <p class="onboard-copy">If you are having a hard time finding the motivation to study, or if you feel anxious about studying alone, this is the app for you.</p> 
           <div class="onboard-actions auth-methods"> 
             <button class="primary-btn google-btn" onclick="startGoogle()"> 
@@ -1634,7 +1634,7 @@ function openEmailAuth(mode="login"){
         <div class="email-auth-field"><label>Password</label><input id="emailAuthPassword" type="password" autocomplete="${emailAuthMode==="signup"?"new-password":"current-password"}" placeholder="At least 6 characters"></div>
         ${emailAuthMode==="signup"?`<div class="email-auth-field"><label>Confirm Password</label><input id="emailAuthConfirmPassword" type="password" autocomplete="new-password" placeholder="Re-enter your password"></div>`:""}
         <button class="email-auth-submit" onclick="submitEmailAuth()">${emailAuthMode==="signup"?"Create account":"Log in"}</button>
-        <p class="email-auth-help">Use the same email/password you registered with in Study Circle.</p>
+        <p class="email-auth-help">Use the same email/password you registered with in StudyFlow.</p>
       </section>
     </div>`;
 }
@@ -1697,7 +1697,7 @@ function renderApp(){
       <aside class="rail"> 
         <div class="brand-mini"> 
           <div class="brand-logo">S</div> 
-          <div><div class="brand-name">Study Circle</div><div class="brand-sub">FOCUS • STUDY</div></div> 
+          <div><div class="brand-name">StudyFlow</div><div class="brand-sub">FOCUS • STUDY</div></div> 
         </div> 
         <nav class="rail-links"> 
           <button class="rail-link ${activePage==="home"?"active":""}" onclick="navigate('home')"><span class="ico"><i data-lucide="house" class="icon-svg"></i></span>Home</button> 
@@ -2916,7 +2916,7 @@ function closeSelectedChat(){
   knownMsgIds=new Set(); 
   lastMsgCount=0; 
   const host=document.getElementById("chatWindow"); 
-  if(host)host.innerHTML=`<div class="chat-empty"><strong>Messages exchanged with your friends will be displayed here.</strong></div>`; 
+  if(host)host.innerHTML=`<div class="chat-empty"><strong>Start a conversation with your study partner.</strong></div>`; 
   loadChatList(); 
 } 
 let pendingChatReply=null; 
