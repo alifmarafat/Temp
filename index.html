@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>StudyAAFlow</title>
+<title>StudyFlow</title>
 
 <!--
   ICON / IMAGE NOTES
@@ -2698,6 +2698,136 @@ html,body{
   .onboard-card .onboard-title{font-size:17px !important;margin-bottom:12px !important}
 }
 
+
+/* ===== Premium Auth Page (desktop + phone) ===== */
+.auth-page{
+  min-height:100vh;min-height:100dvh;
+  display:grid;place-items:center;
+  padding:24px;
+  position:relative;z-index:1;
+}
+.auth-shell{
+  width:min(980px,100%);
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:28px;
+  align-items:center;
+}
+.auth-visual{
+  display:flex;flex-direction:column;align-items:flex-start;gap:18px;
+  padding:12px 8px;
+}
+.auth-brand-row{
+  display:flex;align-items:center;gap:12px;
+}
+.auth-brand-logo{
+  width:48px;height:48px;border-radius:16px;
+  background:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.6);
+  display:grid;place-items:center;font:900 22px Nunito;
+  box-shadow:0 10px 24px rgba(40,55,80,.08);
+}
+.auth-brand-name{font:900 20px Nunito;line-height:1}
+.auth-brand-sub{font-size:10px;letter-spacing:1.2px;color:#8a919b;font-weight:800;margin-top:2px}
+.auth-visual-copy h2{font:900 28px Nunito;margin:8px 0 6px;letter-spacing:-.4px}
+.auth-visual-copy p{margin:0;color:#6b7280;font-size:14px;line-height:1.5;font-weight:600;max-width:340px}
+#signuppic, .signuppic{
+  width:min(420px,100%);
+  max-height:340px;
+  object-fit:contain;
+  border-radius:24px;
+  display:block;
+  margin-top:8px;
+}
+.auth-card{
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:28px;
+  padding:28px 26px 22px;
+  box-shadow:0 20px 50px rgba(40,55,80,.10), inset 0 1px 0 rgba(255,255,255,.7);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+.auth-card h1{font:900 28px Nunito;margin:0 0 4px;text-align:center}
+.auth-card .auth-sub{text-align:center;color:#7c8490;font-size:13px;font-weight:700;margin:0 0 20px}
+.auth-field{display:grid;gap:7px;margin-bottom:14px}
+.auth-field label{font-size:12px;font-weight:800;color:#374151}
+.auth-input-wrap{
+  display:flex;align-items:center;gap:10px;
+  height:50px;padding:0 14px;border-radius:14px;
+  background:rgba(255,255,255,.8);border:1px solid rgba(30,40,50,.08);
+}
+.auth-input-wrap i{width:18px;height:18px;color:#8b5cf6;flex:0 0 auto}
+.auth-input-wrap input{
+  flex:1;border:0;outline:0;background:transparent;font-size:14px;height:100%;
+  box-shadow:none !important;
+}
+.auth-input-wrap button.eye{
+  border:0;background:transparent;padding:4px;color:#9ca3af;display:grid;place-items:center;
+}
+.auth-submit{
+  width:100%;height:50px;border-radius:14px;border:0;
+  background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;
+  font-weight:900;font-size:15px;margin-top:4px;
+  box-shadow:0 10px 24px rgba(124,58,237,.28);
+}
+.auth-or{
+  display:flex;align-items:center;gap:12px;margin:16px 0 12px;
+  color:#9aa1aa;font-size:12px;font-weight:800;
+}
+.auth-or::before,.auth-or::after{content:"";flex:1;height:1px;background:rgba(30,40,50,.08)}
+.auth-google{
+  width:100%;height:48px;border-radius:14px;
+  background:#fff;border:1px solid rgba(30,40,50,.08);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-weight:800;font-size:14px;color:#111;
+}
+.auth-google .g{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#4285f4;font-size:13px}
+.auth-switch{text-align:center;margin-top:16px;font-size:13px;color:#6b7280;font-weight:700}
+.auth-switch a, .auth-switch button.link{
+  color:#7c3aed;font-weight:900;background:none;border:0;padding:0;cursor:pointer;font-size:13px;
+}
+.auth-mobile-brand{display:none;text-align:center;margin-bottom:18px}
+.auth-mobile-brand .auth-brand-logo{margin:0 auto 10px}
+
+@media(max-width:860px){
+  .auth-shell{grid-template-columns:1fr;max-width:420px}
+  .auth-visual{display:none !important}
+  .auth-mobile-brand{display:block}
+  .auth-page{padding:18px 16px;align-items:flex-start;padding-top:clamp(24px,8vh,56px)}
+  .auth-card{padding:22px 18px 18px;border-radius:24px}
+  .auth-card h1{font-size:24px}
+}
+
+/* prettier dialogs */
+.chat-dialog-backdrop{
+  background:rgba(18,22,30,.40) !important;
+  backdrop-filter:blur(14px) !important;
+  -webkit-backdrop-filter:blur(14px) !important;
+  z-index:10000 !important;
+}
+.chat-dialog{
+  width:min(380px,calc(100% - 28px)) !important;
+  background:rgba(255,255,255,.82) !important;
+  border:1px solid rgba(255,255,255,.65) !important;
+  border-radius:24px !important;
+  box-shadow:0 24px 60px rgba(30,40,60,.18) !important;
+  backdrop-filter:blur(20px) !important;
+  padding:24px 22px 18px !important;
+  text-align:center;
+}
+.chat-dialog-icon{
+  width:64px;height:64px;border-radius:20px;margin:0 auto 12px;
+  display:grid;place-items:center;
+  background:rgba(139,92,246,.12);color:#7c3aed;
+}
+.chat-dialog-icon i, .chat-dialog-icon svg{width:28px;height:28px}
+.chat-dialog.danger .chat-dialog-icon{background:rgba(239,68,68,.12);color:#dc2626}
+.chat-dialog.success .chat-dialog-icon{background:rgba(34,197,94,.12);color:#16a34a}
+.chat-dialog-title{font:900 20px Nunito !important;margin:0 0 6px !important}
+.chat-dialog-message{font-size:13px !important;color:#6b7280 !important;line-height:1.5 !important}
+.chat-dialog-btn.primary{background:linear-gradient(135deg,#8b5cf6,#7c3aed) !important;border:0 !important}
+.chat-dialog-btn.danger{background:rgba(239,68,68,.92) !important}
+
 </style> 
 </head> 
 <body> 
@@ -2874,7 +3004,7 @@ const DEFAULT_SUBJECTS=[
 ]; 
  
 let state=JSON.parse(localStorage.getItem(KEY)||"null")||{ 
-  onboarding:"welcome", 
+  onboarding:"welcome",authView:"login", 
   user:{name:"",username:"",birthday:"",dp:"",bio:""}, 
   note:{text:"",expires:0,bg:"sunset"}, 
   target:{minutes:480,done:0,date:"",running:false,startedAt:0}, 
@@ -2925,26 +3055,64 @@ function render(){
 } 
 function renderOnboarding(){ 
   const root=document.getElementById("app"); 
-  if(state.onboarding==="welcome"){ 
-    root.innerHTML=` 
-      <main class="onboarding page"> 
-        <section class="onboard-card"> 
-          <div class="brand-art"> 
-            <div class="brand-note">Study<br>Circle</div> 
-            <div class="hedgehog">🦔</div> 
-          </div> 
-          <h1 class="onboard-title">StudyFlow is a focus app to enjoy studying.</h1> 
-          <p class="onboard-copy">If you are having a hard time finding the motivation to study, or if you feel anxious about studying alone, this is the app for you.</p> 
-          <div class="onboard-actions auth-methods auth-box-unified">
-            <button class="email-auth-btn" onclick="openEmailAuth('login')">Login</button>
-            <button class="email-auth-secondary" onclick="openEmailAuth('signup')">Sign up</button>
-            <div class="auth-divider"><span>OR</span></div>
-            <button class="primary-btn google-btn" onclick="startGoogle()">
-              <span class="google-mark">G</span><span>Continue with Google</span>
-            </button>
-          </div> 
-        </section> 
-      </main>`; 
+  if(state.onboarding==="welcome"){
+    const mode=(state.authView==="signup")?"signup":"login";
+    root.innerHTML=`
+      <main class="auth-page page">
+        <div class="auth-shell">
+          <aside class="auth-visual">
+            <div class="auth-brand-row">
+              <div class="auth-brand-logo">S</div>
+              <div><div class="auth-brand-name">StudyFlow</div><div class="auth-brand-sub">FOCUS · STUDY</div></div>
+            </div>
+            <img id="signuppic" class="signuppic" src="https://cdn-icons-png.flaticon.com/512/2436/2436874.png" alt="StudyFlow illustration">
+            <div class="auth-visual-copy">
+              <h2>${mode==="signup"?"Start your journey":"Welcome back!"}</h2>
+              <p>${mode==="signup"?"Create an account to track focus time and study with friends.":"Login to continue your learning journey."}</p>
+            </div>
+          </aside>
+          <section class="auth-card">
+            <div class="auth-mobile-brand">
+              <div class="auth-brand-logo">S</div>
+              <div class="auth-brand-name">StudyFlow</div>
+              <div class="auth-brand-sub">FOCUS · STUDY</div>
+            </div>
+            <h1>${mode==="signup"?"Sign up":"Login"}</h1>
+            <p class="auth-sub">${mode==="signup"?"Create your StudyFlow account":"Nice to see you again!"}</p>
+            <div class="auth-field">
+              <label>Email</label>
+              <div class="auth-input-wrap">
+                <i data-lucide="mail"></i>
+                <input id="emailAuthEmail" type="email" autocomplete="email" placeholder="Enter your email" value="${esc(state.user.email||"")}">
+              </div>
+            </div>
+            <div class="auth-field">
+              <label>Password</label>
+              <div class="auth-input-wrap">
+                <i data-lucide="lock"></i>
+                <input id="emailAuthPassword" type="password" autocomplete="${mode==="signup"?"new-password":"current-password"}" placeholder="Enter your password">
+                <button type="button" class="eye" onclick="toggleAuthPassword('emailAuthPassword',this)" aria-label="Show password"><i data-lucide="eye-off"></i></button>
+              </div>
+            </div>
+            ${mode==="signup"?`<div class="auth-field">
+              <label>Confirm Password</label>
+              <div class="auth-input-wrap">
+                <i data-lucide="lock"></i>
+                <input id="emailAuthConfirmPassword" type="password" autocomplete="new-password" placeholder="Re-enter your password">
+              </div>
+            </div>`:""}
+            <button class="auth-submit" onclick="emailAuthMode='${mode}';submitEmailAuth()">${mode==="signup"?"Create account":"Login"}</button>
+            <div class="auth-or">or</div>
+            <button class="auth-google" onclick="startGoogle()"><span class="g">G</span> Continue with Google</button>
+            <div class="auth-switch">
+              ${mode==="signup"
+                ? `Already have an account? <button type="button" class="link" onclick="state.authView='login';render()">Login</button>`
+                : `Don't have an account? <button type="button" class="link" onclick="state.authView='signup';render()">Create account</button>`}
+            </div>
+          </section>
+        </div>
+      </main>`;
+    if(window.lucide)try{lucide.createIcons()}catch(e){}
   }else{ 
     const step=state.onboarding; 
     const meta={ 
@@ -3006,7 +3174,7 @@ async function startGoogle(){
       return;
     }catch(err){
       console.error(err);
-      alert("Google sign-in could not finish. Check your Firebase Google provider and authorized domain.");
+      warn("Google sign-in failed","Check your Firebase Google provider and authorized domain.",{danger:true,icon:"alert-triangle"});
       return;
     }finally{hideLoader()}
   }
@@ -3016,27 +3184,23 @@ async function startGoogle(){
 let emailAuthMode="login";
 function openEmailAuth(mode="login"){
   emailAuthMode=mode==="signup"?"signup":"login";
-  let host=document.getElementById("modalHost");
-  if(!host){host=document.createElement("div");host.id="modalHost";document.body.appendChild(host)}
-  host.innerHTML=`
-    <div class="email-auth-modal" onclick="if(event.target===this)closeEmailAuth()">
-      <section class="email-auth-box" role="dialog" aria-modal="true">
-        <div class="email-auth-head"><h2>${emailAuthMode==="signup"?"Create your account":"Welcome back"}</h2><button class="close-round" onclick="closeEmailAuth()">×</button></div>
-        <div class="email-auth-tabs">
-          <button class="${emailAuthMode==="login"?"active":""}" onclick="switchEmailAuth('login')">Log in</button>
-          <button class="${emailAuthMode==="signup"?"active":""}" onclick="switchEmailAuth('signup')">Sign up</button>
-        </div>
-        <div class="email-auth-field"><label>Email</label><input id="emailAuthEmail" type="email" autocomplete="email" placeholder="you@example.com" value="${esc(state.user.email||"")}"></div>
-        <div class="email-auth-field"><label>Password</label><input id="emailAuthPassword" type="password" autocomplete="${emailAuthMode==="signup"?"new-password":"current-password"}" placeholder="At least 6 characters"></div>
-        ${emailAuthMode==="signup"?`<div class="email-auth-field"><label>Confirm Password</label><input id="emailAuthConfirmPassword" type="password" autocomplete="new-password" placeholder="Re-enter your password"></div>`:""}
-        <button class="email-auth-submit" onclick="submitEmailAuth()">${emailAuthMode==="signup"?"Create account":"Log in"}</button>
-        <p class="email-auth-help">Use the same email/password you registered with in StudyFlow.</p>
-      </section>
-    </div>`;
+  state.authView=emailAuthMode;
+  state.onboarding="welcome";
+  save();
+  render();
 }
 function switchEmailAuth(mode){openEmailAuth(mode)}
-function closeEmailAuth(){const h=document.getElementById("modalHost");if(h)h.innerHTML=""}
+function closeEmailAuth(){/* form is page-level now */}
+function toggleAuthPassword(id,btn){
+  const input=document.getElementById(id);
+  if(!input)return;
+  const show=input.type==="password";
+  input.type=show?"text":"password";
+  if(btn)btn.innerHTML=show?'<i data-lucide="eye"></i>':'<i data-lucide="eye-off"></i>';
+  if(window.lucide)try{lucide.createIcons()}catch(e){}
+}
 async function submitEmailAuth(){
+  emailAuthMode=(state.authView==="signup"||emailAuthMode==="signup")?"signup":"login";
   const email=(document.getElementById("emailAuthEmail")?.value||"").trim().toLowerCase();
   const password=document.getElementById("emailAuthPassword")?.value||"";
   const confirmPassword=document.getElementById("emailAuthConfirmPassword")?.value||"";
@@ -3289,7 +3453,7 @@ function selectSubjectIcon(icon,btn){
 } 
 function addSubject(){ 
   const name=document.getElementById("newSubjectName").value.trim(); 
-  if(!name)return alert("Enter a subject name."); 
+  if(!name)return warn("Subject name","Enter a subject name.",{icon:"book-open"}); 
   const icon=document.getElementById("newSubjectIcon").value.trim()||"book-open"; 
   const color=document.getElementById("newSubjectColor").value||"#8f36c9"; 
   const image=document.getElementById("newSubjectImage").value.trim(); 
@@ -3539,7 +3703,7 @@ function startTarget(){
  
  
 /* ---------- reminders / misc ---------- */ 
-function showHelp(){alert("Study Circle: choose a subject, set a focus time, study, and watch your target grow.")} 
+function showHelp(){warn("StudyFlow tip","Choose a subject, set a focus time, study, and watch your target grow.",{icon:"sparkles",danger:false})} 
  
 /* ===== V3 REQUESTED LOGIC OVERRIDES ===== */ 
 state.filter=state.filter||"1d"; 
@@ -3676,7 +3840,7 @@ async function isUsernameAvailable(username){
 } 
  
 async function startGoogle(){
-  if(!firebaseReady||!auth){return alert("Firebase is not connected. Enable Google Sign-in and check your Firebase configuration.")}
+  if(!firebaseReady||!auth){return warn("Firebase not connected","Enable Google Sign-in and check your Firebase configuration.",{danger:true,icon:"wifi-off"})}
   showLoader();
   try{
     const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});await signInWithPopup(auth,provider);
@@ -3685,7 +3849,7 @@ async function startGoogle(){
     if(firestore&&u?.uid){try{const snap=await getDoc(doc(firestore,"users",u.uid));if(snap.exists){const cloud=snap.data()||{};state={...state,...cloud,authUid:u.uid};state.user=state.user||{};state.user.email=u?.email||state.user.email||"";state.user.dp=state.user.dp||u?.photoURL||"";existingProfile=!!(state.user.name&&state.user.username&&state.user.birthday)}}catch(e){console.warn("Google profile lookup failed",e)}}
     if(existingProfile)state.onboarding="done";else{state.user.name=state.user.name||u?.displayName||"";state.user.username=state.user.username||"";state.onboarding="name"}
     save();render();
-  }catch(err){console.error("Google auth",err);alert("Google sign-in could not finish. Check Firebase Authentication > Google and your authorized domain.")}
+  }catch(err){console.error("Google auth",err);warn("Google sign-in failed","Check Firebase Authentication > Google and your authorized domain.",{danger:true,icon:"alert-triangle"})}
   finally{hideLoader()}
 }
 function showGoogleChooser(realFallback){ 
@@ -3698,7 +3862,7 @@ function showGoogleChooser(realFallback){
 } 
 async function finishGoogleChooser(realFallback){ 
   const email=(document.getElementById("googleEmailInput")?.value||"").trim().toLowerCase(); 
-  if(!/^\S+@\S+\.\S+$/.test(email))return alert("Enter a valid Google email."); 
+  if(!/^\S+@\S+\.\S+$/.test(email))return warn("Invalid email","Enter a valid email address.",{icon:"mail"}); 
   state.user.email=email;closeGoogleChooser(); 
   state.onboarding="name";save();render(); 
 } 
@@ -3706,18 +3870,18 @@ function closeGoogleChooser(){const h=document.getElementById("modalHost");if(h)
  
 async function nextOnboard(){ 
   const v=(document.getElementById("onboardInput")?.value||"").trim(); 
-  if(state.onboarding==="name"){if(!v)return alert("Please enter your name.");state.user.name=v;state.onboarding="username"} 
+  if(state.onboarding==="name"){if(!v)return warn("Name required","Please enter your name.",{icon:"user"});state.user.name=v;state.onboarding="username"} 
   else if(state.onboarding==="username"){ 
-    if(!v)return alert("Please choose a username."); 
+    if(!v)return warn("Username required","Please choose a username.",{icon:"at-sign"}); 
     const username=v.replace(/^@/,"").toLowerCase(); 
-    if(!/^[a-z0-9._-]{3,20}$/.test(username))return alert("Username must be 3–20 characters: letters, numbers, dot, underscore or hyphen only."); 
+    if(!/^[a-z0-9._-]{3,20}$/.test(username))return warn("Invalid username","Username must be 3–20 characters: letters, numbers, dot, underscore or hyphen only.",{icon:"at-sign"}); 
     showLoader();
     try{
       const ok=await claimUsername(username);
-      if(!ok){hideLoader();return alert("This username is already taken. Please choose another one.");} 
+      if(!ok){hideLoader();return warn("Username taken","This username is already used by another account. Please choose a different username.",{icon:"at-sign",danger:true});} 
     }finally{hideLoader()}
     state.user.username=username;state.onboarding="birthday"; 
-  }else{if(!v)return alert("Please choose your birthday.");state.user.birthday=v;state.onboarding="done"} 
+  }else{if(!v)return warn("Birthday required","Please choose your birthday.",{icon:"calendar"});state.user.birthday=v;state.onboarding="done"} 
   save(); 
   if(state.onboarding==="done"&&firebaseReady&&firebaseUser){showLoader();try{await publishMyPublicProfile()}finally{hideLoader()}} 
   render(); 
@@ -3776,7 +3940,7 @@ function openTargetChooser(){
   if(window.lucide)lucide.createIcons(); 
 } 
 function confirmTargetSubjects(){ 
-  const ids=[...document.querySelectorAll('.target-select-subject input:checked')].map(x=>x.value);if(!ids.length)return alert("Select at least one subject."); 
+  const ids=[...document.querySelectorAll('.target-select-subject input:checked')].map(x=>x.value);if(!ids.length)return warn("Select subjects","Select at least one subject to start.",{icon:"book-open"}); 
   state.target.selectedSubjectIds=ids;state.target.activeSubjectId=ids[0];state.target.running=true;state.target.startedAt=Date.now();state.target.subjectStartedAt=Date.now();save();closeDanger();renderApp();startTargetTicker(); 
 } 
 function startTarget(){resetDailyTargetIfNeeded();if(targetElapsedSeconds()>=state.target.minutes*60){state.target.doneSeconds=0;state.target.done=0}openTargetChooser()} 
@@ -3965,7 +4129,7 @@ async function saveProfile(){
   const name=document.getElementById("editName").value.trim()||state.user.name;const username=(document.getElementById("editUsername").value.trim().replace(/^@/,"")||state.user.username).toLowerCase(); 
   showLoader();
   try{
-  if(username!==String(state.user.username||"").toLowerCase())if(!(await claimUsername(username))){hideLoader();return alert("That username is already taken. Choose another one.");} 
+  if(username!==String(state.user.username||"").toLowerCase())if(!(await claimUsername(username))){hideLoader();return warn("Username taken","That username is already taken. Choose another one.",{icon:"at-sign",danger:true});} 
   state.user.name=name;state.user.username=username;state.user.bio=document.getElementById("editBio").value.trim();save();if(firebaseReady&&firebaseUser)await publishMyPublicProfile();renderApp();
   }finally{hideLoader()}
 } 
@@ -4565,6 +4729,22 @@ let chatLongPressTimer=null;
 function closeChatDialog(){ 
   document.getElementById("chatDialogRoot")?.remove(); 
 } 
+
+function warn(title,message,opts={}){
+  const danger=opts.danger!==false && (opts.danger===true || /taken|fail|error|invalid|short|match|already/i.test(String(title+" "+message)));
+  const iconName=opts.icon || (danger?"alert-triangle":"info");
+  showChatDialog({
+    title:title||"Notice",
+    message:message||"",
+    icon:`<i data-lucide="${iconName}"></i>`,
+    danger:!!danger,
+    confirmText:opts.confirmText||"OK",
+    cancelText:opts.cancelText||"",
+    onConfirm:opts.onConfirm||null
+  });
+  setTimeout(()=>{if(window.lucide)try{lucide.createIcons()}catch(e){}},20);
+}
+
 function showChatDialog({title="Notice",message="",icon="ℹ️",danger=false,confirmText="OK",cancelText="",onConfirm=null}={}){ 
   closeChatDialog(); 
   const root=document.createElement("div"); 
@@ -5502,7 +5682,7 @@ function closeStudyingLiveCard(){
 
 function openStudyingNowAll(){
   if(!studyingNowCache.length){
-    alert("No one is studying right now.");
+    warn("Studying now","No one is studying right now.",{icon:"users",danger:false});
     return;
   }
   // reopen strip content as a simple list modal
